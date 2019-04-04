@@ -1,4 +1,3 @@
-# Musike
-## __Musi__c Lin__ke__d
+# Musike (Music Linked)
 
 Website with info about musics, artists, releases, etc from a *MusicBrainz* __linked open__ dataset.
