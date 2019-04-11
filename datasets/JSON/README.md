@@ -7,6 +7,15 @@
 The file under mbdump/ contains one document (entity) per line, in JSON
 format, and is named according to the type of entity in the dump.
 
+## For release file:
+
+Because this file was to big to GitHub, it was split in two files, release\_a and release\_b.
+
+To join them execute the following command (in GNU/Linux):
+```
+cat release_a release_b > release.tar.xz
+```
+
 ## LICENSE:
 The license of this dataset is CC0 1.0 Universal. More information in [LICENSE](./LICENSE).
 
