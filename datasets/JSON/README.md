@@ -7,6 +7,9 @@
 The file under mbdump/ contains one document (entity) per line, in JSON
 format, and is named according to the type of entity in the dump.
 
+## LICENSE:
+The license of this dataset is CC0 1.0 Universal. More information in [LICENSE](./LICENSE).
+
 ## SOURCE:
 
 http://ftp.musicbrainz.org/pub/musicbrainz/data/json-dumps/
