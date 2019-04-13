@@ -18,15 +18,434 @@
       rdfs:range :Area .
 
 
+###  https://musicbrainz.org#arranged
+:arranged rdf:type owl:ObjectProperty ;
+          owl:inverseOf :arrangedBy ;
+          rdfs:domain :Artist ;
+          rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#arrangedBy
+:arrangedBy rdf:type owl:ObjectProperty .
+
+
 ###  https://musicbrainz.org#artistCredit
 :artistCredit rdf:type owl:ObjectProperty ;
               rdfs:domain :Recording ;
               rdfs:range :Artist .
 
 
+###  https://musicbrainz.org#chorusMasterPerformedIn
+:chorusMasterPerformedIn rdf:type owl:ObjectProperty ;
+                         owl:inverseOf :hasChorusMasterPerformer ;
+                         rdfs:domain :Artist ;
+                         rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#collaboratorOn
+:collaboratorOn rdf:type owl:ObjectProperty ;
+                owl:inverseOf :hasCollaborator ;
+                rdfs:domain :Artist ;
+                rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#compilationOf
+:compilationOf rdf:type owl:ObjectProperty ;
+               owl:inverseOf :compiledIn ;
+               rdfs:domain :Recording ;
+               rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#compiled
+:compiled rdf:type owl:ObjectProperty ;
+          owl:inverseOf :compiledBy ;
+          rdfs:domain :Artist ;
+          rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#compiledBy
+:compiledBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#compiledIn
+:compiledIn rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#concertmasterFor
+:concertmasterFor rdf:type owl:ObjectProperty ;
+                  owl:inverseOf :hasConcertmaster ;
+                  rdfs:domain :Artist ;
+                  rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#conducted
+:conducted rdf:type owl:ObjectProperty ;
+           owl:inverseOf :conductedBy ;
+           rdfs:domain :Artist ;
+           rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#conductedBy
+:conductedBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#conductorFor
+:conductorFor rdf:type owl:ObjectProperty ;
+              owl:inverseOf :hasConductor ;
+              rdfs:domain :Artist ;
+              rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#coverOf
+:coverOf rdf:type owl:ObjectProperty ;
+         owl:inverseOf :hasCover ;
+         rdfs:domain :Album ;
+         rdfs:range :Album .
+
+
+###  https://musicbrainz.org#dedicatedTo
+:dedicatedTo rdf:type owl:ObjectProperty ;
+             owl:inverseOf :hasDedication .
+
+
+###  https://musicbrainz.org#djMixOf
+:djMixOf rdf:type owl:ObjectProperty ;
+         owl:inverseOf :hasDjMixVersion ;
+         rdfs:domain :Album ,
+                     :Recording ;
+         rdfs:range :Album ,
+                    :Recording .
+
+
+###  https://musicbrainz.org#djMixed
+:djMixed rdf:type owl:ObjectProperty ;
+         owl:inverseOf :djMixedBy ;
+         rdfs:domain :Artist ;
+         rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#djMixedBy
+:djMixedBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#earlierReleaseOf
+:earlierReleaseOf rdf:type owl:ObjectProperty ;
+                  owl:inverseOf :laterReleaseOf .
+
+
+###  https://musicbrainz.org#editOf
+:editOf rdf:type owl:ObjectProperty ;
+        owl:inverseOf :hasEdit ;
+        rdfs:domain :Recording ;
+        rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#edited
+:edited rdf:type owl:ObjectProperty ;
+        owl:inverseOf :editedBy ;
+        rdfs:domain :Artist ;
+        rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#editedBy
+:editedBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#founded
+:founded rdf:type owl:ObjectProperty ;
+         owl:inverseOf :foundedBy ;
+         rdfs:domain :Artist ;
+         rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#foundedBy
+:foundedBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#hasChildren
+:hasChildren rdf:type owl:ObjectProperty ;
+             owl:inverseOf :hasParent ;
+             rdfs:domain :Artist ;
+             rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#hasChorusMasterPerformer
+:hasChorusMasterPerformer rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#hasCollaborator
+:hasCollaborator rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#hasConcertmaster
+:hasConcertmaster rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#hasConductor
+:hasConductor rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#hasCover
+:hasCover rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#hasDedication
+:hasDedication rdf:type owl:ObjectProperty ;
+               rdfs:domain :Artist ;
+               rdfs:range :Album .
+
+
+###  https://musicbrainz.org#hasDjMixVersion
+:hasDjMixVersion rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#hasEdit
+:hasEdit rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#hasLegalName
+:hasLegalName rdf:type owl:ObjectProperty ;
+              owl:inverseOf :performsAs .
+
+
+###  https://musicbrainz.org#hasLivePerformance
+:hasLivePerformance rdf:type owl:ObjectProperty ;
+                    owl:inverseOf :livePerformanceOf .
+
+
+###  https://musicbrainz.org#hasMashUp
+:hasMashUp rdf:type owl:ObjectProperty ;
+           owl:inverseOf :mashUpOf .
+
+
+###  https://musicbrainz.org#hasMember
+:hasMember rdf:type owl:ObjectProperty ;
+           owl:inverseOf :memberOf .
+
+
+###  https://musicbrainz.org#hasMusicVideo
+:hasMusicVideo rdf:type owl:ObjectProperty ;
+               owl:inverseOf :musicVideoFor ;
+               rdfs:domain :Recording ;
+               rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#hasOrchestraPerformer
+:hasOrchestraPerformer rdf:type owl:ObjectProperty ;
+                       owl:inverseOf :orchestraPerformedIn .
+
+
+###  https://musicbrainz.org#hasParent
+:hasParent rdf:type owl:ObjectProperty .
+
+
 ###  https://musicbrainz.org#hasPart
 :hasPart rdf:type owl:ObjectProperty ;
          owl:inverseOf :partOf .
+
+
+###  https://musicbrainz.org#hasPerformer
+:hasPerformer rdf:type owl:ObjectProperty ;
+              owl:inverseOf :performed .
+
+
+###  https://musicbrainz.org#hasPerformerInstrument
+:hasPerformerInstrument rdf:type owl:ObjectProperty ;
+                        owl:inverseOf :performedInstrumentIn .
+
+
+###  https://musicbrainz.org#hasPerformerVocal
+:hasPerformerVocal rdf:type owl:ObjectProperty ;
+                   owl:inverseOf :performedVocalIn .
+
+
+###  https://musicbrainz.org#hasRemaster
+:hasRemaster rdf:type owl:ObjectProperty ;
+             owl:inverseOf :remasterOf .
+
+
+###  https://musicbrainz.org#hasRemix
+:hasRemix rdf:type owl:ObjectProperty ;
+          owl:inverseOf :remixOf .
+
+
+###  https://musicbrainz.org#hasSamplesFrom
+:hasSamplesFrom rdf:type owl:ObjectProperty ;
+                owl:inverseOf :sampledBy ;
+                rdfs:domain :Recording ;
+                rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#hasSibling
+:hasSibling rdf:type owl:ObjectProperty ;
+            owl:inverseOf :hasSibling ;
+            rdfs:domain :Artist ;
+            rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#hasSingleFrom
+:hasSingleFrom rdf:type owl:ObjectProperty ;
+               owl:inverseOf :hasSingleIn ;
+               rdfs:domain :Album ;
+               rdfs:range :Album .
+
+
+###  https://musicbrainz.org#hasSingleIn
+:hasSingleIn rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#hasStudent
+:hasStudent rdf:type owl:ObjectProperty ;
+            owl:inverseOf :hasTeacher ;
+            rdfs:domain :Artist ;
+            rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#hasSubgroup
+:hasSubgroup rdf:type owl:ObjectProperty ;
+             owl:inverseOf :subgroupOf .
+
+
+###  https://musicbrainz.org#hasSupportingArtist
+:hasSupportingArtist rdf:type owl:ObjectProperty ;
+                     owl:inverseOf :supportingArtistFor .
+
+
+###  https://musicbrainz.org#hasTeacher
+:hasTeacher rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#hasTributeArtist
+:hasTributeArtist rdf:type owl:ObjectProperty ;
+                  owl:inverseOf :tributeTo .
+
+
+###  https://musicbrainz.org#include
+:include rdf:type owl:ObjectProperty ;
+         owl:inverseOf :includedIn .
+
+
+###  https://musicbrainz.org#includedIn
+:includedIn rdf:type owl:ObjectProperty ;
+            rdfs:domain :Album ;
+            rdfs:range :Album .
+
+
+###  https://musicbrainz.org#inspiredTheNameOf
+:inspiredTheNameOf rdf:type owl:ObjectProperty ;
+                   owl:inverseOf :namedAfter .
+
+
+###  https://musicbrainz.org#instrumentArranged
+:instrumentArranged rdf:type owl:ObjectProperty ;
+                    owl:inverseOf :instrumentArrangedBy ;
+                    rdfs:domain :Artist ;
+                    rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#instrumentArrangedBy
+:instrumentArrangedBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#instrumentSupportBy
+:instrumentSupportBy rdf:type owl:ObjectProperty ;
+                     owl:inverseOf :instrumentSupportFor .
+
+
+###  https://musicbrainz.org#instrumentSupportFor
+:instrumentSupportFor rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Artist ;
+                      rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#involvedWith
+:involvedWith rdf:type owl:ObjectProperty ;
+              owl:inverseOf :involvedWith ;
+              rdfs:domain :Artist ;
+              rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#karaokeVersion
+:karaokeVersion rdf:type owl:ObjectProperty ;
+                owl:inverseOf :karaokeVersionOf ;
+                rdfs:domain :Recording ;
+                rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#karaokeVersionOf
+:karaokeVersionOf rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#laterReleaseOf
+:laterReleaseOf rdf:type owl:ObjectProperty ;
+                rdfs:domain :Recording ;
+                rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#livePerformanceOf
+:livePerformanceOf rdf:type owl:ObjectProperty ;
+                   rdfs:domain :Album ;
+                   rdfs:range :Album .
+
+
+###  https://musicbrainz.org#marriedWith
+:marriedWith rdf:type owl:ObjectProperty ;
+             owl:inverseOf :marriedWith ;
+             rdfs:domain :Artist ;
+             rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#mashUpOf
+:mashUpOf rdf:type owl:ObjectProperty ;
+          rdfs:domain :Album ,
+                      :Recording ;
+          rdfs:range :Album ,
+                     :Recording .
+
+
+###  https://musicbrainz.org#memberOf
+:memberOf rdf:type owl:ObjectProperty ;
+          rdfs:domain :Artist ;
+          rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#mixed
+:mixed rdf:type owl:ObjectProperty ;
+       owl:inverseOf :mixedBy ;
+       rdfs:domain :Artist ;
+       rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#mixedBy
+:mixedBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#musicVideoFor
+:musicVideoFor rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#namedAfter
+:namedAfter rdf:type owl:ObjectProperty ;
+            rdfs:domain :Artist ;
+            rdfs:range :Album ,
+                       :Artist .
+
+
+###  https://musicbrainz.org#orchestraPerformedIn
+:orchestraPerformedIn rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Artist ;
+                      rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#orchestrated
+:orchestrated rdf:type owl:ObjectProperty ;
+              owl:inverseOf :orchestratedBy ;
+              rdfs:domain :Artist ;
+              rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#orchestratedBy
+:orchestratedBy rdf:type owl:ObjectProperty .
 
 
 ###  https://musicbrainz.org#partOf
@@ -35,10 +454,98 @@
         rdfs:range :Area .
 
 
+###  https://musicbrainz.org#performed
+:performed rdf:type owl:ObjectProperty ;
+           rdfs:domain :Artist ;
+           rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#performedInstrumentIn
+:performedInstrumentIn rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Artist ;
+                       rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#performedVocalIn
+:performedVocalIn rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Artist ;
+                  rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#performsAs
+:performsAs rdf:type owl:ObjectProperty ;
+            rdfs:domain :Artist ;
+            rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#produced
+:produced rdf:type owl:ObjectProperty ;
+          owl:inverseOf :producedBy ;
+          rdfs:domain :Artist ;
+          rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#producedBy
+:producedBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#remasterOf
+:remasterOf rdf:type owl:ObjectProperty ;
+            rdfs:domain :Recording ;
+            rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#remixOf
+:remixOf rdf:type owl:ObjectProperty ;
+         rdfs:domain :Album ,
+                     :Recording ;
+         rdfs:range :Album ,
+                    :Recording .
+
+
+###  https://musicbrainz.org#remixed
+:remixed rdf:type owl:ObjectProperty ;
+         owl:inverseOf :remixedBy ;
+         rdfs:domain :Artist ;
+         rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#remixedBy
+:remixedBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#sampledBy
+:sampledBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#subgroupOf
+:subgroupOf rdf:type owl:ObjectProperty ;
+            rdfs:domain :Artist ;
+            rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#supportingArtistFor
+:supportingArtistFor rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Artist ;
+                     rdfs:range :Artist .
+
+
 ###  https://musicbrainz.org#track
 :track rdf:type owl:ObjectProperty ;
+       owl:inverseOf :trackIn ;
        rdfs:domain :Album ;
        rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#trackIn
+:trackIn rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#tributeTo
+:tributeTo rdf:type owl:ObjectProperty ;
+           rdfs:domain :Album ,
+                       :Artist ;
+           rdfs:range :Artist .
 
 
 ###  https://musicbrainz.org#url
@@ -48,6 +555,39 @@
                  :Artist ,
                  :Recording ;
      rdfs:range :URL .
+
+
+###  https://musicbrainz.org#vocalArranged
+:vocalArranged rdf:type owl:ObjectProperty ;
+               owl:inverseOf :vocalArrangedBy ;
+               rdfs:domain :Artist ;
+               rdfs:range :Recording .
+
+
+###  https://musicbrainz.org#vocalArrangedBy
+:vocalArrangedBy rdf:type owl:ObjectProperty .
+
+
+###  https://musicbrainz.org#vocalSupportBy
+:vocalSupportBy rdf:type owl:ObjectProperty ;
+                owl:inverseOf :vocalSupportFor .
+
+
+###  https://musicbrainz.org#vocalSupportFor
+:vocalSupportFor rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Artist ;
+                 rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#voiceOf
+:voiceOf rdf:type owl:ObjectProperty ;
+         owl:inverseOf :voicedBy ;
+         rdfs:domain :Artist ;
+         rdfs:range :Artist .
+
+
+###  https://musicbrainz.org#voicedBy
+:voicedBy rdf:type owl:ObjectProperty .
 
 
 #################################################################
@@ -171,4 +711,3 @@
 :URL rdf:type owl:Class .
 
 
-###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi
