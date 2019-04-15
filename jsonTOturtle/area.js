@@ -1,9 +1,6 @@
 var readline = require("readline")
 var fs = require("fs")
 
-//get the elements that are present in arr2 and not in arr1
-function diff (arr1, arr2) {return arr2.filter(x => !arr1.includes(x));}
-
 function getAliases(aliases){
     var aliasesSet = new Set()
     aliases.forEach(a => {
@@ -22,7 +19,7 @@ function getRelations(relations){
     relations.forEach(r => {
         if(r.url!=null){
             urls.push({id: r.url.id, name: r.type, value: r.url.resource})
-            console.log("\t\t :url :url_" + r.url.id + " ;")
+            console.log("\t\t :hasURL :url_" + r.url.id + " ;")
         }else if(r.area!=null){
             //areaIds.push({id: r.area.id, name: r.area.name}) 
             if(r.direction=="forward")
@@ -36,7 +33,7 @@ function getRelations(relations){
 function getUrls(urls){
     urls.forEach(url => {
         console.log(":url_" + url.id + " a owl:NamedIndividual, :URL ;")
-        console.log("\t\t :name \"" + url.name + "\" ;")
+        console.log("\t\t :label \"" + url.name + "\" ;")
         console.log("\t\t :value \"" + url.value + "\" .\n")
     })
 }
@@ -74,6 +71,7 @@ lineReader.on('line', function (line) {
         console.log("\t\t :endDate \"" + jsonLine['life-span'].end.replace(/(["\n])/g,"\\$1") + "\" ;")
     }
     getRelations(jsonLine.relations)
+    console.log("\t\t :mbID \"" + jsonLine.id + "\" ;")
     console.log("\t\t :name \"" + jsonLine.name.replace(/(["\n])/g,"\\$1") + "\" .\n")
 
     //create urls after each area
