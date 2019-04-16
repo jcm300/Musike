@@ -1,46 +1,55 @@
 var readline = require("readline")
 var fs = require("fs")
 
+//print aliases
 function getAliases(aliases){
     var aliasesSet = new Set()
     aliases.forEach(a => {
         if(a.ended==false){
             if(a.locale!=null)
-                aliasesSet.add("\"" + a.name.replace(/(["\n])/g,"\\$1") + "(" + a.locale.replace(/(["\n])/g,"\\$1") + ")\"")
+                aliasesSet.add(JSON.stringify(a.name + "(" + a.locale + ")"))
             else 
-                aliasesSet.add("\"" + a.name.replace(/(["\n])/g,"\\$1") + "\"")
+                aliasesSet.add(JSON.stringify(a.name))
         }
     })
     if(aliasesSet.size>0)
         console.log("\t\t :alias " + Array.from(aliasesSet).join(", ") + " ;")
 }
 
+//print relations area to urls, and relations between areas
 function getRelations(relations){
+    var areasForward = []
+    var areasBackward = []
+
     relations.forEach(r => {
         if(r.url!=null){
-            urls.push({id: r.url.id, name: r.type, value: r.url.resource})
-            console.log("\t\t :hasURL :url_" + r.url.id + " ;")
+            urls.push({id: ":url_" + r.url.id, name: r.type, value: r.url.resource})
         }else if(r.area!=null){
-            //areaIds.push({id: r.area.id, name: r.area.name}) 
             if(r.direction=="forward")
-                console.log("\t\t :hasPart :area_" + r.area.id + " ;")
+                areasForward.push(":area_" + r.area.id)
             else //backward
-                console.log("\t\t :partOf :area_" + r.area.id + " ;")
+                areasBackward.push(":area_" + r.area.id)
         }
     })
+
+    if(areasBackward.length>0)
+        console.log("\t\t :partOf " + areasBackward.join(", ") + " ;")
+    if(areasForward.length>0)
+        console.log("\t\t :hasPart " + areasForward.join(", ") + " ;")
+    if(urls.length>0)
+        console.log("\t\t :hasURL " + urls.map(e => e.id).join(", ") + " ;")
 }
 
+//print urls
 function getUrls(urls){
     urls.forEach(url => {
-        console.log(":url_" + url.id + " a owl:NamedIndividual, :URL ;")
+        console.log(url.id + " a owl:NamedIndividual, :URL ;")
         console.log("\t\t :label \"" + url.name + "\" ;")
         console.log("\t\t :value \"" + url.value + "\" .\n")
     })
 }
 
-var urls = [] //ids dos urls + name + value para no fim de cada area criar os urls
-//var areaIds = [] //ids das áreas nas relações + nome, no caso de não estarem definidas no fim de tudo
-//var ids = [] //ids encontrados em cada linha
+var urls = []
 
 var lineReader = readline.createInterface({
   input: fs.createReadStream(process.argv[2])
@@ -49,35 +58,36 @@ var lineReader = readline.createInterface({
 lineReader.on('line', function (line) {
     var jsonLine = JSON.parse(line)
     
-    //ids.push(jsonLine.id)
-
     console.log(":area_" + jsonLine.id + " a owl:NamedIndividual, :Area ;")
+    
     if(jsonLine.type!=null)
-        console.log("\t\t :type \"" + jsonLine.type.replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :type " + JSON.stringify(jsonLine.type) + " ;")
+    
     if(jsonLine.aliases!=null){
         if(jsonLine.aliases.length>0)
             getAliases(jsonLine.aliases)
     }
+    
     if(jsonLine.annotation!=null){
-        console.log("\t\t :about \"" + jsonLine.annotation.replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :about " + JSON.stringify(jsonLine.annotation) + " ;")
     }
+    
     if(jsonLine.disambiguation!=""){
-        console.log("\t\t :disambiguation \"" + jsonLine.disambiguation.replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :disambiguation " + JSON.stringify(jsonLine.disambiguation) + " ;")
     }
+
     if(jsonLine['life-span'].begin!=null){
-        console.log("\t\t :beginDate \"" + jsonLine['life-span'].begin.replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :beginDate " + JSON.stringify(jsonLine['life-span'].begin) + " ;")
     }
+
     if(jsonLine['life-span'].end!=null){
-        console.log("\t\t :endDate \"" + jsonLine['life-span'].end.replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :endDate " + JSON.stringify(jsonLine['life-span'].end) + " ;")
     }
+
     getRelations(jsonLine.relations)
     console.log("\t\t :mbID \"" + jsonLine.id + "\" ;")
-    console.log("\t\t :name \"" + jsonLine.name.replace(/(["\n])/g,"\\$1") + "\" .\n")
+    console.log("\t\t :name " + JSON.stringify(jsonLine.name) + " .\n")
 
-    //create urls after each area
     getUrls(urls)
     urls = []
 })
-
-//lineReader.on("close", () => {
-//})

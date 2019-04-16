@@ -136,6 +136,12 @@ dc:source rdf:type owl:AnnotationProperty .
          rdfs:range xsd:string .
 
 
+###  https://musicbrainz.org#firstReleaseDate
+:firstReleaseDate rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Album ;
+                  rdfs:range xsd:string .
+
+
 ###  https://musicbrainz.org#gender
 :gender rdf:type owl:DatatypeProperty ;
         rdfs:domain :Artist ;
@@ -176,6 +182,12 @@ dc:source rdf:type owl:AnnotationProperty .
 :sortName rdf:type owl:DatatypeProperty ;
           rdfs:domain :Artist ;
           rdfs:range xsd:string .
+
+
+###  https://musicbrainz.org#tag
+:tag rdf:type owl:DatatypeProperty ;
+     rdfs:domain :Recording ;
+     rdfs:range xsd:string .
 
 
 ###  https://musicbrainz.org#title

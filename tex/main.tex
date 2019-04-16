@@ -40,6 +40,96 @@
 ENTREGA:\\
 27 de Maio\\
 
+\section{Contextualização}
+
+O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website com a informação de artistas, bem como, as suas músicas e albuns. Em termos de informação a apresentar, pretende-se o seguinte:
+\begin{itemize}
+    \item Artista
+        \begin{itemize}
+            \item nome
+            \item alias
+            \item tipo de artista (Grupo, Pessoa, etc)
+            \item data de nascimento/inicio
+            \item data de falecimento/fim
+            \item sexo (não é aplicável a todos os tipos de artista)
+            \item nacionalidade (obtido através da área)
+            \item descrição
+            \item relações com outros artistas, com músicas e com albuns
+            \item urls para página pessoal, redes sociais, etc
+            \item classificação dos utilizadores do website
+            \item soma das visualizações das várias músicas
+        \end{itemize}
+    \item Album
+        \begin{itemize}
+            \item título
+            \item data do primeiro release
+            \item artista(s)
+            \item descrição
+            \item músicas do album
+            \item tipos do album
+            \item relações com artistas e com outros albuns
+            \item urls sobre o album
+            \item classificação dos utilizadores do website
+            \item soma das visualizações das várias músicas
+        \end{itemize}
+    \item Música
+        \begin{itemize}
+            \item título
+            \item artista(s)
+            \item duração
+            \item descrição
+            \item língua(s)
+            \item tipos da música (clássica, rock, etc)
+            \item relações com outras músicas e com artista
+            \item urls sobre a música
+            \item classificação dos utilizadores do website
+            \item número de vezes ouvida pelos utilizadores do website
+        \end{itemize}
+    \item Área
+        \begin{itemize}
+            \item nome
+            \item tipo (país, cidade, etc)
+            \item alias
+            \item data de creação
+            \item data de fim
+            \item descrição
+            \item urls sobre a área
+            \item relações com outas áreas, visto que uma área pode ser parte de outra e uma área pode ter várias áreas
+        \end{itemize}
+\end{itemize}
+
+Para além disso, para cada música o objetivo é ter também o video do youtube embutido bem como as lyrics e por cada visualização do video contar que a música foi ouvida uma vez.
+
+Por outro lado, o website deve permitir aos utilizadores escolher as músicas e albums que mais gosta, bem como, puder criar playlists.
+
+Cada utilizador deve ter acesso às suas estatisticas, que deve ter as músicas que o utilizador ouve mais, os artistas que ouve mais e os albuns que ouve mais.
+
+De forma adicional, seria interessante dar sugestões ao utilizador de músicas a ouvir.
+
+Por fim, apresentar estatísticas gerais do website entre as quais:
+\begin{itemize}
+    \item músicas mais ouvidas pelos utilizadores
+    \item artistas mais ouvidos pelos utilizadores
+    \item tipos de músicas (tags) mais ouvidos pelos utilizadores
+    \item albuns mais ouvidos pelos utilizadores
+    \item paises com mais artistas
+    \item paises com mais músicas
+    \item paises com mais albuns
+    \item paises mais ``ouvidos'' pelos utilizadores
+\end{itemize}
+
+\section{Ontologia}
+
+TODO: explicar a estrutura da ontologia
+
+\section{De JSON para RDF-Turtle}
+
+Com a estrutura da ontologia e com uma ideia de que informação seria necessária, foi então usado um dataset (\url{http://ftp.musicbrainz.org/pub/musicbrainz/data/json-dumps/20190403-001001/}) para popular a ontologia. Este dataset é proveniente do \textbf{MusicBrainz} estando o mesmo em JSON. O seu timestamp é de 2019\-04\-03, portanto um dataset bastante recente possuindo cerca de 240GB de tamanho. Visto o mesmo estar em JSON é necessário então convertê-lo para Turtle.
+
+Num primeiro passo, realizou-se correções a este dataset, visto que bastantes identificadores de entidades estavam desatualizados, não permitindo uma correta conversão da informação. Foi então criado uma script para tal efeito.
+
+TODO: explicar aqui as correções feitas aos datasets e os conversores
+
 \section{Conclusão}
 
 \newpage 

@@ -27,6 +27,3 @@ lineReader.on('line', function (line) {
         })
     }
 })
-
-//lineReader.on("close", () => {
-//})

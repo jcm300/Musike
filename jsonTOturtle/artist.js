@@ -105,25 +105,26 @@ var types = {
     }
 }
 
+//print aliases
 function getAliases(aliases){
     var aliasesSet = new Set()
     aliases.forEach(a => {
         if(a.ended==false){
             if(a.locale!=null)
-                aliasesSet.add("\"" + a.name.replace(/(["\n])/g,"\\$1") + "(" + a.locale.replace(/(["\n])/g,"\\$1") + ")\"")
+                aliasesSet.add(JSON.stringify(a.name + "(" + a.locale + ")"))
             else 
-                aliasesSet.add("\"" + a.name.replace(/(["\n])/g,"\\$1") + "\"")
+                aliasesSet.add(JSON.stringify(a.name))
         }
     })
     if(aliasesSet.size>0)
         console.log("\t\t :alias " + Array.from(aliasesSet).join(", ") + " ;")
 }
 
+//print relations area to urls, and relations between areas
 function getRelations(rels){
     rels.forEach(r => {
         if(r.url!=null){
-            urls.push({id: r.url.id, name: r.type, value: r.url.resource})
-            console.log("\t\t :hasURL :url_" + r.url.id + " ;")
+            urls.push({id: ":url_" + r.url.id, name: r.type, value: r.url.resource})
         }else if(r.artist!=null){
             relations.push({range: "artist_" + r.artist.id, type: types[r.direction][r.type]})
         }else if(r.recording!=null){
@@ -132,16 +133,21 @@ function getRelations(rels){
             relations.push({range: "album_" + r['release-group'].id, type: types[r.direction][r.type]})
         }
     })
+
+    if(urls.length>0)
+        console.log("\t\t :hasURL " + urls.map(e => e.id).join(", ") + " ;")
 }
 
+//print urls
 function getUrls(urls){
     urls.forEach(url => {
-        console.log(":url_" + url.id + " a owl:NamedIndividual, :URL ;")
+        console.log(url.id + " a owl:NamedIndividual, :URL ;")
         console.log("\t\t :label \"" + url.name + "\" ;")
         console.log("\t\t :value \"" + url.value + "\" .\n")
     })
 }
 
+//other relations that is not urls
 function printMoreRelations(rels, id){
     rels.forEach(r => {
         if(r.type!=undefined){
@@ -155,7 +161,7 @@ function printMoreRelations(rels, id){
 }
 
 var relations = []
-var urls = [] //ids dos urls + name + value para no fim criar os urls
+var urls = []
 
 var lineReader = readline.createInterface({
   input: fs.createReadStream(process.argv[2])
@@ -165,43 +171,51 @@ lineReader.on('line', function (line) {
     var jsonLine = JSON.parse(line)
     
     console.log(":artist_" + jsonLine.id + " a owl:NamedIndividual, :Artist ;")
+    
     if(jsonLine.type!=null)
-        console.log("\t\t :type \"" + jsonLine.type.replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :type " + JSON.stringify(jsonLine.type) + " ;")
+    
     if(jsonLine.aliases!=null){
         if(jsonLine.aliases.length>0)
             getAliases(jsonLine.aliases)
     }
+    
     if(jsonLine.annotation!=null){
-        console.log("\t\t :about \"" + jsonLine.annotation.replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :about " + JSON.stringify(jsonLine.annotation) + " ;")
     }
+    
     if(jsonLine.disambiguation!=""){
-        console.log("\t\t :disambiguation \"" + jsonLine.disambiguation.replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :disambiguation " + JSON.stringify(jsonLine.disambiguation) + " ;")
     }
+    
     if(jsonLine['life-span'].begin!=null){
-        console.log("\t\t :beginDate \"" + jsonLine['life-span'].begin.replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :beginDate " + JSON.stringify(jsonLine['life-span'].begin) + " ;")
     }
+    
     if(jsonLine['life-span'].end!=null){
-        console.log("\t\t :endDate \"" + jsonLine['life-span'].end.replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :endDate " + JSON.stringify(jsonLine['life-span'].end) + " ;")
     }
+    
     getRelations(jsonLine.relations)
+    
     if(jsonLine.gender!=null){
         console.log("\t\t :gender \"" + jsonLine.gender + "\" ;")
     }
+    
     if(jsonLine['sort-name']!=null){
-        console.log("\t\t :sortName \"" + jsonLine['sort-name'].replace(/(["\n])/g,"\\$1") + "\" ;")
+        console.log("\t\t :sortName " + JSON.stringify(jsonLine['sort-name']) + " ;")
     }
+    
     if(jsonLine.area!=null){
         console.log("\t\t :from :area_" + jsonLine.area.id + " ;")
     }
+    
     console.log("\t\t :mbID \"" + jsonLine.id + "\" ;")
-    console.log("\t\t :name \"" + jsonLine.name.replace(/(["\n])/g,"\\$1") + "\" .\n")
+    console.log("\t\t :name " + JSON.stringify(jsonLine.name) + " .\n")
 
-    //create urls
     getUrls(urls)
     urls = []
+
     printMoreRelations(relations, "artist_" + jsonLine.id)
     relations = []
 })
-
-//lineReader.on("close", () => {
-//})
