@@ -42,7 +42,13 @@ ENTREGA:\\
 
 \section{Contextualização}
 
-O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website com a informação de artistas, bem como, as suas músicas e albuns. Em termos de informação a apresentar, pretende-se o seguinte:
+O trabalho a desenvolver passa por escolher uma área/tema de trabalho. Com esse tema em vista, criar/construir/limpar/extrair um dataset com informação envolvendo tal tema e que esteja disponível na LOD (\textit{Linked Open Data}). Este dataset em Turtle (\textit{Terse RDF Triple Language}) será armazenado em \textit{GraphDB}, onde será possível aceder/realizar queries ao dataset localmente.
+
+De seguida, será criado um website/app web de forma a explorar o dataset anteriormente criado. Este website deve possuir autenticação, usando para isso o \textit{MongoDB}.
+
+\section{Tema escolhido - \textbf{Musike}}
+
+O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website com a informação de artistas, bem como, das suas músicas e dos seus albuns. Em termos de informação a apresentar, pretende-se o seguinte:
 \begin{itemize}
     \item Artista
         \begin{itemize}
@@ -66,7 +72,7 @@ O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website co
             \item artista(s)
             \item descrição
             \item músicas do album
-            \item tipos do album
+            \item tipos (tags) do album (clássica, rock, etc)
             \item relações com artistas e com outros albuns
             \item urls sobre o album
             \item classificação dos utilizadores do website
@@ -79,7 +85,7 @@ O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website co
             \item duração
             \item descrição
             \item língua(s)
-            \item tipos da música (clássica, rock, etc)
+            \item tipos (tags) da música (clássica, rock, etc)
             \item relações com outras músicas e com artista
             \item urls sobre a música
             \item classificação dos utilizadores do website
@@ -94,17 +100,15 @@ O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website co
             \item data de fim
             \item descrição
             \item urls sobre a área
-            \item relações com outas áreas, visto que uma área pode ser parte de outra e uma área pode ter várias áreas
+            \item relações com outas áreas, pois uma área pode ser parte de outra e, vice-versa, uma área pode incluir várias áreas
         \end{itemize}
 \end{itemize}
 
-Para além disso, para cada música o objetivo é ter também o video do youtube embutido bem como as lyrics e por cada visualização do video contar que a música foi ouvida uma vez.
+Para além disso, para cada música o objetivo é ter na sua página o video presente no \textit{YouTube} bem como a letra da música. Com isto, pretende-se que por cada visualização do video se conte que a música foi ouvida uma vez.
 
-Por outro lado, o website deve permitir aos utilizadores escolher as músicas e albums que mais gosta, bem como, puder criar playlists.
+Por outro lado, o website deve permitir aos utilizadores escolher as músicas e albuns que mais gosta, bem como, puder criar playlists.
 
-Cada utilizador deve ter acesso às suas estatisticas, que deve ter as músicas que o utilizador ouve mais, os artistas que ouve mais e os albuns que ouve mais.
-
-De forma adicional, seria interessante dar sugestões ao utilizador de músicas a ouvir.
+Cada utilizador deve ter acesso às suas estatisticas, onde deve estar presente as músicas que o utilizador ouve mais, os artistas que ouve mais e os albuns que ouve mais.
 
 Por fim, apresentar estatísticas gerais do website entre as quais:
 \begin{itemize}
@@ -118,15 +122,89 @@ Por fim, apresentar estatísticas gerais do website entre as quais:
     \item paises mais ``ouvidos'' pelos utilizadores
 \end{itemize}
 
-\section{Ontologia}
+De forma adicional, seria interessante dar sugestões ao utilizador de músicas a ouvir a partir das estatisticas do utilizador.
 
-TODO: explicar a estrutura da ontologia
+\section{Parte Estrutural da Ontologia}
 
-\section{De JSON para RDF-Turtle}
+Portanto, a partir do que se pretende construir e tendo já em ideia o dataset a ser usado (\textit{MusicBrainz}) foi construída a seguinte estrutura:
 
-Com a estrutura da ontologia e com uma ideia de que informação seria necessária, foi então usado um dataset (\url{http://ftp.musicbrainz.org/pub/musicbrainz/data/json-dumps/20190403-001001/}) para popular a ontologia. Este dataset é proveniente do \textbf{MusicBrainz} estando o mesmo em JSON. O seu timestamp é de 2019\-04\-03, portanto um dataset bastante recente possuindo cerca de 240GB de tamanho. Visto o mesmo estar em JSON é necessário então convertê-lo para Turtle.
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=15cm]{Pictures/ontologySctructure.png}
+\end{figure}
 
-Num primeiro passo, realizou-se correções a este dataset, visto que bastantes identificadores de entidades estavam desatualizados, não permitindo uma correta conversão da informação. Foi então criado uma script para tal efeito.
+As classes principais são \textit{Artist}, \textit{Recording}, \textit{Album} e \textit{Area} que representam respetivamente Artista, Música, Album e Área. Uma classe também importante mas secundária, é \textit{URL} que reprensenta URL's. Por forma a organizar melhor as propriedades, visto que as subclasses herdam as propriedades/relações das superclasses, foram criadas as superclasses \textit{Entity}, \textit{MusicEntity} e \textit{TimeLimitedEntity}. \textit{MusicEntity} inclui as subclasses \textit{Recording} e \textit{Album} devido às duas possuirem a propriedade \textit{title}. Por outro lado, \textit{TimeLimitedEntity} tem como subclasses \textit{Artist} e \textit{Area}, visto que estas duas classes possuem uma data de inicio e de fim. Já a classe \textit{Entity} inclui as subclasses \textit{MusicEntity} e \textit{TimeLimitedEntity}, ou seja, é a superclasse das quatro principais classes, até porque estas quatro classes possuem as propriedades \textit{about} e \textit{disambiguation}. Existe ainda uma terceira classe, \textit{Relation}, onde se pretende representar as várias relações que existem entre Entidades (classe \textit{Entity}).
+
+Quanto às propriedades/relações a ontologia apresenta as seguintes:
+\begin{itemize}
+    \item Propriedades (\textit{Data Properties})
+    \begin{itemize}
+        \item Classe \textbf{\textit{Entity}}
+        \begin{itemize}
+            \item \textbf{\textit{about}}: Descrição do elemento
+            \item \textbf{\textit{disambiguation}}: Forma de disambiguar entre elementos com o mesmo nome
+        \end{itemize}
+        \item Classe \textbf{\textit{Relation}}
+        \begin{itemize}
+            \item \textbf{\textit{relationType}}: o nome da relação entre duas entidades (classe \textit{Entity})
+        \end{itemize}
+        \item Classe \textbf{\textit{URL}}
+        \begin{itemize}
+            \item \textbf{\textit{label}}: o nome do website a que se refere o URL (exe: wikipédia)
+            \item \textbf{\textit{value}}: URL propriamente dito
+        \end{itemize}
+        \item Classe \textbf{\textit{TimeLimitedEntity}}
+        \begin{itemize}
+            \item \textbf{\textit{name}}: Nome do elemento
+            \item \textbf{\textit{alias}}: nomes alternativos e nomes com erros ortográficos, permitindo uma melhor busca quando o utilizador introduz o nome com erros 
+            \item \textbf{\textit{type}}: Tipo do elemento (em \textit{Area}: district, contry, city, etc, já em \textit{Artist}: person, group, choir, etc)
+            \item \textbf{\textit{beginDate}}: Data de ínicio
+            \item \textbf{\textit{endDate}}: Data de fim
+        \end{itemize}
+        \item Classe \textbf{\textit{MusicEntity}}
+        \begin{itemize}
+            \item \textbf{\textit{title}}: Título
+        \end{itemize}
+        \item Classe \textbf{\textit{Album}}
+        \begin{itemize}
+            \item \textbf{\textit{firstReleaseDate}}: Data da primeira ``release'' do Album
+        \end{itemize}
+        \item Classe \textbf{\textit{Recording}}
+        \begin{itemize}
+            \item \textbf{\textit{duration}}: Duração da música
+            \item \textbf{\textit{language}}: Língua da música
+            \item \textbf{\textit{tag}}: Tags (tipos) da música
+        \end{itemize}
+        \item Classe \textbf{\textit{Artist}}
+        \begin{itemize}
+            \item \textbf{\textit{gender}}: Género do artista
+            \item \textbf{\textit{sortName}}: Nome de modo a ordenar o artista numa lista
+        \end{itemize}
+    \end{itemize}
+    \item Relações (\textit{Object Properties})
+    \begin{itemize}
+        \item \textbf{\textit{from}}: De \textit{Arist} para \textit{Area}, indica que um artista é da área
+        \item \textbf{\textit{hasURL}}: De \textit{Entity} para \textit{URL}, indica que uma entidade tem o URL
+        \item \textbf{\textit{domain}}: De \textit{Relation} para \textit{Entity}, indica o domínio (URI) da relação
+        \item \textbf{\textit{range}}: De \textit{Relation} para \textit{Entity}, indica o contradomínio (URI) da relação
+        \item \textbf{\textit{hasPart}}: De \textit{Area} para \textit{Area}, indica que uma área inclui a outra
+        \item \textbf{\textit{partOf}}: Inverso de \textit{hasPart}, indica que uma área é parte de outra
+        \item \textbf{\textit{artistCredit}}: De \textit{Recording} para \textit{Artist}, indica que a música tem como crédito o artista
+        \item \textbf{\textit{hasCreditIn}}: Inverso de \textit{artistCredit}, indica que um artista tem crédito na música
+        \item \textbf{\textit{hasTrack}}: De \textit{Album} para \textit{Recording}, indica que um album tem a música
+        \item \textbf{\textit{trackIn}}: Inverso de \textit{hasTrack}, indica que uma música pertence a um album
+    \end{itemize}
+\end{itemize}
+
+É importante voltar a referir que as subclasses herdam as propriedades das superclasses.
+
+\section{De JSON para Turtle - Povoamento da Ontologia}
+
+Com a estrutura da ontologia e com uma ideia de que informação seria necessária, foi então usado um dataset (\url{http://ftp.musicbrainz.org/pub/musicbrainz/data/json-dumps/20190403-001001/}) para popular a ontologia. Este dataset é proveniente do \textbf{MusicBrainz} estando o mesmo em JSON. O seu timestamp é de 2019-04-03, portanto um dataset bastante recente possuindo cerca de 240GB de tamanho. Visto o mesmo estar em JSON é necessário então convertê-lo para Turtle.
+
+Num primeiro passo, percorre-se os ficheiros JSON com os conversores criados em \textit{Node.js}.
+
+Num segundo passo, realizou-se correções a este dataset, visto que bastantes identificadores de entidades estavam desatualizados, resultando em informação mal associada. Este passo foi realizado depois da conversão em vez de antes, visto que o resultado final manter-se-á igual e como existe menos dados a percorrer, a correção é muito mais rápida. Foi então criado três scripts para tal efeito, sendo os mesmos dependentes entre si de forma encadeada. O script inicial, acede ao website do \textbf{MusicBrainz} para cada identificador referindo o tipo de entidade, visto que o roteamento usado pelo \textbf{MusicBrainz} é o seguinte \url{https://musicbrainz.org/NomeDaEntidade/identificador}. Ao aceder a cada página, caso o id tenha sido movido é devolvido uma página dizendo qual o novo identificador, caso não exista, devolve que a página não existe, e por fim, caso o identificador esteja correto devolve a página do mesmo. Este script criado recebe como argumento \textit{NomeDaEntidade/identificador} e devolve OK caso a página exista, null caso não exista e um identificador (o novo) se tiver sido movido. Depois esta script é usada por uma em \textit{Node.js}que procura pelos ids, chama a script anteriormente referida e substitui conforme o resultado. Esta script em \textit{Node.js}, lê um ficheiro passado como argumento, linha a linha, de forma a puder ler ficheiros grandes sem necessitar de muitos recursos, e devolve cada linha com as substituições para o \text{stdout}. Ainda em relação a esta script, é guardado num objeto os identificadores já verificados e a substituição a realizar (seja o mesmo id ou diferente), para que no caso de aparecerem nas linhas seguintes, não ser necessário aceder ao website do \textbf{MusicBrainz}, visto ser custoso em termos temporais. Por fim, devido ao script ser relativamente lento devido aos constantes acessos à \textit{Internet}, como já referido, de forma a acelerar o processamento, foi criada outra script que usa as duas anteriores. Esta última script divide o ficheiro passado como argumento em 6 ficheiros (usando o split) com o mesmo número de linhas. Depois aplica o script em \textit{Node.js} a cada ficheiro de forma paralela, ou seja, cria 6 processos concorrentes, redirecioando o output para um ficheiro (um ficheiro diferente por processo). Quando todos os processos tiverem terminado junta os ficheiros, usando o \textit{cat}. Por fim, remove os ficheiros auxiliares criados que já não são necessários.
 
 TODO: explicar aqui as correções feitas aos datasets e os conversores
 
