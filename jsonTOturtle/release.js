@@ -184,8 +184,6 @@ function getRecording(rec, tags){
         console.log("\t\t :duration \"" + rec.length + "\" ;")
     }
 
-    console.log("\t\t :mbID \"" + rec.id + "\" ;")
-
     if(langs.size>0){
         console.log("\t\t :language " + Array.from(langs).join(", ") + " ;")
         langs = new Set()

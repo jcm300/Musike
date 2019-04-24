@@ -192,8 +192,6 @@ lineReader.on('line', function (line) {
         console.log("\t\t :duration \"" + jsonLine.length + "\" ;")
     }
 
-    console.log("\t\t :mbID \"" + jsonLine.id + "\" ;")
-
     if(langs.size>0){
         console.log("\t\t :language " + Array.from(langs).join(", ") + " ;")
         langs = new Set()

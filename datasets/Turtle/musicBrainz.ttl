@@ -160,12 +160,6 @@ dc:source rdf:type owl:AnnotationProperty .
           rdfs:range xsd:string .
 
 
-###  https://musicbrainz.org#mbID
-:mbID rdf:type owl:DatatypeProperty ;
-      rdfs:domain :Entity ;
-      rdfs:range xsd:string .
-
-
 ###  https://musicbrainz.org#name
 :name rdf:type owl:DatatypeProperty ;
       rdfs:domain :TimeLimitedEntity ;

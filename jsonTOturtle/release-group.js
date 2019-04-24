@@ -161,13 +161,12 @@ lineReader.on('line', function (line) {
     }
 
     getRelations(jsonLine.relations)
-    console.log("\t\t :mbID \"" + jsonLine.id + "\" ;")
 
     if(jsonLine['first-release-date']!=null && jsonLine['first-release-date']!=""){
         console.log("\t\t :firstReleaseDate \"" + jsonLine['first-release-date'] + "\" ;")       
     }
 
-    console.log("\t\t :title \"" + JSON.stringify(jsonLine.title) + " .\n")
+    console.log("\t\t :title " + JSON.stringify(jsonLine.title) + " .\n")
 
     getUrls(urls)
     urls = []

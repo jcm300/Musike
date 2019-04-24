@@ -210,7 +210,6 @@ lineReader.on('line', function (line) {
         console.log("\t\t :from :area_" + jsonLine.area.id + " ;")
     }
     
-    console.log("\t\t :mbID \"" + jsonLine.id + "\" ;")
     console.log("\t\t :name " + JSON.stringify(jsonLine.name) + " .\n")
 
     getUrls(urls)

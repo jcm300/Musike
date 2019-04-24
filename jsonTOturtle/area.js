@@ -85,7 +85,6 @@ lineReader.on('line', function (line) {
     }
 
     getRelations(jsonLine.relations)
-    console.log("\t\t :mbID \"" + jsonLine.id + "\" ;")
     console.log("\t\t :name " + JSON.stringify(jsonLine.name) + " .\n")
 
     getUrls(urls)
