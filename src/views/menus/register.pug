@@ -1,0 +1,29 @@
+extends ../layout2
+
+block header
+    h3 Register
+    div(class="w3-bar w3-grey w3-large")
+        a(href= url class="w3-button w3-grey w3-bar-item") Back to Login
+
+block body
+    if error!=""
+        center
+            div(class="w3-panel w3-red")
+                h3= error
+    form.w3-container(method="POST" action="/users")
+        input.w3-input(type="text" name="name" placeholder="Name" required)
+        input.w3-input(type="email" name="email" placeholder="Email" required)
+        input.w3-input(type="password" name="password" placeholder="Password" pattern=".{8,}" title="Must contain minimum 8 characters" required)
+        label Type:
+        br
+        input(type="radio" name="type" value="1")
+        |  Admin
+        br
+        input(type="radio" name="type" value="2")
+        |  Producer
+        br
+        input(type="radio" name="type" value="3" checked)
+        |  Consumer
+        br
+        input.w3-btn.w3-grey(type="submit" value="Register")
+    br

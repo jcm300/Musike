@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE manifesto SYSTEM "file:/home/jcm300/1ºSemestre/PRI/manifesto.dtd">
+<manifesto>
+    <meta>
+        <id>PRC_TP_2019</id>
+        <título>Musike</título>
+        <subtítulo>Music Linked</subtítulo>
+        <dinício>15/03/2019</dinício>
+        <dfim>27/05/2019</dfim>
+        <supervisor>
+            <nome>José Carlos Ramalho</nome>
+            <email>jcr@di.uminho.pt</email>
+            <website>http://www.di.uminho.pt/~jcr</website>
+        </supervisor>
+    </meta>
+    <equipe>
+        <elemento>
+            <id>A78821</id>
+            <nome>José Carlos Lima Martins</nome>
+            <email>a78821@alunos.uminho.pt</email>
+            <website>https://www.linkedin.com/in/jose-carlos-martins</website>
+            <foto path=""/>
+        </elemento>
+    </equipe>
+    <resumo>
+        <para></para>
+    </resumo>
+    <resultados>
+        <resultado path="manifesto.xml">Manifesto em XML</resultado>
+        <resultado path="report.pdf">Relatório do Trabalho</resultado>
+        <resultado path="src/package.json">Metadados e dependências do sistema desenvolvido</resultado>
+        <resultado path="src/models/">Pasta com os Modelos</resultado>
+        <resultado path="src/controllers/">Pasta com os Controllers</resultado>
+        <resultado path="src/auth/">Pasta com grande parte das funções de autenticação</resultado>
+        <resultado path="src/routes/">Pasta com os Routers</resultado>
+        <resultado path="src/views/">Pasta com as Vistas</resultado>
+        <resultado path="src/public/">Pasta com os javascripts do lado do cliente, w3.css, imagens</resultado>
+        <resultado path="src/install.sh">Script com vários modos para instalar/correr o sistema</resultado>
+        <resultado path=".">Tudo</resultado>
+    </resultados>
+</manifesto>

@@ -1,1 +1,4 @@
 debug/**
+**/node_modules/**
+src/sessions/**
+src/log.json
