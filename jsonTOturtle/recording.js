@@ -31,7 +31,7 @@ function getRelations(rels){
 function getTags(tags){
     var ts = new Set()
     tags.forEach(t => {
-        ts.add("\"" + t.name + "\"")
+        ts.add("\"" + JSON.stringify(t.name) + "\"")
     })
     console.log("\t\t :tag " + Array.from(ts).join(", ") + " ;")
 }

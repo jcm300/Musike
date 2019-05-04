@@ -48,7 +48,7 @@ ENTREGA:\\
 
 \section{Contextualização}
 
-O trabalho a desenvolver passa por escolher uma área/tema de trabalho. Com esse tema em vista, criar/construir/limpar/extrair um dataset com informação envolvendo tal tema e que esteja disponível na LOD (\textit{Linked Open Data}). Este dataset em Turtle (\textit{Terse RDF Triple Language}) será armazenado em \textit{GraphDB}, onde será possível aceder/realizar queries ao dataset localmente.
+O trabalho a desenvolver passa por escolher uma área/tema de trabalho. A partir desse tema, criar/construir/limpar/extrair um dataset sobre o tema e que esteja disponível na LOD (\textit{Linked Open Data}). Este dataset em Turtle (\textit{Terse RDF Triple Language}) será armazenado em \textit{GraphDB}, onde será possível aceder/realizar queries ao dataset localmente.
 
 De seguida, será criado um website/app web de forma a explorar o dataset anteriormente criado. Este website deve possuir autenticação, usando para isso o \textit{MongoDB}.
 
@@ -66,7 +66,6 @@ O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website co
             \item sexo (não é aplicável a todos os tipos de artista)
             \item nacionalidade (obtido através da área)
             \item descrição
-            \item relações com outros artistas, com músicas e com albuns
             \item urls para página pessoal, redes sociais, etc
             \item classificação dos utilizadores do website
             \item soma das visualizações das várias músicas
@@ -79,7 +78,6 @@ O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website co
             \item descrição
             \item músicas do album
             \item tipos (tags) do album (clássica, rock, etc)
-            \item relações com artistas e com outros albuns
             \item urls sobre o album
             \item classificação dos utilizadores do website
             \item soma das visualizações das várias músicas
@@ -103,7 +101,7 @@ O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website co
             \item tipo (país, cidade, etc)
             \item alias
             \item data de creação
-            \item data de fim
+            \item data de extinsão
             \item descrição
             \item urls sobre a área
             \item relações com outas áreas, pois uma área pode ser parte de outra e, vice-versa, uma área pode incluir várias áreas
@@ -140,9 +138,9 @@ Portanto, a partir do que se pretende construir e tendo já em ideia o dataset a
     \caption{Estrutura da ontologia, imagem obtida através de \protect\href{http://www.visualdataweb.de/webvowl/}{WebVOWL}}
 \end{figure}
 
-As classes principais são \textit{Artist}, \textit{Recording}, \textit{Album} e \textit{Area} que representam respetivamente Artista, Música, Album e Área. Uma classe também importante mas secundária, é \textit{URL} que reprensenta URL's. Por forma a organizar melhor as propriedades, visto que as subclasses herdam as propriedades/relações das superclasses, foram criadas as superclasses \textit{Entity}, \textit{MusicEntity} e \textit{TimeLimitedEntity}. \textit{MusicEntity} inclui as subclasses \textit{Recording} e \textit{Album} devido às duas possuirem a propriedade \textit{title}. Por outro lado, \textit{TimeLimitedEntity} tem como subclasses \textit{Artist} e \textit{Area}, visto que estas duas classes possuem uma data de inicio e de fim. Já a classe \textit{Entity} inclui as subclasses \textit{MusicEntity} e \textit{TimeLimitedEntity}, ou seja, é a superclasse das quatro principais classes, até porque estas quatro classes possuem as propriedades \textit{about} e \textit{disambiguation}.
+As classes principais da ontologia são \textit{Artist}, \textit{Recording}, \textit{Album} e \textit{Area} que representam respetivamente Artista, Música, Album e Área. Uma classe também importante mas secundária, é \textit{URL} que reprensenta URL's. Por forma a organizar melhor as propriedades, visto que as subclasses herdam as propriedades/relações das superclasses, foram criadas as superclasses \textit{Entity}, \textit{MusicEntity} e \textit{TimeLimitedEntity}. \textit{MusicEntity} inclui as subclasses \textit{Recording} e \textit{Album} devido às duas possuirem a propriedade \textit{title}. Por outro lado, \textit{TimeLimitedEntity} tem como subclasses \textit{Artist} e \textit{Area}, visto que estas duas classes possuem uma data de inicio e de fim. Já a classe \textit{Entity} inclui as subclasses \textit{MusicEntity} e \textit{TimeLimitedEntity}, ou seja, é a superclasse das quatro principais classes, até porque estas quatro classes possuem as propriedades \textit{about} e \textit{disambiguation}.
 
-Quanto às propriedades/relações a ontologia apresenta as seguintes:
+Quanto às propriedades/relações, a ontologia apresenta as seguintes:
 \begin{itemize}
     \item Propriedades (\textit{Data Properties})
     \begin{itemize}
@@ -201,9 +199,9 @@ Quanto às propriedades/relações a ontologia apresenta as seguintes:
 
 \section{De JSON para Turtle - Povoamento da Ontologia}
 
-Com a estrutura da ontologia e com uma ideia de que informação seria necessária, foi então usado um dataset (\url{http://ftp.musicbrainz.org/pub/musicbrainz/data/json-dumps/20190403-001001/}) para popular a ontologia. Este dataset é proveniente do \textbf{MusicBrainz} estando o mesmo em JSON. O seu timestamp é de 2019-04-03, portanto um dataset bastante recente possuindo cerca de 240GB de tamanho. Visto o mesmo estar em JSON é necessário então convertê-lo para Turtle.
+Com a estrutura da ontologia e com uma ideia da informação necessária, foi então usado um dataset (\url{http://ftp.musicbrainz.org/pub/musicbrainz/data/json-dumps/20190403-001001/}) para popular a ontologia. Este dataset é proveniente do \textbf{MusicBrainz} estando o mesmo em JSON. O seu timestamp é de 2019-04-03, portanto um dataset bastante recente possuindo cerca de 240GB de tamanho. Visto o mesmo estar em JSON é necessário então convertê-lo para Turtle.
 
-Num primeiro passo, percorre-se os ficheiros JSON (que em cada linha possui um elemento do tipo igual ao nome do ficheiro a percorrer) com os conversores criados em \textit{Node.js}. Foi criado um conversor por ficheiro a converter (que contém informação necessária). Apresentam-se os seguintes conversores, que para cada linha do ficheiro converte a informação para (origem $\to$ destino)~\cite{mbSchema,mbRels}:
+Num primeiro passo, percorre-se os ficheiros JSON (que em cada linha possui um elemento de tipo igual ao nome do ficheiro a percorrer) com os conversores criados em \textit{Node.js}. Foi criado um conversor por ficheiro a converter. Apresentam-se os seguintes conversores, que para cada linha do ficheiro converte a informação para (origem $\to$ destino)~\cite{mbSchema,mbRels}:
 \begin{itemize}
     \item Conversor para area.json (\textit{jsonTOturtle/area.js})~\cite{mbAr}:
         \begin{itemize}
@@ -218,7 +216,7 @@ Num primeiro passo, percorre-se os ficheiros JSON (que em cada linha possui um e
             \item \textit{relations} (lista) em que os elementos que possuirem:
                 \begin{itemize}
                     \item \textit{type} igual a ``part of'' ou item \textit{area}: são transformados em relações entre indivíduos áreas usando \textit{area.id} para saber qual o id da área destino; para além disso, observa-se a \textit{direction} por forma a saber a direção da relação $\to$ \textit{object property} \textit{\textbf{partOf}} (\textit{direction} ``backward'') ou \textit{\textbf{hasPart}} (\textit{direction} ``forward'')
-                    \item item \textit{url}: guarda-se o \textit{url.id} (identificador do url: ``url\_'' + \textit{url.id}), \textit{type} (\textit{\textbf{label}} de URL) e \textit{url.resource} (\textit{\textbf{value}} de URL) por forma a posterior criação do indivíduo URL e usa-se \textit{url.id} para criar a relação entre area e URL a ser criada $\to$ \textit{object property} \textit{\textbf{hasURL}}
+                    \item item \textit{url}: guarda-se o \textit{url.id} (identificador do url: ``url\_'' + \textit{url.id}), \textit{type} (\textit{\textbf{label}} de URL) e \textit{url.resource} (\textit{\textbf{value}} de URL) por forma a posterior criação do indivíduo URL e usa-se \textit{url.id} para criar a relação entre area e URL a ser criado $\to$ \textit{object property} \textit{\textbf{hasURL}}
                 \end{itemize}
         \end{itemize}
     \item Conversor para artist.json (\textit{jsonTOturtle/artist.js})~\cite{mbArt}:
@@ -236,7 +234,7 @@ Num primeiro passo, percorre-se os ficheiros JSON (que em cada linha possui um e
             \item \textit{gender} $\to$ \textit{data property} \textit{\textbf{gender}}
             \item \textit{relations} (lista) em que os elementos que possuirem:
                 \begin{itemize}
-                    \item item \textit{url}: guarda-se o \textit{url.id} (identificador do url: ``url\_'' + \textit{url.id}), \textit{type} (\textit{\textbf{label}} de URL) e \textit{url.resource} (\textit{\textbf{value}} de URL) por forma a posterior criação do indivíduo URL e usa-se \textit{url.id} para criar a relação entre area e URL a ser criada $\to$ \textit{object property} \textit{\textbf{hasURL}}
+                    \item item \textit{url}: guarda-se o \textit{url.id} (identificador do url: ``url\_'' + \textit{url.id}), \textit{type} (\textit{\textbf{label}} de URL) e \textit{url.resource} (\textit{\textbf{value}} de URL) por forma a posterior criação do indivíduo URL e usa-se \textit{url.id} para criar a relação entre area e URL a ser criado $\to$ \textit{object property} \textit{\textbf{hasURL}}
                 \end{itemize}
         \end{itemize}
     \item Conversor para recording.json (\textit{jsonTOturtle/recording.js})~\cite{mbRec}:
@@ -247,10 +245,10 @@ Num primeiro passo, percorre-se os ficheiros JSON (que em cada linha possui um e
             \item \textit{annotation} $\to$ \textit{data property} \textit{\textbf{about}}
             \item \textit{disambiguation} $\to$ \textit{data property} \textit{\textbf{disambiguation}}
             \item \textit{tag} (lista, em que para cada elemento usa-se \textit{name}) $\to$ \textit{data property} \textit{\textbf{tag}} (um por cada elemento da lista)
-            \item \textit{artist-credit} (lista, para cada elemento uso \textit{artist.id} de forma a associar ao artista) $\to$ \textit{object property} \textit{\textbf{artistCredit}}
+            \item \textit{artist-credit} (lista, para cada elemento usa-se \textit{artist.id} de forma a associar ao artista) $\to$ \textit{object property} \textit{\textbf{artistCredit}}
             \item \textit{relations} (lista) em que os elementos que possuirem:
                 \begin{itemize}
-                    \item item \textit{url}: guarda-se o \textit{url.id} (identificador do url: ``url\_'' + \textit{url.id}), \textit{type} (\textit{\textbf{label}} de URL) e \textit{url.resource} (\textit{\textbf{value}} de URL) por forma a posterior criação do indivíduo URL e usa-se \textit{url.id} para criar a relação entre area e URL a ser criada $\to$ \textit{object property} \textit{\textbf{hasURL}}
+                    \item item \textit{url}: guarda-se o \textit{url.id} (identificador do url: ``url\_'' + \textit{url.id}), \textit{type} (\textit{\textbf{label}} de URL) e \textit{url.resource} (\textit{\textbf{value}} de URL) por forma a posterior criação do indivíduo URL e usa-se \textit{url.id} para criar a relação entre area e URL a ser criado $\to$ \textit{object property} \textit{\textbf{hasURL}}
                     \item \textit{type} igual a ``performance'': usa-se o \textit{language} e \textit{languages} (lista) $\to$ \textit{data property} \textit{\textbf{language}} (por cada elemento)
                 \end{itemize}
         \end{itemize}
@@ -263,13 +261,13 @@ Num primeiro passo, percorre-se os ficheiros JSON (que em cada linha possui um e
             \item \textit{disambiguation} $\to$ \textit{data property} \textit{\textbf{disambiguation}}
             \item \textit{relations} (lista) em que os elementos que possuirem:
                 \begin{itemize}
-                    \item item \textit{url}: guarda-se o \textit{url.id} (identificador do url: ``url\_'' + \textit{url.id}), \textit{type} (\textit{\textbf{label}} de URL) e \textit{url.resource} (\textit{\textbf{value}} de URL) por forma a posterior criação do indivíduo URL e usa-se \textit{url.id} para criar a relação entre area e URL a ser criada $\to$ \textit{object property} \textit{\textbf{hasURL}}
+                    \item item \textit{url}: guarda-se o \textit{url.id} (identificador do url: ``url\_'' + \textit{url.id}), \textit{type} (\textit{\textbf{label}} de URL) e \textit{url.resource} (\textit{\textbf{value}} de URL) por forma a posterior criação do indivíduo URL e usa-se \textit{url.id} para criar a relação entre area e URL a ser criado $\to$ \textit{object property} \textit{\textbf{hasURL}}
                 \end{itemize}
         \end{itemize}
     \item Conversor para release.json (\textit{jsonTOturtle/release.js})~\cite{mbRe}:
         \begin{itemize}
             \item \textit{release-group.id}
-            \item \textit{media} (lista, em que \textit{tracks} (lista) possui recordings e para cada recording usar \textit{recording.id} de forma a criar a relação entre album (\textit{release-group.id}) e recording; para além disso para cada recording realizar o mesmo que em recording.json) $\to$ \textit{object property} \textit{\textbf{hasTrack}}
+            \item \textit{media} (lista, em que \textit{tracks} (lista) possui recordings e para cada recording usar \textit{recording.id} de forma a criar a relação entre album (\textit{release-group.id}) e recording; para além disso para cada recording realizar o mesmo que em recording.json, ou seja criar um indivíduo \textit{Recording}) $\to$ \textit{object property} \textit{\textbf{hasTrack}}
         \end{itemize}
     \item Conversor para work.json (\textit{jsonTOturtle/work.js})~\cite{mbWo}:
         \begin{itemize}
@@ -282,9 +280,9 @@ Num primeiro passo, percorre-se os ficheiros JSON (que em cada linha possui um e
         \end{itemize}
 \end{itemize}
 
-Ainda nestes conversores, os ids são verificados, visto que, acontece haver ``merges'' de entidades no \textbf{MusicBrainz} e, quando isso acontece passa a existir uma só entidade das duas mas, é possível aceder à mesma através dos dois ids de cada entidade antes do ``merge''. De tal forma, para obter uma ontologia consistente, os ids quando aparecem nos conversores é acedido o URL \url{https://musicbrainz.org/ws/2/entidade/id} através do axios e do campo \texttt{data} verifica-se o campo \texttt{id}. Caso consiga-se obter resposta usa-se o id obtido, caso contrário (pode acontecer por exemplo quando a entidade não existe num dataset mais recente), mantém-se o atual. Contudo, o acesso através deste URL tem uma grande limitação, apenas se pode realizar um pedido a cada segundo, devido a restrições impostas pelo \textbf{MusicBrainz}~\cite{mbLimit}. 
+Ainda nestes conversores, os ids são verificados, visto que, acontece haver ``merges'' de entidades no \textbf{MusicBrainz} e, quando isso acontece passa a existir uma só entidade das duas mas, é possível aceder à mesma através dos dois ids de cada entidade antes do ``merge''. De tal forma, para obter uma ontologia consistente, os ids quando aparecem nos conversores é acedido o URL \url{https://musicbrainz.org/ws/2/entidade/id} usando o \textit{axios} e do campo \texttt{data} da resposta verifica-se o campo \texttt{id}. Caso consiga-se obter resposta usa-se o id obtido, caso contrário (pode acontecer por exemplo quando a entidade não existe num dataset mais recente), mantém-se o atual. Contudo, o acesso através deste URL tem uma grande limitação, apenas se pode realizar um pedido a cada segundo, devido a restrições impostas pelo \textbf{MusicBrainz}~\cite{mbLimit}. 
 
-Portanto, por forma a contornar este obstáculo, obteu-se a máquina virtual disponibilizada em \url{ftp://ftp.eu.metabrainz.org/pub/musicbrainz-vm/musicbrainz-server-2018-08-14.ova} ou através do \textit{torrent} disponibilizado em \url{ftp://ftp.eu.metabrainz.org/pub/musicbrainz-vm/musicbrainz-server-2018-08-14.ova.torrent}. Esta máquina virtual possui o servidor do MusicBrainz já pronto a correr, bastando apenas iniciar a máquina virtual e iniciar login com username e password igual a vagrant~\cite{mbSetup}. Contudo, como o dataset que vinha com o servidor da máquina virtual era anterior ao dataset em que o trabalho se baseia, foi atualizado o mesmo ao correr os seguintes comandos na máquina virtual~\cite{mbUpdate}:
+Portanto, por forma a contornar este obstáculo, obteu-se a máquina virtual disponibilizada em \url{ftp://ftp.eu.metabrainz.org/pub/musicbrainz-vm/musicbrainz-server-2018-08-14.ova} ou através do \textit{torrent} disponibilizado em \url{ftp://ftp.eu.metabrainz.org/pub/musicbrainz-vm/musicbrainz-server-2018-08-14.ova.torrent}. Esta máquina virtual possui o servidor do MusicBrainz já pronto a correr, bastando apenas iniciar a máquina virtual e autenticar-se com username e password igual a \texttt{vagrant}~\cite{mbSetup}. Contudo, como o dataset que vinha com o servidor da máquina virtual era anterior ao dataset em que o trabalho se baseia, foi atualizado o mesmo ao correr os seguintes comandos na máquina virtual~\cite{mbUpdate}:
 
 \begin{framed}
 \begin{minted}{bash}
