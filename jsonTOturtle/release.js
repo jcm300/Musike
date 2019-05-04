@@ -1,7 +1,12 @@
-var readline = require("readline")
-var fs = require("fs")
+var readlineSync = require("n-readlines")
+var liner = new readlineSync(process.argv[2])
+var getId = require("./auxFunctions.js").getId
+var asyncForEach = require("./auxFunctions.js").asyncForEach
 
 function getRelations(rels){
+    var urls = []
+    var langs = new Set()
+
     rels.forEach(r => {
         if(r.url!=null){
             urls.push({id: ":url_" + r.url.id, name: r.type, value: r.url.resource})
@@ -19,6 +24,8 @@ function getRelations(rels){
 
     if(urls.length>0)
         console.log("\t\t :hasURL " + urls.map(e => e.id).join(", ") + " ;")
+
+    return [urls,langs]
 }
 
 function getTags(tags){
@@ -37,76 +44,72 @@ function getUrls(urls){
     })
 }
 
-function getRecording(rec, tags){
-    console.log(":recording_" + rec.id + " a owl:NamedIndividual, :Recording ;")
+async function getRecording(rec, tags, id){
+    console.log(":recording_" + id + " a owl:NamedIndividual, :Recording ;")
 
-    if(rec.annotation!=null){
+    if(rec.annotation!=null)
         console.log("\t\t :about " + JSON.stringify(rec.annotation) + " ;")
-    }
 
-    if(rec.disambiguation!=""){
+    if(rec.disambiguation!="")
         console.log("\t\t :disambiguation " + JSON.stringify(rec.disambiguation) + " ;")
-    }
 
+    var urls = []
+    var langs = []
     if(rec.relations!=null && rec.relations.length>0){
-        getRelations(rec.relations)
+        var relationsAux = getRelations(rec.relations)
+        urls = relationsAux[0]
+        langs = relationsAux[1]
     }
 
     if(rec['artist-credit']!=null && rec['artist-credit'].length>0){
         var artists = []
-        rec['artist-credit'].forEach(c => {
-            artists.push(":artist_" + c.artist.id)
+        await asyncForEach(rec['artist-credit'], async (c) => {
+            var idArt = await getId("artist",c.artist.id)
+            artists.push(":artist_" + idArt)
         })
         console.log("\t\t :artistCredit " + artists.join(", ") + " ;")
     }
 
-    if(rec.length!=null){
+    if(rec.length!=null)
         console.log("\t\t :duration \"" + rec.length + "\" ;")
-    }
 
-    if(langs.size>0){
+    if(langs.size>0)
         console.log("\t\t :language " + Array.from(langs).join(", ") + " ;")
-        langs = new Set()
-    }
 
-    if(tags!=""){
+    if(tags!="")
         console.log(tags)
-    }
 
     console.log("\t\t :title " + JSON.stringify(rec.title) + " .\n")
 
     getUrls(urls)
-    urls = []
 }
 
-var langs = new Set()
-var urls = []
+async function main(){
+    while (line = liner.next()) {
+        var jsonLine = JSON.parse(line)
+        var id = await getId('release-group',jsonLine['release-group'].id)
+        var tracks = new Set()
+        var tags = ""
 
-var lineReader = readline.createInterface({
-  input: fs.createReadStream(process.argv[2])
-});
-
-lineReader.on('line', function (line) {
-    var jsonLine = JSON.parse(line)
-    var id = jsonLine['release-group'].id
-    var tracks = new Set()
-    var tags = ""
-
-    if(jsonLine.tags!=null && jsonLine.tags.length>>0){
-        tags = getTags(jsonLine.tags)
+        if(jsonLine.tags!=null && jsonLine.tags.length>0){
+            tags = getTags(jsonLine.tags)
+        }
+        
+        if(jsonLine.media!=null && jsonLine.media.length>0){
+            await asyncForEach(jsonLine.media, async (m) => {
+                if(m.tracks!=null && m.tracks.length>0){
+                    await asyncForEach(m.tracks, async (t) => {
+                        var idRec = await getId("recording",t.recording.id)
+                        tracks.add(":recording_" + idRec) 
+                        await getRecording(t.recording,tags,idRec)
+                    })
+                }
+                if(tracks.size>0){
+                    console.log(":album_" + id + " :hasTrack " + Array.from(tracks).join(", ") + " .\n")
+                }
+            })
+        }
     }
-    
-    if(jsonLine.media!=null && jsonLine.media.length>0){
-        jsonLine.media.forEach(m => {
-            if(m.tracks!=null && m.tracks.length>0){
-                m.tracks.forEach(t => {
-                    tracks.add(":recording_" + t.recording.id) 
-                    getRecording(t.recording,tags)
-                })
-            }
-            if(tracks.size>0){
-                console.log(":album_" + id + " :hasTrack " + Array.from(tracks).join(", ") + " .\n")
-            }
-        })
-    }
-})
+}
+
+main()

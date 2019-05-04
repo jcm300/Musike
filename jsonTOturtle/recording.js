@@ -1,7 +1,12 @@
-var readline = require("readline")
-var fs = require("fs")
+var readlineSync = require("n-readlines")
+var liner = new readlineSync(process.argv[2])
+var getId = require("./auxFunctions.js").getId
+var asyncForEach = require("./auxFunctions.js").asyncForEach
 
 function getRelations(rels){
+    var urls = []
+    var langs = new Set()
+
     rels.forEach(r => {
         if(r.url!=null){
             urls.push({id: ":url_" + r.url.id, name: r.type, value: r.url.resource})
@@ -19,6 +24,8 @@ function getRelations(rels){
 
     if(urls.length>0)
         console.log("\t\t :hasURL " + urls.map(e => e.id).join(", ") + " ;")
+
+    return [urls,langs]
 }
 
 function getTags(tags){
@@ -37,51 +44,48 @@ function getUrls(urls){
     })
 }
 
-var langs = new Set()
-var urls = []
-
-var lineReader = readline.createInterface({
-  input: fs.createReadStream(process.argv[2])
-});
-
-lineReader.on('line', function (line) {
-    var jsonLine = JSON.parse(line)
-    
-    console.log(":recording_" + jsonLine.id + " a owl:NamedIndividual, :Recording ;")
-
-    if(jsonLine.annotation!=null){
+async function procElem(jsonLine){
+    if(jsonLine.annotation!=null)
         console.log("\t\t :about " + JSON.stringify(jsonLine.annotation) + " ;")
-    }
 
-    if(jsonLine.disambiguation!=""){
+    if(jsonLine.disambiguation!="")
         console.log("\t\t :disambiguation " + JSON.stringify(jsonLine.disambiguation) + " ;")
-    }
-
-    getRelations(jsonLine.relations)
+    
+    var relationsAux = getRelations(jsonLine.relations)
+    var urls = relationsAux[0]
+    var langs = relationsAux[1]
 
     if(jsonLine['artist-credit']!=null && jsonLine['artist-credit'].length>0){
         var artists = []
-        jsonLine['artist-credit'].forEach(c => {
-            artists.push(":artist_" + c.artist.id)
+        await asyncForEach(jsonLine['artist-credit'], async (c) => {
+            var idArt = await getId("artist",c.artist.id)
+            artists.push(":artist_" + idArt)
         })
         console.log("\t\t :artistCredit " + artists.join(", ") + " ;")
     }
 
-    if(jsonLine.length!=null){
+    if(jsonLine.length!=null)
         console.log("\t\t :duration \"" + jsonLine.length + "\" ;")
-    }
 
-    if(langs.size>0){
+    if(langs.size>0)
         console.log("\t\t :language " + Array.from(langs).join(", ") + " ;")
-        langs = new Set()
-    }
 
-    if(jsonLine.tags!=null && jsonLine.tags.length>>0){
+    if(jsonLine.tags!=null && jsonLine.tags.length>0)
         getTags(jsonLine.tags)
-    }
 
     console.log("\t\t :title " + JSON.stringify(jsonLine.title) + " .\n")
 
     getUrls(urls)
-    urls = []
-})
+}
+
+async function main(){
+    while (line = liner.next()) {
+        var jsonLine = JSON.parse(line)
+
+        var id = await getId("recording",jsonLine.id)
+        console.log(":recording_" + id + " a owl:NamedIndividual, :Recording ;")
+        await procElem(jsonLine)
+    }
+}
+
+main()
