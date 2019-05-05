@@ -16,6 +16,10 @@ require('./auth/auth')
 var auth = require('./auth/auth')
 
 var indexRouter = require('./routes/index')
+var albumAPIRouter = require('./routes/api/album')
+var areaAPIRouter = require('./routes/api/area')
+var artistAPIRouter = require('./routes/api/artist')
+var recordingAPIRouter = require('./routes/api/recording')
 var usersAPIRouter = require('./routes/api/user')
 var usersRouter = require('./routes/users')
 
@@ -69,6 +73,10 @@ app.use(flash())
 app.use("/javascripts/*",auth.isAuthenticated)
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/api/album', albumAPIRouter)
+app.use('/api/area', areaAPIRouter)
+app.use('/api/artist', artistAPIRouter)
+app.use('/api/recording', recordingAPIRouter)
 app.use('/api/user', usersAPIRouter)
 app.use('/users',usersRouter)
 app.use('/', indexRouter)
