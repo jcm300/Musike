@@ -70,7 +70,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   res.status(err.status || 500);
-  res.jsonp('error: ' + res.locals.message + ':\n' + res.locals.error);
+  res.jsonp('ERROR: ' + res.locals.message + ' -> ' + res.locals.error);
 });
 
 module.exports = app;

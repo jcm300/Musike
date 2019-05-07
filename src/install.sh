@@ -5,14 +5,17 @@ if [ $# -eq 1 ]; then
         #Clone rep
         git clone https://github.com/jcm300/Musike.git
 
-        echo "Change the url in variable app.locals.url and root password in app.js, change the private and public key in the folder auth, change the port in bin/www. When done press some letter to continue."
+        echo "Change the private and public key in the folder auth, change the port in bin/www. When done press some letter to continue."
         read -n 1 -p "Continue?";
 
         #start mongoDB
         mongod &
 
+        #start graphDB
+        graphdb &
+
         #Install packages dependencies
-        cd ..
+        cd Musike
         npm install
 
         #Start
@@ -21,16 +24,21 @@ if [ $# -eq 1 ]; then
         #start mongoDB
         mongod &
 
+        #start graphDB
+        graphdb &
+
         #Install packages dependencies
-        cd ..
         npm install
 
         #Start
         npm start
     elif [ $1 = "r" ]; then
         #start mongoDB
-        mongod  & 
+        mongod & 
         
+        #start graphDB
+        graphdb &
+
         #wait to mongoDB start
         sleep 5
 
