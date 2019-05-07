@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Area = require("../../controllers/area") 
+var Area = require("../controllers/area") 
 
 router.get('/:id/aliases', async function(req, res) {
     var data = await Area.getAliases(req.params.id)

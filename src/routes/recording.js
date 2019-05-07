@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Recording = require("../../controllers/recording") 
+var Recording = require("../controllers/recording") 
 
 router.get('/:id/artistsCredit', async function(req, res) {
     var data = await Recording.getArtistsCredit(req.params.id)

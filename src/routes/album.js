@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Album = require("../../controllers/album") 
+var Album = require("../controllers/album") 
 
 router.get('/:id/tags', async function(req, res) {
     var data = await Album.getTags(req.params.id)

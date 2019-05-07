@@ -9,38 +9,19 @@ var uuid = require("uuid/v4")
 var passport = require('passport')
 var session = require("express-session")
 var FileStore = require("session-file-store")(session)
-var flash = require('connect-flash')
-var fs = require('fs')
 
-require('./auth/auth')
-var auth = require('./auth/auth')
-
-var indexRouter = require('./routes/index')
-var albumAPIRouter = require('./routes/api/album')
-var areaAPIRouter = require('./routes/api/area')
-var artistAPIRouter = require('./routes/api/artist')
-var recordingAPIRouter = require('./routes/api/recording')
-var usersAPIRouter = require('./routes/api/user')
-var usersRouter = require('./routes/users')
+var albumAPIRouter = require('./routes/album')
+var areaAPIRouter = require('./routes/area')
+var artistAPIRouter = require('./routes/artist')
+var recordingAPIRouter = require('./routes/recording')
+var usersAPIRouter = require('./routes/user')
 
 var app = express();
-
-//define global variables
-app.locals.url="http://localhost:3000/"
 
 //Database connection
 mongoose.connect("mongodb://127.0.0.1:27017/Musike", {useNewUrlParser: true})
         .then(() => console.log("Mongo status " + mongoose.connection.readyState))
         .catch(() => console.log("Mongo: connection error."))
-
-//create user root if not exists
-//arguments: password 
-//WARNING: Change password!!!!
-auth.createAdmin("musike")
-
-//register logs on json file
-//open file, if not exists create it
-var accessLogStream = fs.createWriteStream(__dirname + '/log.json', {flags: 'a'});
 
 //session configuration
 app.use(session({
@@ -56,10 +37,6 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -69,26 +46,17 @@ app.use(function(req, res, next) {
     next();
 });
 
-//save logs to file in json format
-app.use(logger('{"date": ":date[iso]", "method": ":method", "url": ":url", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "response_time": ":response-time"}', {stream: accessLogStream}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(flash())
 
-//protect files in public folder
-app.use("/javascripts/*",auth.isAuthenticated)
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/api/albums', albumAPIRouter)
-app.use('/api/areas', areaAPIRouter)
-app.use('/api/artists', artistAPIRouter)
-app.use('/api/recordings', recordingAPIRouter)
-app.use('/api/users', usersAPIRouter)
-app.use('/users',usersRouter)
-app.use('/', indexRouter)
+app.use('/albums', albumAPIRouter)
+app.use('/areas', areaAPIRouter)
+app.use('/artists', artistAPIRouter)
+app.use('/recordings', recordingAPIRouter)
+app.use('/users', usersAPIRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -101,9 +69,8 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.jsonp('error: ' + res.locals.message + ':\n' + res.locals.error);
 });
 
 module.exports = app;

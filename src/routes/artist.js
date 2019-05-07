@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Artist = require("../../controllers/artist") 
+var Artist = require("../controllers/artist") 
 
 router.get('/:id/tags', async function(req, res) {
     var data = await Artist.getTags(req.params.id)

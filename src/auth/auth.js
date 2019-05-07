@@ -46,44 +46,5 @@ passport.use("jwt", new JWTstrategy({
 
 //Check if user is authenticated
 module.exports.isAuthenticated = passport.authenticate("jwt", {
-    session: false, 
-    failureRedirect: '/',
-    failureFlash: 'Not Authenticated!',
+    session: false
 })
-
-//if authenticated redirect to main
-module.exports.authenticated = (req,res,next) => passport.authenticate("jwt", {
-    session: false,
-}, (err, session, info) => {
-    if (err) return next(err)
-    if (!session) next()
-    else res.redirect(req.app.locals.url + "main")
-})(req,res,next)
-
-//Verify if user have the necessary permissions to acess page
-//level var is a list with the type of users that have permissions
-module.exports.havePermissions = function(level) {
-    return function(req, res, next) {
-        var size = level.length
-        var haveP = false
-        
-        for(var i=0; i<size; i++)
-            if(level[i]==req.session.type) haveP = true
-        
-        if(haveP) next()
-        else{
-            req.flash('error', "Permission Denied!")
-            res.redirect(req.app.locals.url + "main")
-        }
-    }
-}
-
-//create user root if not exists
-module.exports.createAdmin = async function(password){
-    var admin = await UserController.findOne("root@root")
-    if(admin==null){
-        admin = {name: "root", email: "root@root", password: password, type: "1", approved: true, stats: []}
-        UserController.createUser(admin)
-            .catch(error => console.log("Root user not created " + error))
-    }
-}
