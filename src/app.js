@@ -60,6 +60,15 @@ app.use(passport.session())
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    next();
+});
+
 //save logs to file in json format
 app.use(logger('{"date": ":date[iso]", "method": ":method", "url": ":url", "status": ":status", "result_length": ":res[content-length]", "referrer": ":referrer", "response_time": ":response-time"}', {stream: accessLogStream}));
 app.use(logger('dev'));
@@ -73,11 +82,11 @@ app.use(flash())
 app.use("/javascripts/*",auth.isAuthenticated)
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/album', albumAPIRouter)
-app.use('/api/area', areaAPIRouter)
-app.use('/api/artist', artistAPIRouter)
-app.use('/api/recording', recordingAPIRouter)
-app.use('/api/user', usersAPIRouter)
+app.use('/api/albums', albumAPIRouter)
+app.use('/api/areas', areaAPIRouter)
+app.use('/api/artists', artistAPIRouter)
+app.use('/api/recordings', recordingAPIRouter)
+app.use('/api/users', usersAPIRouter)
 app.use('/users',usersRouter)
 app.use('/', indexRouter)
 

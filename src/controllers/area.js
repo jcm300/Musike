@@ -2,14 +2,33 @@ var axios = require("axios")
 const Area = module.exports
 var execQuery = require("./execQuery.js").execQuery
 
-Area.listAreas = async () => {
+Area.listAreas = async (offset) => {
     const query = `
     select * where {
-        ?s a :Area ;
+        ?id a :Area ;
             :name ?name ;
             :type ?type .
     }
-    order by DESC(?name) DESC(?type)` 
+    order by ASC(?name) ASC(?type)
+    offset ${offset}
+    limit 100`
+    
+    return await execQuery(query)
+}
+
+Area.listAreasByFilter = async (offset,filter) => {
+    filter = filter.replace(/\\'/g,"'")
+    filter = filter.replace(/'/g,"\\'")
+    const query = `
+    select * where {
+        ?id a :Area ;
+            :name ?name ;
+            :type ?type .
+        FILTER regex(?name,'^${filter}.*')
+    }
+    order by ASC(?name) ASC(?type)
+    offset ${offset}
+    limit 100`
     
     return await execQuery(query)
 }
@@ -18,13 +37,21 @@ Area.getArea = async (id) => {
     const query = `
     select * where {
         :${id} :name ?name ;
-            :type ?type ;
-            :alias ?aliases ;
-            :beginDate ?beginDate ;
-            :endDate ?endDate ;
-            :about ?about ;
-            :disambiguation ?disambiguation .
+            :type ?type .
+        OPTIONAL{ :${id} :beginDate ?beginDate . }
+        OPTIONAL{ :${id} :endDate ?endDate . }
+        OPTIONAL{ :${id} :about ?about . }
+        OPTIONAL{ :${id} :disambiguation ?disambiguation . }
     }` 
+    
+    return await execQuery(query)
+}
+
+Area.getAliases = async (id) => {
+    const query = `
+    select * where {
+        :${id} :alias ?alias .
+    }`
     
     return await execQuery(query)
 }
@@ -32,31 +59,33 @@ Area.getArea = async (id) => {
 Area.getPartOf = async (id) => {
     const query = `
     select * where {
-        :${id} :partOf ?area .
-        ?area :name ?name .
-    }` 
+        :${id} :partOf ?id .
+        ?id :name ?name .
+    }
+    order by ASC(?name)` 
     
     return await execQuery(query)
 }
 
-Area.GetParts = async (id) => {
+Area.getParts = async (id) => {
     const query = `
     select * where {
-        :${id} :hasPart ?areas .
-        ?areas :name ?names .
-    }` 
+        :${id} :hasPart ?id .
+        ?id :name ?name .
+    }
+    order by ASC(?name)` 
     
     return await execQuery(query)
 }
 
-Area.GetURLs = async (id) => {
+Area.getURLs = async (id) => {
     const query = `
-    select ?labels ?values where {
-        :${id} :hasURL ?urls .
-        ?urls :label ?labels ;
-            :value ?values .
+    select ?label ?value where {
+        :${id} :hasURL ?url .
+        ?url :label ?label ;
+            :value ?value .
     }
-    order by DESC(?labels)` 
+    order by ASC(?label)` 
     
     return await execQuery(query)
 }

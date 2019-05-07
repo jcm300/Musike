@@ -2,13 +2,31 @@ var axios = require("axios")
 const Recording = module.exports
 var execQuery = require("./execQuery.js").execQuery
 
-Recording.listRecordings = async () => {
+Recording.listRecordings = async (offset) => {
     const query = `
     select * where {
-        ?s a :Recording ;
-            :name ?title .
+        ?id a :Recording ;
+            :title ?title .
     }
-    order by DESC(?title)` 
+    order by ASC(?title)
+    offset ${offset}
+    limit 100` 
+    
+    return await execQuery(query)
+}
+
+Recording.listRecordingsByFilter = async (offset,filter) => {
+    filter = filter.replace(/\\'/g,"'")
+    filter = filter.replace(/'/g,"\\'")
+    const query = `
+    select * where {
+        ?id a :Recording ;
+            :title ?title .
+        FILTER regex(?title,'^${filter}.*')
+    }
+    order by ASC(?title)
+    offset ${offset}
+    limit 100` 
     
     return await execQuery(query)
 }
@@ -16,34 +34,54 @@ Recording.listRecordings = async () => {
 Recording.getRecording = async (id) => {
     const query = `
     select * where {
-        :${id} :title ?title ;
-            :duration ?duration ;
-            :tag ?tags ;
-            :language ?languages ;
-            :about ?about ;
-            :disambiguation ?disambiguation .
+        :${id} :title ?title .
+        OPTIONAL{ :${id} :duration ?duration . }
+        OPTIONAL{ :${id} :about ?about . }
+        OPTIONAL{ :${id} :disambiguation ?disambiguation . }
     }` 
     
     return await execQuery(query)
 }
 
-Recording.GetURLs = async (id) => {
+Recording.getLanguages = async (id) => {
     const query = `
-    select ?labels ?values where {
-        :${id} :hasURL ?urls .
-        ?urls :label ?labels ;
-            :value ?values .
+    select * where {
+        :${id} :language ?language .
     }
-    order by DESC(?labels)` 
+    order by ASC(?language)`
     
     return await execQuery(query)
 }
 
-Recording.GetArtistsCredit = async (id) => {
+Recording.getTags = async (id) => {
     const query = `
     select * where {
-        :${id} :artistCredit ?artists .
-    }`
+        :${id} :tag ?tag .
+    }
+    order by ASC(?tag)`
+    
+    return await execQuery(query)
+}
+
+Recording.getURLs = async (id) => {
+    const query = `
+    select ?label ?value where {
+        :${id} :hasURL ?url .
+        ?url :label ?label ;
+            :value ?value .
+    }
+    order by ASC(?label)` 
+    
+    return await execQuery(query)
+}
+
+Recording.getArtistsCredit = async (id) => {
+    const query = `
+    select * where {
+        :${id} :artistCredit ?id .
+        ?id :name ?name .
+    }
+    order by ASC(?name)`
     
     return await execQuery(query)
 }

@@ -2,13 +2,31 @@ var axios = require("axios")
 const Album = module.exports
 var execQuery = require("./execQuery.js").execQuery
 
-Album.listAlbums = async () => {
+Album.listAlbums = async (offset) => {
     const query = `
     select * where {
-        ?s a :Album ;
+        ?id a :Album ;
             :title ?title.
     }
-    order by DESC(?title)` 
+    order by ASC(?title)
+    offset ${offset}
+    limit 100` 
+    
+    return await execQuery(query)
+}
+
+Album.listAlbumsByFilter = async (offset,filter) => {
+    filter = filter.replace(/\\'/g,"'")
+    filter = filter.replace(/'/g,"\\'")
+    const query = `
+    select * where {
+        ?id a :Album ;
+            :title ?title.
+        FILTER regex(?title,'^${filter}.*')
+    }
+    order by ASC(?title)
+    offset ${offset}
+    limit 100` 
     
     return await execQuery(query)
 }
@@ -16,53 +34,57 @@ Album.listAlbums = async () => {
 Album.getAlbum = async (id) => {
     const query = `
     select * where {
-        :${id} :title ?title ;
-            :firstReleaseDate ?firstReleaseDate ;
-            :about ?about ;
-            :disambiguation ?disambiguation .
+        :${id} :title ?title .
+        OPTIONAL{ :${id} :firstReleaseDate ?firstReleaseDate . }
+        OPTIONAL{ :${id} :about ?about . }
+        OPTIONAL{ :${id} :disambiguation ?disambiguation . }
     }` 
     
     return await execQuery(query)
 }
 
-Album.GetURLs = async (id) => {
+Album.getURLs = async (id) => {
     const query = `
-    select ?labels ?values where {
-        :${id} :hasURL ?urls .
-        ?urls :label ?labels ;
-            :value ?values .
+    select ?label ?value where {
+        :${id} :hasURL ?url .
+        ?url :label ?label ;
+            :value ?value .
     }
-    order by DESC(?labels)` 
+    order by ASC(?label)` 
     
     return await execQuery(query)
 }
 
-Album.GetTracks = async (id) => {
+Album.getTracks = async (id) => {
     const query = `
     select * where {
-        :${id} :hasTracks ?tracks .
-    }`
+        :${id} :hasTrack ?id .
+        ?id :title ?title .
+    }
+    order by ASC(?title)`
     
     return await execQuery(query)
 }
 
-Album.GetTags = async (id) => {
+Album.getTags = async (id) => {
     const query = `
-    select ?tags where {
-        :${id} :hasTracks ?tracks .
-        ?tracks :tag ?tags .
-    }`
+    select ?tag where {
+        :${id} :hasTrack ?track .
+        ?track :tag ?tag .
+    }
+    order by ASC(?tag)`
     
     return await execQuery(query)
 }
 
-Album.GetArtistsCredit = async (id) => {
+Album.getArtistsCredit = async (id) => {
     const query = `
-    select ?artists ?names where {
-        :${id} :hasTracks ?tracks .
-        ?tracks :artistCredit ?artists ;
-            :name ?names .
-    }`
+    select ?id ?name where {
+        :${id} :hasTrack ?track .
+        ?track :artistCredit ?id ;
+            :name ?name .
+    }
+    order by ASC(?name)`
     
     return await execQuery(query)
 }
