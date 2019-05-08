@@ -3,25 +3,25 @@ var router = express.Router();
 var Users = require("../controllers/user")
 var auth = require("../auth/auth")
 
-router.get('/:id', auth.isAuthenticated, function(req, res) {
+router.get('/:id', /*auth.isAuthenticated,*/ function(req, res) {
     Users.getUser(req.params.id)
         .then(data => res.jsonp(data))
         .catch(error => res.status(500).jsonp(error))
 });
 
-router.get('/', auth.isAuthenticated, function(req, res) {
+router.get('/', /*auth.isAuthenticated,*/ function(req, res) {
     Users.list()
         .then(data => res.jsonp(data))
         .catch(error => res.status(500).jsonp(error))
 });
 
-router.post('/', auth.isAuthenticated, function(req, res) {
+router.post('/', /*auth.isAuthenticated,*/ function(req, res) {
     Users.createUser(req.body)
         .then(data => res.jsonp(data))
         .catch(error => res.status(500).jsonp(error))
 });
 
-router.put('/updPass/:id', auth.isAuthenticated, function(req, res) {
+router.put('/updPass/:id', /*auth.isAuthenticated,*/ function(req, res) {
     if(req.params.id==req.session._id){
         Users.updatePassword(req.params.id,req.body.prevPass,req.body.newPass)
             .then(data => res.jsonp(data))
@@ -31,13 +31,31 @@ router.put('/updPass/:id', auth.isAuthenticated, function(req, res) {
     }
 });
 
-router.put('/:id', auth.isAuthenticated, function(req, res) {
+router.put('/:id', /*auth.isAuthenticated,*/ function(req, res) {
     Users.updateUser(req.params.id,req.body)
         .then(data => res.jsonp(data))
         .catch(error => res.status(500).jsonp(error))
 });
 
-router.delete('/:id', auth.isAuthenticated, function(req, res) {
+router.put('/views/:id', /*auth.isAuthenticated,*/ function(req, res) {
+    Users.updateViews(req.params.id,req.body.idMusic)
+        .then(data => res.jsonp(data))
+        .catch(error => res.status(500).jsonp(error))
+});
+
+router.put('/rating/:id', /*auth.isAuthenticated,*/ function(req, res) {
+    Users.updateRating(req.params.id,req.body.idMusic,parseInt(req.body.rating))
+        .then(data => res.jsonp(data))
+        .catch(error => res.status(500).jsonp(error))
+});
+
+router.put('/delStat/:id', /*auth.isAuthenticated,*/ function(req, res) {
+    Users.deleteStat(req.params.id)
+        .then(data => res.jsonp(data))
+        .catch(error => res.status(500).jsonp(error))
+});
+
+router.delete('/:id', /*auth.isAuthenticated,*/ function(req, res) {
     Users.deleteUser(req.params.id)
         .then(data => res.jsonp(data))
         .catch(error => res.status(500).jsonp(error))

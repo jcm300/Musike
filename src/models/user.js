@@ -1,9 +1,11 @@
 var mongoose = require("mongoose")
 var Schema = mongoose.Schema
 
-var StatisticsSchema = new Schema(
+var musicStatisticsSchema = new Schema(
     {
-        views: {type: Number}
+        id: {type: String, required: true},
+        views: {type: Number},
+        rating: {type: Number}
     }
 )
 
@@ -12,7 +14,7 @@ var UserSchema = new Schema(
         name: {type: String, required: true},
         email: {type: String, required: true, index: {unique: true}},
         password: {type: String, required: true},
-        stats: {type: [StatisticsSchema]}
+        stats: {type: [musicStatisticsSchema]}
     }
 )
 

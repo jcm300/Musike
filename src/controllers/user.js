@@ -34,7 +34,7 @@ Users.createUser = user => {
 
 Users.updateUser = (id, user) => {
     return User
-        .findOneAndUpdate({_id: id}, {$set: {name: user.name, email: user.email, type: user.type}}, {useFindAndModify: false})
+        .findOneAndUpdate({_id: id}, {$set: {name: user.name, email: user.email}}, {useFindAndModify: false})
         .exec()
 }
 
@@ -52,4 +52,31 @@ Users.deleteUser = id => {
     return User
         .findOneAndDelete({_id: id})
         .exec()
+}
+
+Users.updateViews = async (id, idMusic) => {
+    var user = await User.findOne({_id: new mongoose.Types.ObjectId(id), stats: { $elemMatch: { id: idMusic} }})
+    if(user){
+        return User
+            .findOneAndUpdate({ _id: id, stats: { $elemMatch: { id: idMusic} } },{ $inc: {"stats.$.views": 1} }, {useFindAndModify: false} )
+    }else{
+        return User
+            .findOneAndUpdate({ _id: id },{ $push: {stats: {id: idMusic, views: 1, rating: 0}} }, {useFindAndModify: false} )
+    }
+}
+
+Users.updateRating = async (id, idMusic, rating) => {
+    var user = await User.findOne({_id: new mongoose.Types.ObjectId(id), stats: { $elemMatch: { id: idMusic} }})
+    if(user){
+        return User
+            .findOneAndUpdate({ _id: id, stats: { $elemMatch: { id: idMusic} } },{ $set: {"stats.$.rating": rating } }, {useFindAndModify: false} )
+    }else{
+        return User
+            .findOneAndUpdate({ _id: id },{ $push: {stats: {id: idMusic, views: 0, rating: rating}} }, {useFindAndModify: false} )
+    }
+}
+
+Users.deleteStat = idMusic => {
+    return User
+        .updateMany({},{ $pull: {stats: { id: idMusic}}},{useFindAndModify: false})
 }

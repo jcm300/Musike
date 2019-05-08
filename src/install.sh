@@ -8,21 +8,23 @@ if [ $# -eq 1 ]; then
         echo "Change the private and public key in the folder auth, change the port in bin/www. When done press some letter to continue."
         read -n 1 -p "Continue?";
 
+        cd Musike
+        mkdir mongoDB
         #start mongoDB
-        mongod &
+        mongod --dbpath ./mongoDB/ &
 
         #start graphDB
         graphdb &
 
         #Install packages dependencies
-        cd Musike
         npm install
 
         #Start
         npm start
     elif [ $1 = "i" ]; then
+        mkdir mongoDB
         #start mongoDB
-        mongod &
+        mongod --dbpath ./mongoDB/ &
 
         #start graphDB
         graphdb &
@@ -34,7 +36,7 @@ if [ $# -eq 1 ]; then
         npm start
     elif [ $1 = "r" ]; then
         #start mongoDB
-        mongod & 
+        mongod --dbpath ./mongoDB/ & 
         
         #start graphDB
         graphdb &
