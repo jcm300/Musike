@@ -4,13 +4,27 @@
             <v-flex xs12 sm6>
                 <div class="text-xs-center">
                     <v-img
-                        height="200"
+                        height="100"
                         src="static/favicon.png"
                         contain
                     ></v-img>
                     <h1><strong>Musike</strong></h1>
+                    <br>
+                    <br>
+                    <br>
+                    <h2>Sign Up</h2>
                 </div>
                 <v-form>
+                    <v-text-field
+                        v-model="name"
+                        label="Name"
+                        name="name"
+                        @input="$v.name.$touch(); valid=!$v.$invalid"
+                        :error-messages="nameErrors"
+                        outline
+                        clearable
+                        required
+                    ></v-text-field>
                     <v-text-field
                         v-model="email"
                         label="E-mail"
@@ -34,16 +48,23 @@
                         clearable
                         required
                     ></v-text-field>
+                    <v-text-field
+                        v-model="repeatPassword"
+                        :append-icon="show ? 'visibility' : 'visibility_off'"
+                        :type="show ? 'text' : 'password'"
+                        label="Repeat Password"
+                        @click:append="show = !show"
+                        @input="$v.repeatPassword.$touch(); valid=!$v.$invalid"
+                        name="repeatPassword"
+                        :error-messages="repeatPasswordErrors"
+                        outline
+                        clearable
+                        required
+                    ></v-text-field>
                     <div class="text-xs-center">
                         <v-btn
                             :disabled="!valid"
                             color="success"
-                            @click="logIn"
-                        >
-                            Log In
-                        </v-btn>
-                        <v-btn
-                            color="info"
                             @click="signUp"
                         >
                             Sign Up
@@ -51,18 +72,10 @@
                     </div>
                 </v-form>
                 <v-alert
-                    v-if="$route.query.signup=='true'"
-                    :value="true"
-                    type="success"
-                    @click="$router.push('/')"
-                    dismissible
-                >
-                    Sign Up successfully!
-                </v-alert>
-                <v-alert
                     v-if="error!=''"
                     :value="true"
                     type="error"
+                    @click="error=false"
                     dismissible
                 >
                     {{ error }}
@@ -74,26 +87,36 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import { required, email } from 'vuelidate/lib/validators'
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 var axios = require('axios')
 var auth = require('./auth.js')
 
 export default {
   mixins: [validationMixin],
   validations: {
+    name: { required },
     email: { required, email },
-    password: { required }
+    password: { required, minLength: minLength(8) },
+    repeatPassword: { required, minLength: minLength(8), sameAs: sameAs('password') }
   },
 
   data: () => ({
+    name: '',
     email: '',
     password: '',
+    repeatPassword: '',
     show: false,
     valid: false,
     error: ''
   }),
 
   computed: {
+    nameErrors () {
+      const errors = []
+      if (!this.$v.name.$dirty) return errors
+      !this.$v.name.required && errors.push('Name is required')
+      return errors
+    },
     emailErrors () {
       const errors = []
       if (!this.$v.email.$dirty) return errors
@@ -105,6 +128,15 @@ export default {
       const errors = []
       if (!this.$v.password.$dirty) return errors
       !this.$v.password.required && errors.push('Password is required')
+      !this.$v.password.minLength && errors.push('Password must have at least 8 characters')
+      return errors
+    },
+    repeatPasswordErrors () {
+      const errors = []
+      if (!this.$v.repeatPassword.$dirty) return errors
+      !this.$v.repeatPassword.required && errors.push('Password is required')
+      !this.$v.password.minLength && errors.push('Password must have at least 8 characters')
+      !this.$v.repeatPassword.sameAs && errors.push('Password must match')
       return errors
     }
   },
@@ -118,30 +150,17 @@ export default {
   },
 
   methods: {
-    logIn () {
-      this.$v.$touch()
-      this.valid = !this.$v.$invalid
-      if (this.valid) {
-        axios.post(this.$urlAPI + '/users/login',
-          'email=' + encodeURIComponent(this.email) + '&' +
-          'password=' + encodeURIComponent(this.password), {
-            headers: {
-              'Content-type': 'application/x-www-form-urlencoded'
-            }
-          })
-          .then(response => {
-            const token = response.data
-            localStorage.setItem('user-token', token)
-            this.$router.push('/index')
-          })
-          .catch(() => {
-            this.error = 'Email or password incorrect!'
-            localStorage.removeItem('user-token')
-          })
-      }
-    },
     signUp () {
-      this.$router.push('/signup')
+      axios.post(this.$urlAPI + '/users',
+        'name=' + encodeURIComponent(this.name) + '&' +
+        'email=' + encodeURIComponent(this.email) + '&' +
+        'password=' + encodeURIComponent(this.password), {
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+          }
+        })
+        .then(response => this.$router.push('/?signup=true'))
+        .catch(() => { this.error = 'Maybe email already exists? Try again!' })
     }
   }
 }

@@ -5,7 +5,11 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+Vue.prototype.$urlAPI = 'http://localhost:3000'
+Vue.prototype.$token = ''
+
 new Vue({
   router,
+  data: '',
   render: h => h(App)
 }).$mount('#app')
