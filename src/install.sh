@@ -41,6 +41,7 @@ if [ $# -eq 1 ]; then
         npm install
         npm run serve
     elif [ $1 = "r" ]; then
+        mkdir mongoDB
         #start mongoDB
         mongod --dbpath ./mongoDB/ & 
         
