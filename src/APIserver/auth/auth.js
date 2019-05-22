@@ -11,7 +11,6 @@ passport.use("login", new localStrategy({
     try{
         user = await UserController.findOne(email)
         if(!user) return done(null, false, {message: "User not found!"})
-        if(!user.approved) return done(null, false, {message: "Account not approved by admin!"})
         var valid = await UserController.isValidPassword(password, user.password)
         if(!valid) return done(null, false, {message: "Invalid Password!"})
 
@@ -26,16 +25,10 @@ var JWTstrategy = require("passport-jwt").Strategy
 var ExtractJWT = require("passport-jwt").ExtractJwt
 var fs = require("fs")
 
-var extractFromSession = function(req){
-    var token = null
-    if(req && req.session) token = req.session.token
-    return token
-}
-
 passport.use("jwt", new JWTstrategy({
     secretOrKey: fs.readFileSync("./auth/public.key", "utf8"),
     algorithms: ["RS256"],
-    jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession])
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken()
 }, async (token, done) => {
     try{
         return done(null, token.user)

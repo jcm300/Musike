@@ -5,10 +5,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var mongoose = require("mongoose")
-var uuid = require("uuid/v4")
 var passport = require('passport')
-var session = require("express-session")
-var FileStore = require("session-file-store")(session)
 
 var albumAPIRouter = require('./routes/album')
 var areaAPIRouter = require('./routes/area')
@@ -23,19 +20,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/Musike", {useNewUrlParser: true})
         .then(() => console.log("Mongo status " + mongoose.connection.readyState))
         .catch(() => console.log("Mongo: connection error."))
 
-//session configuration
-app.use(session({
-  genid: () => {
-    return uuid()
-  },
-  store: new FileStore(),
-  secret: "^Qn//'8_hY5RxS*{",
-  resave: false,
-  saveUninitialized: true
-}))
-
 app.use(passport.initialize())
-app.use(passport.session())
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

@@ -89,7 +89,7 @@ Artist.getRecordings = async (id) => {
 
 Artist.getTags = async (id) => {
     const query = `
-    select ?tag where {
+    select distinct ?tag where {
         ?recording a :Recording ;
             :artistCredit :${id} ;
             :tag ?tag .
@@ -101,7 +101,7 @@ Artist.getTags = async (id) => {
 
 Artist.getAlbums = async (id) => {
     const query = `
-    select ?album ?title where {
+    select distinct ?id ?title where {
         ?recording a :Recording ;
             :artistCredit :${id} .
         ?id :hasTrack ?recording ;

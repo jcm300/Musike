@@ -68,7 +68,7 @@ Album.getTracks = async (id) => {
 
 Album.getTags = async (id) => {
     const query = `
-    select ?tag where {
+    select distinct ?tag where {
         :${id} :hasTrack ?track .
         ?track :tag ?tag .
     }
@@ -79,10 +79,10 @@ Album.getTags = async (id) => {
 
 Album.getArtistsCredit = async (id) => {
     const query = `
-    select ?id ?name where {
+    select distinct ?id ?name where {
         :${id} :hasTrack ?track .
-        ?track :artistCredit ?id ;
-            :name ?name .
+        ?track :artistCredit ?id .
+        ?id :name ?name .
     }
     order by ASC(?name)`
     

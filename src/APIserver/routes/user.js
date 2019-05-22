@@ -2,6 +2,13 @@ var express = require('express');
 var router = express.Router();
 var Users = require("../controllers/user")
 var auth = require("../auth/auth")
+var passport = require("passport")
+const jwt = require("jsonwebtoken")
+var fs = require("fs")
+
+router.get('/isAuthenticated', auth.isAuthenticated, function(req, res) {
+    res.jsonp("Authenticated")
+})
 
 router.get('/:id', /*auth.isAuthenticated,*/ function(req, res) {
     Users.getUser(req.params.id)
@@ -9,10 +16,34 @@ router.get('/:id', /*auth.isAuthenticated,*/ function(req, res) {
         .catch(error => res.status(500).jsonp(error))
 });
 
-router.get('/', /*auth.isAuthenticated,*/ function(req, res) {
+router.get('/', auth.isAuthenticated, function(req, res) {
     Users.list()
         .then(data => res.jsonp(data))
         .catch(error => res.status(500).jsonp(error))
+});
+
+router.post('/login', /*auth.authenticated,*/ async (req, res, next) => {
+    passport.authenticate("login", async (err, user, info) => {
+        try{
+            if(err || !user) {
+                if(!user) {
+                    console.log(info.message)
+                    res.status(500).jsonp(info.message)
+                }else return next(err)
+            }else{
+                req.login(user, {session: false}, async (error) => {
+                    if(error) return next(error)
+                    var myuser = {_id: user._id, email: user.email}
+                    //Token Generation
+                    var privateKey = fs.readFileSync("./auth/private.key", "utf8")
+                    var token = jwt.sign({user: myuser}, privateKey, {expiresIn: '30m', algorithm: "RS256"})
+                    res.jsonp(token)
+                })
+            }
+        }catch(error){
+            return next(error)
+        }
+    })(req,res,next)
 });
 
 router.post('/', /*auth.isAuthenticated,*/ function(req, res) {

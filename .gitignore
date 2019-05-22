@@ -1,6 +1,7 @@
 debug/**
 **/node_modules/**
 **/sessions/**
+**/mongoDB/**
 
 **/.DS_Store
 **/dist
