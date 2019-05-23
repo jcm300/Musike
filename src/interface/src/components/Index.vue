@@ -20,20 +20,28 @@
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
 
-                    <v-btn icon>
-                        <v-icon>search</v-icon>
+                    <v-btn flat>
+                        Albums
                     </v-btn>
 
-                    <v-btn icon>
-                        <v-icon>apps</v-icon>
+                    <v-btn flat>
+                        Recordings
                     </v-btn>
 
-                    <v-btn icon>
-                        <v-icon>refresh</v-icon>
+                    <v-btn flat>
+                        Artists
                     </v-btn>
 
-                    <v-btn icon>
-                        <v-icon>more_vert</v-icon>
+                    <v-btn flat>
+                        Areas
+                    </v-btn>
+
+                    <v-btn flat>
+                        User Settings
+                    </v-btn>
+
+                    <v-btn @click="logout" flat>
+                        Logout
                     </v-btn>
                 </v-toolbar>
             </v-flex>
@@ -42,38 +50,22 @@
 </template>
 
 <script>
-import { validationMixin } from 'vuelidate'
-import { required, email } from 'vuelidate/lib/validators'
 var axios = require('axios')
 var auth = require('./auth.js')
 
 export default {
-  mixins: [validationMixin],
-  validations: {
-    email: { required, email },
-    password: { required }
-  },
 
   data: () => ({
-    email: '',
-    password: '',
-    show: false,
-    valid: false,
-    error: ''
   }),
 
   computed: {
   },
 
-  mounted: function () {
-    auth.isAuthenticated(this.$urlAPI, (isAuth) => {
-      if (!isAuth) {
-        this.$router.push('/')
-      }
-    })
-  },
-
   methods: {
+    logout () {
+      auth.logout()
+      this.$router.push('/')
+    }
   }
 }
 </script>

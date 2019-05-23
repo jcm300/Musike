@@ -89,7 +89,6 @@
 import { validationMixin } from 'vuelidate'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 var axios = require('axios')
-var auth = require('./auth.js')
 
 export default {
   mixins: [validationMixin],
@@ -139,14 +138,6 @@ export default {
       !this.$v.repeatPassword.sameAs && errors.push('Password must match')
       return errors
     }
-  },
-
-  mounted: function () {
-    auth.isAuthenticated(this.$urlAPI, (isAuth) => {
-      if (isAuth) {
-        this.$router.push('/index')
-      }
-    })
   },
 
   methods: {
