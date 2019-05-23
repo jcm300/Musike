@@ -23,6 +23,7 @@ passport.use("login", new localStrategy({
 //Token Verification
 var JWTstrategy = require("passport-jwt").Strategy
 var ExtractJWT = require("passport-jwt").ExtractJwt
+const jwt = require("jsonwebtoken")
 var fs = require("fs")
 
 passport.use("jwt", new JWTstrategy({
@@ -41,3 +42,10 @@ passport.use("jwt", new JWTstrategy({
 module.exports.isAuthenticated = passport.authenticate("jwt", {
     session: false
 })
+
+module.exports.genToken = function(id, email){
+    var myuser = {_id: id, email: email}
+    var privateKey = fs.readFileSync("./auth/private.key", "utf8")
+    var token = jwt.sign({user: myuser}, privateKey, {expiresIn: '30m', algorithm: "RS256"})
+    return token
+}

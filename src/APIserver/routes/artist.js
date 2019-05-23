@@ -1,38 +1,39 @@
 var express = require('express');
 var router = express.Router();
 var Artist = require("../controllers/artist") 
+var auth = require("../auth/auth")
 
-router.get('/:id/tags', async function(req, res) {
+router.get('/:id/tags', auth.isAuthenticated, async function(req, res) {
     var data = await Artist.getTags(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/:id/albums', async function(req, res) {
+router.get('/:id/albums', auth.isAuthenticated, async function(req, res) {
     var data = await Artist.getAlbums(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/:id/recordings', async function(req, res) {
+router.get('/:id/recordings', auth.isAuthenticated, async function(req, res) {
     var data = await Artist.getRecordings(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/:id/urls', async function(req, res) {
+router.get('/:id/urls', auth.isAuthenticated, async function(req, res) {
     var data = await Artist.getURLs(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/:id/aliases', async function(req, res) {
+router.get('/:id/aliases', auth.isAuthenticated, async function(req, res) {
     var data = await Artist.getAliases(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/:id', async function(req, res) {
+router.get('/:id', auth.isAuthenticated, async function(req, res) {
     var data = await Artist.getArtist(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/', async function(req, res) {
+router.get('/', auth.isAuthenticated, async function(req, res) {
     var data
     if(req.query.filter){
         if(req.query.offset)

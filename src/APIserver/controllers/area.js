@@ -89,3 +89,15 @@ Area.getURLs = async (id) => {
     
     return await execQuery(query)
 }
+
+Area.getArtists = async (id) => {
+    const query = `
+    select distinct ?id ?name where {
+        ?id a :Artist;
+            :from :${id};
+            :name ?name .
+    }
+    order by ASC(?name)`
+
+    return await execQuery(query)
+}

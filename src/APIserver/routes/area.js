@@ -1,33 +1,39 @@
 var express = require('express');
 var router = express.Router();
 var Area = require("../controllers/area") 
+var auth = require("../auth/auth")
 
-router.get('/:id/aliases', async function(req, res) {
+router.get('/:id/aliases', auth.isAuthenticated, async function(req, res) {
     var data = await Area.getAliases(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/:id/urls', async function(req, res) {
+router.get('/:id/artists', auth.isAuthenticated, async function(req, res) {
+    var data = await Area.getArtists(req.params.id)
+    res.jsonp(data)
+});
+
+router.get('/:id/urls', auth.isAuthenticated, async function(req, res) {
     var data = await Area.getURLs(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/:id/parts', async function(req, res) {
+router.get('/:id/parts', auth.isAuthenticated, async function(req, res) {
     var data = await Area.getParts(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/:id/partOf', async function(req, res) {
+router.get('/:id/partOf', auth.isAuthenticated, async function(req, res) {
     var data = await Area.getPartOf(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/:id', async function(req, res) {
+router.get('/:id', auth.isAuthenticated, async function(req, res) {
     var data = await Area.getArea(req.params.id)
     res.jsonp(data)
 });
 
-router.get('/', async function(req, res) {
+router.get('/', auth.isAuthenticated, async function(req, res) {
     var data
     if(req.query.filter){
         if(req.query.offset)
