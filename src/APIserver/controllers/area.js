@@ -11,7 +11,7 @@ Area.listAreas = async (offset) => {
     }
     order by ASC(?name) ASC(?type)
     offset ${offset}
-    limit 100`
+    limit 50`
     
     return await execQuery(query)
 }
@@ -28,7 +28,7 @@ Area.listAreasByFilter = async (offset,filter) => {
     }
     order by ASC(?name) ASC(?type)
     offset ${offset}
-    limit 100`
+    limit 50`
     
     return await execQuery(query)
 }

@@ -10,7 +10,7 @@ Recording.listRecordings = async (offset) => {
     }
     order by ASC(?title)
     offset ${offset}
-    limit 100` 
+    limit 50` 
     
     return await execQuery(query)
 }
@@ -26,7 +26,7 @@ Recording.listRecordingsByFilter = async (offset,filter) => {
     }
     order by ASC(?title)
     offset ${offset}
-    limit 100` 
+    limit 50` 
     
     return await execQuery(query)
 }
