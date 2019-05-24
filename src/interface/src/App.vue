@@ -3,7 +3,7 @@
         <v-content>
             <router-view/>
         </v-content>
-        <v-footer height="auto" >
+        <v-footer height="auto" fixed app>
             <v-card
                 class="flex"
                 flat
@@ -47,3 +47,7 @@ export default {
   })
 }
 </script>
+
+<style>
+
+</style>
