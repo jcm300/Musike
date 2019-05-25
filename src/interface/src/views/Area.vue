@@ -1,16 +1,16 @@
 <template>
     <div v-if="renderPage">
-        <UserSettings :id="$route.params.id" />
+        <Area :id="$route.params.id" />
     </div>
 </template>
 
 <script>
-import UserSettings from '../components/UserSettings'
+import Area from '../components/Area'
 var auth = require('../components/auth.js')
 
 export default {
   components: {
-    UserSettings
+    Area
   },
 
   data: () => ({

@@ -22,7 +22,7 @@
                     >
                         <v-list-tile-avatar>
                             <!--<img src="">-->
-                            <v-icon color="deep-orange lighten-1">fas fa-compact-disc</v-icon>
+                            <v-icon color="deep-orange lighten-1">fas fa-map-marker-alt</v-icon>
                         </v-list-tile-avatar>
 
                         <v-list-tile-content>

@@ -43,9 +43,29 @@ export default new Router({
       component: () => import('./views/Recordings.vue')
     },
     {
-      path: '/userSettings',
+      path: '/userSettings/:id',
       name: 'UserSettings',
       component: () => import('./views/UserSettings.vue')
+    },
+    {
+      path: '/albums/:id',
+      name: 'Album',
+      component: () => import('./views/Album.vue')
+    },
+    {
+      path: '/artists/:id',
+      name: 'Artist',
+      component: () => import('./views/Artist.vue')
+    },
+    {
+      path: '/areas/:id',
+      name: 'Area',
+      component: () => import('./views/Area.vue')
+    },
+    {
+      path: '/recordings/:id',
+      name: 'Recording',
+      component: () => import('./views/Recording.vue')
     }
   ]
 })
