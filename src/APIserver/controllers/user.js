@@ -70,6 +70,22 @@ Users.getMoreRecordingsViewsUser = async id => {
     return sorted.slice(0,10)
 }
 
+//get user rating for a recording
+Users.getRecordingUserRating = async (id, idRec) => {
+    var user = await User.findOne({_id: id})
+    var founded = false
+    var value = 0
+
+    for(var i=0; i < user.stats.length && !founded; i++){
+        if(user.stats[i].id == idRec){
+            value = user.stats[i].rating
+            founded = true
+        }
+    }
+
+    return value
+}
+
 Users.updateViews = async (id, idMusic) => {
     var user = await User.findOne({_id: new mongoose.Types.ObjectId(id), stats: { $elemMatch: { id: idMusic} }})
     if(user){

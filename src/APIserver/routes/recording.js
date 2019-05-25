@@ -3,6 +3,11 @@ var router = express.Router();
 var Recording = require("../controllers/recording") 
 var auth = require("../auth/auth")
 
+router.get('/:id/albums', auth.isAuthenticated, async function(req, res) {
+    var data = await Recording.getAlbums(req.params.id)
+    res.jsonp(data)
+});
+
 router.get('/:id/artistsCredit', auth.isAuthenticated, async function(req, res) {
     var data = await Recording.getArtistsCredit(req.params.id)
     res.jsonp(data)

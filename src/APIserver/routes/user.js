@@ -21,9 +21,15 @@ router.get('/:id/statsMore', auth.isAuthenticated, function(req, res) {
 
 router.get('/:id/stats', auth.isAuthenticated, function(req, res) {
     if(req.params.id==req.user._id){
-        Users.getRecordingsUser(req.params.id)
-            .then(data => res.jsonp(data))
-            .catch(error => res.status(500).jsonp(error))
+        if(req.query.idRec!=null){
+            Users.getRecordingUserRating(req.params.id,req.query.idRec)
+                .then(data => res.jsonp(data))
+                .catch(error => res.status(500).jsonp(error))           
+        }else{
+            Users.getRecordingsUser(req.params.id)
+                .then(data => res.jsonp(data))
+                .catch(error => res.status(500).jsonp(error))
+        }
     }else{
         res.status(403).jsonp("You cannot access info from another user!")
     }
@@ -63,7 +69,7 @@ router.post('/login', async (req, res, next) => {
                 req.login(user, {session: false}, async (error) => {
                     if(error) return next(error)
                     var token = auth.genToken(user._id,user.email)
-                    res.jsonp(token)
+                    res.jsonp({id: user._id, token: token})
                 })
             }
         }catch(error){
@@ -132,14 +138,16 @@ router.put('/delStat/:id', auth.isAuthenticated, function(req, res) {
 router.delete('/:id', auth.isAuthenticated, function(req, res) {
     if(req.params.id==req.user._id){
         Users.deleteUser(req.params.id)
-            .then(async data => {
+            .then(data => {
                 var stats = data.stats
+                var promises = []
                 for(var i=0; i<stats.length; i++)
-                    await Stats.createOrUpdate(stats[i])
-                console.log(JSON.stringify(data))
-                res.jsonp(data)
+                    promises.push(Stats.createOrUpdate(stats[i]))
+                Promise.all(promises)
+                    .then(responses => res.jsonp(responses))
+                    .catch(error => {console.log("AQUI2"); res.status(500).jsonp(error)})
             })
-            .catch(error => res.status(500).jsonp(error))
+            .catch(error => {console.log("AQUI"); res.status(500).jsonp(error)})
     }else{
         res.status(403).jsonp("You have no permission to delete another user!")
     }

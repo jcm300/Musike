@@ -85,3 +85,14 @@ Recording.getArtistsCredit = async (id) => {
     
     return await execQuery(query)
 }
+
+Recording.getAlbums = async (id) => {
+    const query = `
+    select distinct * where {
+        ?id :hasTrack :${id} ;
+            :title ?title .
+    }
+    order by ASC(?title)`
+    
+    return await execQuery(query)
+}

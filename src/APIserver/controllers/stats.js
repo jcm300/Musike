@@ -5,14 +5,21 @@ var mongoose = require("mongoose")
 const Stats = module.exports
 
 Stats.createOrUpdate = async (stat) => {
-    var statM = await Stat.findOne({_id: new mongoose.    Types.ObjectId(stat.id)})
+    var statM = await Stat.findOne({_id: new mongoose.Types.ObjectId(stat.id)})
     if(statM != null){
-        var newAvgRating = (statM.avgRating * statM.nRating + stat.rating) / (statM.nRating + 1)
+        if(stat.rating>0){
+            statM.nRating++
+        }
+        var newAvgRating = (statM.avgRating * statM.nRating + stat.rating) / (statM.nRating)
         return Stat
-            .findOneAndUpdate({_id: stat.id}, {$set: {views: statM.views + stat.views, avgRating: newAvgRating, nRating: statM.nRating + 1}}, {useFindAndModify: false})
+            .findOneAndUpdate({_id: stat.id}, {$set: {views: statM.views + stat.views, avgRating: newAvgRating, nRating: statM.nRating}}, {useFindAndModify: false})
             .exec()
     }else{
-        var newStat = {_id: new mongoose.Types.ObjectId(stat.id), views: stat.views, avgRating: stat.rating, nRating: 1}
+        if(stat.rating>0){
+            var newStat = {_id: stat.id, views: stat.views, avgRating: stat.rating, nRating: 1}
+        }else{
+            var newStat = {_id: stat.id, views: stat.views, avgRating: stat.rating, nRating: 0}
+        }
         return Stat.create(newStat)
     }
 }

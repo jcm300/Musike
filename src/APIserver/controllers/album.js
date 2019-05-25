@@ -57,9 +57,10 @@ Album.getURLs = async (id) => {
 
 Album.getTracks = async (id) => {
     const query = `
-    select * where {
+    select distinct * where {
         :${id} :hasTrack ?id .
-        ?id :title ?title .
+        ?id :title ?title ;
+            :duration ?duration .
     }
     order by ASC(?title)`
     
