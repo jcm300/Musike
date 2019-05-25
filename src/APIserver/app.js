@@ -12,6 +12,8 @@ var areaAPIRouter = require('./routes/area')
 var artistAPIRouter = require('./routes/artist')
 var recordingAPIRouter = require('./routes/recording')
 var usersAPIRouter = require('./routes/user')
+var statsAPIRouter = require('./routes/stats')
+
 
 var app = express();
 
@@ -42,6 +44,7 @@ app.use('/areas', areaAPIRouter)
 app.use('/artists', artistAPIRouter)
 app.use('/recordings', recordingAPIRouter)
 app.use('/users', usersAPIRouter)
+app.use('/stats', statsAPIRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

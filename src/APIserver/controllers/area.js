@@ -60,7 +60,8 @@ Area.getPartOf = async (id) => {
     const query = `
     select * where {
         :${id} :partOf ?id .
-        ?id :name ?name .
+        ?id :name ?name ;
+            :type ?type .
     }
     order by ASC(?name)` 
     
@@ -71,7 +72,8 @@ Area.getParts = async (id) => {
     const query = `
     select * where {
         :${id} :hasPart ?id .
-        ?id :name ?name .
+        ?id :name ?name ;
+            :type ?type .
     }
     order by ASC(?name)` 
     

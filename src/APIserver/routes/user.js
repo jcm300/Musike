@@ -1,12 +1,33 @@
 var express = require('express');
 var router = express.Router();
 var Users = require("../controllers/user")
+var Stats = require("../controllers/stats")
 var auth = require("../auth/auth")
 var passport = require("passport")
 
 router.get('/isAuthenticated', auth.isAuthenticated, function(req, res) {
     res.jsonp("Authenticated")
 })
+
+router.get('/:id/statsMore', auth.isAuthenticated, function(req, res) {
+    if(req.params.id==req.user._id){
+        Users.getMoreRecordingsViewsUser(req.params.id)
+            .then(data => res.jsonp(data))
+            .catch(error => res.status(500).jsonp(error))
+    }else{
+        res.status(403).jsonp("You cannot access info from another user!")
+    }
+});
+
+router.get('/:id/stats', auth.isAuthenticated, function(req, res) {
+    if(req.params.id==req.user._id){
+        Users.getRecordingsUser(req.params.id)
+            .then(data => res.jsonp(data))
+            .catch(error => res.status(500).jsonp(error))
+    }else{
+        res.status(403).jsonp("You cannot access info from another user!")
+    }
+});
 
 router.get('/:id', auth.isAuthenticated, function(req, res) {
     if(req.params.id==req.user._id){
@@ -111,7 +132,13 @@ router.put('/delStat/:id', auth.isAuthenticated, function(req, res) {
 router.delete('/:id', auth.isAuthenticated, function(req, res) {
     if(req.params.id==req.user._id){
         Users.deleteUser(req.params.id)
-            .then(data => res.jsonp(data))
+            .then(async data => {
+                var stats = data.stats
+                for(var i=0; i<stats.length; i++)
+                    await Stats.createOrUpdate(stats[i])
+                console.log(JSON.stringify(data))
+                res.jsonp(data)
+            })
             .catch(error => res.status(500).jsonp(error))
     }else{
         res.status(403).jsonp("You have no permission to delete another user!")

@@ -48,10 +48,26 @@ Users.updatePassword = async (id, prevPass, newPass) => {
     }else return null
 }
 
-Users.deleteUser = id => {
+Users.deleteUser = async id => {
     return User
         .findOneAndDelete({_id: id})
         .exec()
+}
+
+//stats
+
+//get all stats of user
+Users.getRecordingsUser = async id => {
+    var user = await User.findOne({_id: id})
+    return user.stats
+}
+
+//get 10 recordings with more views of a user
+Users.getMoreRecordingsViewsUser = async id => {
+    var user = await User.findOne({_id: id})
+    var values = user.stats.map(s => {return {id: s.id, views: s.views}})
+    var sorted = values.sort((a, b) => {return b.views - a.views})
+    return sorted.slice(0,10)
 }
 
 Users.updateViews = async (id, idMusic) => {

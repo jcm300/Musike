@@ -6,7 +6,7 @@ var musicStatisticsSchema = new Schema(
         id: {type: String, required: true},
         views: {type: Number},
         rating: {type: Number}
-    }
+    }, { _id: false }
 )
 
 var UserSchema = new Schema(
