@@ -1,7 +1,6 @@
 <template>
     <div>
         <Toolbar
-            filterEnable=true
             page="artists"
             @filterSended="filterResults"
         />

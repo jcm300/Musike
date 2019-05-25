@@ -11,7 +11,7 @@
             <v-toolbar-side-icon>
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <v-btn @click="$router.push('/index')" flat>
-                    <v-img height="40" width="40" src="static/favicon.png" contains />
+                    <v-img height="40" width="40" src="/static/favicon.png" contains />
                     <span>&nbsp;&nbsp;<strong>Musike</strong></span>
                 </v-btn>
             </v-toolbar-side-icon>
@@ -19,7 +19,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-flex v-if="filterEnable">
+        <v-flex v-if="page != 'none'">
             <v-text-field
                 v-model="filter"
                 type="text"
@@ -85,7 +85,7 @@
 var auth = require('./auth.js')
 
 export default {
-  props: ['filterEnable', 'page'],
+  props: ['page'],
   methods: {
     logout () {
       auth.logout()

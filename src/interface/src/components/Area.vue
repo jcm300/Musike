@@ -1,9 +1,6 @@
 <template>
     <div>
-        <Toolbar
-            filterEnable=false
-            page="none"
-        />
+        <Toolbar page="none" />
         <v-layout
             row wrap
             fill-height

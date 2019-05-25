@@ -121,13 +121,15 @@ export default {
             }
           })
           .then(response => {
-            const token = response.data
+            const token = response.data.token
             localStorage.setItem('user-token', token)
+            localStorage.setItem('user-id', response.data.id)
             this.$router.push('/index')
           })
           .catch(() => {
             this.error = 'Email or password incorrect!'
             localStorage.removeItem('user-token')
+            localStorage.removeItem('user-id')
           })
       }
     },

@@ -1,9 +1,6 @@
 <template>
     <div>
-        <Toolbar
-            filterEnable=false
-            page="none"
-        />
+        <Toolbar page="none" />
         <v-layout
             row wrap
             fill-height
@@ -65,15 +62,25 @@
                             </v-list-tile-avatar>
 
                             <v-list-tile-content>
-                                Rating:
+                                Rating (average of all recording ratings):
+                            </v-list-tile-content>
+
+                            <v-list-tile-content>
+                                (Rated by {{ album.nRating }} users)
                             </v-list-tile-content>
 
                             <v-list-tile-content>
                                 <v-rating
+                                    dense
                                     readonly
+                                    half-increments
                                     :value="album.rating"
                                     color="yellow darken-3"
                                 ></v-rating>
+                            </v-list-tile-content>
+
+                            <v-list-tile-content>
+                                ({{ album.rating }})
                             </v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile>
@@ -82,7 +89,7 @@
                             </v-list-tile-avatar>
 
                             <v-list-tile-content>
-                                Views:
+                                Total Views:
                             </v-list-tile-content>
 
                             <v-list-tile-content>
@@ -90,6 +97,19 @@
                             </v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile>
+                            <v-list-tile-avatar>
+                                <v-icon color="deep-orange lighten-1">fas fa-headphones</v-icon>
+                            </v-list-tile-avatar>
+
+                            <v-list-tile-content>
+                                Total Duration:
+                            </v-list-tile-content>
+
+                            <v-list-tile-content>
+                                {{ album.totalDuration }} milliseconds (~{{ album.totalDurationM }} minutes)
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile v-if="album.tags != null && album.tags != ''">
                             <v-list-tile-avatar>
                                 <v-icon color="deep-orange lighten-1">fas fa-tag</v-icon>
                             </v-list-tile-avatar>
@@ -250,6 +270,28 @@ export default {
 
       response = await request.getAPI(this.$urlAPI + '/albums/' + this.id + '/urls')
       this.album.urls = response.data
+
+      this.album.totalDuration = 0
+      this.album.rating = 0
+      this.album.nRating = 0
+      this.album.views = 0
+
+      var stats = await request.getAPI(this.$urlAPI + '/stats')
+      stats = stats.data
+
+      for (var i = 0; i < this.album.recordings.length; i++) {
+        this.album.totalDuration += this.album.recordings[i].duration != null ? parseInt(this.album.recordings[i].duration) : 0
+        var index = stats.findIndex(s => s.id === this.album.recordings[i].id.split('#')[1])
+        if (index !== -1) {
+          this.album.views += stats[index].views
+          if (stats[index].nRating > 0) {
+            this.album.rating = (this.album.rating * this.album.nRating + stats[index].avgRating * stats[index].nRating) / (this.album.nRating + stats[index].nRating)
+          }
+          this.album.nRating += stats[index].nRating
+        }
+      }
+
+      this.album.totalDurationM = ((this.album.totalDuration / 1000) / 60).toFixed(2)
 
       this.loading = false
     } catch (e) {

@@ -1,7 +1,6 @@
 <template>
     <div>
         <Toolbar
-            filterEnable=true
             page="albums"
             @filterSended="filterResults"
         />

@@ -9,15 +9,18 @@ module.exports.isAuthenticated = function (url, callback) {
         callback(true)
       } else {
         localStorage.removeItem('user-token')
+        localStorage.removeItem('user-id')
         callback(false)
       }
     })
     .catch(() => {
       localStorage.removeItem('user-token')
+      localStorage.removeItem('user-id')
       callback(false)
     })
 }
 
 module.exports.logout = function () {
   localStorage.removeItem('user-token')
+  localStorage.removeItem('user-id')
 }

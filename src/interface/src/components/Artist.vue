@@ -1,9 +1,6 @@
 <template>
     <div>
-        <Toolbar
-            filterEnable=false
-            page="none"
-        />
+        <Toolbar page="none" />
         <v-layout
             row wrap
             fill-height
@@ -14,7 +11,7 @@
             <v-flex xs8>
                 <v-card>
                     <v-card-title>
-                        <h1>Album - {{ album.title }}</h1>
+                        <h1>Artist - {{ artist.name }}</h1>
                     </v-card-title>
 
                     <v-divider></v-divider>
@@ -22,71 +19,28 @@
                     <v-list dense>
                         <v-list-tile>
                             <v-list-tile-avatar>
-                                <v-icon color="deep-orange lighten-1">fas fa-compact-disc</v-icon>
+                                <v-icon color="deep-orange lighten-1">fas fa-podcast</v-icon>
                             </v-list-tile-avatar>
 
                             <v-list-tile-content>
-                                Title:
+                                Name:
                             </v-list-tile-content>
 
                             <v-list-tile-content>
-                                {{ album.title }}
+                                {{ artist.name }}
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-group
-                            v-if="album.artistsCredit != null && album.artistsCredit.length > 0"
-                            prepend-icon="fas fa-podcast"
-                        >
-                            <v-list-tile slot='activator'>
-                                <v-list-tile-title>Artists:</v-list-tile-title>
-                            </v-list-tile>
-
-                            <v-list-tile
-                                v-for="artist in album.artistsCredit"
-                                :key="artist.id"
-                                avatar
-                                @click="$router.push('/artists/' + artist.id.split('#')[1])"
-                            >
-                                <v-list-tile-avatar>
-                                    <v-icon color="deep-orange lighten-1">fas fa-podcast</v-icon>
-                                </v-list-tile-avatar>
-                                <v-list-tile-content>
-                                    <v-list-tile-title>{{ artist.name }}</v-list-tile-title>
-                                </v-list-tile-content>
-
-                                <v-list-tile-action>
-                                    <v-icon right color="info">fas fa-info-circle</v-icon>
-                                </v-list-tile-action>
-                            </v-list-tile>
-                        </v-list-group>
-                        <v-list-tile>
+                        <v-list-tile v-if="artist.aliases != null && artist.aliases.length > 0">
                             <v-list-tile-avatar>
-                                <v-icon color="deep-orange lighten-1">fas fa-star</v-icon>
+                                <v-icon color="deep-orange lighten-1">fas fa-equals</v-icon>
                             </v-list-tile-avatar>
 
                             <v-list-tile-content>
-                                Rating:
+                                Aliases:
                             </v-list-tile-content>
 
                             <v-list-tile-content>
-                                <v-rating
-                                    readonly
-                                    :value="album.rating"
-                                    color="yellow darken-3"
-                                ></v-rating>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                        <v-list-tile>
-                            <v-list-tile-avatar>
-                                <v-icon color="deep-orange lighten-1">fas fa-headphones</v-icon>
-                            </v-list-tile-avatar>
-
-                            <v-list-tile-content>
-                                Views:
-                            </v-list-tile-content>
-
-                            <v-list-tile-content>
-                                {{ album.views }}
+                                {{ artist.aliases }}
                             </v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile>
@@ -95,27 +49,145 @@
                             </v-list-tile-avatar>
 
                             <v-list-tile-content>
-                                Tags:
+                                Type:
                             </v-list-tile-content>
 
                             <v-list-tile-content>
-                                {{ album.tags }}
+                                {{ artist.type }}
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-tile v-if="album.firstReleaseDate != null && album.firstReleaseDate != ''">
+                        <v-list-tile v-if="artist.gender != null">
+                            <v-list-tile-avatar>
+                                <v-icon color="deep-orange lighten-1">fas fa-venus-mars</v-icon>
+                            </v-list-tile-avatar>
+
+                            <v-list-tile-content>
+                                Gender:
+                            </v-list-tile-content>
+
+                            <v-list-tile-content>
+                                {{ artist.gender }}
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile v-if="artist.nameArea != null">
+                            <v-list-tile-avatar>
+                                <v-icon color="deep-orange lighten-1">fas fa-flag</v-icon>
+                            </v-list-tile-avatar>
+
+                            <v-list-tile-content>
+                                From:
+                            </v-list-tile-content>
+
+                            <v-list-tile-content>
+                                {{ artist.nameArea }}
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile v-if="artist.beginDate != null">
                             <v-list-tile-avatar>
                                 <v-icon color="deep-orange lighten-1">fas fa-calendar</v-icon>
                             </v-list-tile-avatar>
 
                             <v-list-tile-content>
-                                First Release:
+                                Born/Started:
                             </v-list-tile-content>
 
                             <v-list-tile-content>
-                                {{ album.firstReleaseDate }}
+                                {{ artist.beginDate }}
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-tile v-if="album.about != null && album.about != ''">
+                        <v-list-tile v-if="artist.endDate != null">
+                            <v-list-tile-avatar>
+                                <v-icon color="deep-orange lighten-1">fas fa-calendar-times</v-icon>
+                            </v-list-tile-avatar>
+
+                            <v-list-tile-content>
+                                Died/Ended:
+                            </v-list-tile-content>
+
+                            <v-list-tile-content>
+                                {{ artist.endDate }}
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile>
+                            <v-list-tile-avatar>
+                                <v-icon color="deep-orange lighten-1">fas fa-star</v-icon>
+                            </v-list-tile-avatar>
+
+                            <v-list-tile-content>
+                                Rating (average of all recording ratings):
+                            </v-list-tile-content>
+
+                            <v-list-tile-content>
+                                (Rated by {{ artist.nRating }} users)
+                            </v-list-tile-content>
+
+                            <v-list-tile-content>
+                                <v-rating
+                                    dense
+                                    readonly
+                                    half-increments
+                                    :value="artist.rating"
+                                    color="yellow darken-3"
+                                ></v-rating>
+                            </v-list-tile-content>
+
+                            <v-list-tile-content>
+                                ({{ artist.rating }})
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile>
+                            <v-list-tile-avatar>
+                                <v-icon color="deep-orange lighten-1">fas fa-headphones</v-icon>
+                            </v-list-tile-avatar>
+
+                            <v-list-tile-content>
+                                Total Views:
+                            </v-list-tile-content>
+
+                            <v-list-tile-content>
+                                {{ artist.views }}
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile v-if="artist.tags != null && artist.tags != ''">
+                                <v-list-tile-avatar>
+                                    <v-icon color="deep-orange lighten-1">fas fa-tag</v-icon>
+                                </v-list-tile-avatar>
+
+                                <v-list-tile-content>
+                                    Tags:
+                                </v-list-tile-content>
+
+                                <v-list-tile-content>
+                                    <p>{{ artist.tags }}</p>
+                                </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-group
+                            v-if="artist.albums != null && artist.albums.length > 0"
+                            prepend-icon="fas fa-compact-disc"
+                        >
+                            <v-list-tile slot='activator'>
+                                <v-list-tile-title>Albums:</v-list-tile-title>
+                            </v-list-tile>
+
+                            <v-list-tile
+                                v-for="album in artist.albums"
+                                :key="album.id"
+                                avatar
+                                @click="$router.push('/albums/' + album.id.split('#')[1])"
+                            >
+                                <v-list-tile-avatar>
+                                    <v-icon color="deep-orange lighten-1">fas fa-compact-disc</v-icon>
+                                </v-list-tile-avatar>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>{{ album.title }}</v-list-tile-title>
+                                </v-list-tile-content>
+
+                                <v-list-tile-action>
+                                    <v-icon right color="info">fas fa-info-circle</v-icon>
+                                </v-list-tile-action>
+                            </v-list-tile>
+                        </v-list-group>
+                        <v-list-tile v-if="artist.about != null && artist.about != ''">
                             <v-list-tile-avatar>
                                 <v-icon color="deep-orange lighten-1">fas fa-info</v-icon>
                             </v-list-tile-avatar>
@@ -125,10 +197,10 @@
                             </v-list-tile-content>
 
                             <v-list-tile-content>
-                                {{ album.about }}
+                                {{ artist.about }}
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-tile v-if="album.disambiguation != null && album.disambiguation != ''">
+                        <v-list-tile v-if="artist.disambiguation != null && artist.disambiguation != ''">
                             <v-list-tile-avatar>
                                 <v-icon color="deep-orange lighten-1">fas fa-info</v-icon>
                             </v-list-tile-avatar>
@@ -138,37 +210,11 @@
                             </v-list-tile-content>
 
                             <v-list-tile-content>
-                                {{ album.disambiguation }}
+                                {{ artist.disambiguation }}
                             </v-list-tile-content>
                         </v-list-tile>
                         <v-list-group
-                            v-if="album.recordings != null && album.recordings.length > 0"
-                            prepend-icon="fas fa-music"
-                        >
-                            <v-list-tile slot='activator'>
-                                <v-list-tile-title>Recordings:</v-list-tile-title>
-                            </v-list-tile>
-
-                            <v-list-tile
-                                v-for="recording in album.recordings"
-                                :key="recording.title"
-                                avatar
-                                @click="$router.push('/recordings/' + recording.id.split('#')[1])"
-                            >
-                                <v-list-tile-avatar>
-                                    <v-icon color="deep-orange lighten-1">fas fa-music</v-icon>
-                                </v-list-tile-avatar>
-                                <v-list-tile-content>
-                                    <v-list-tile-title>{{ recording.title }}</v-list-tile-title>
-                                </v-list-tile-content>
-
-                                <v-list-tile-action>
-                                    <v-icon right color="info">fas fa-info-circle</v-icon>
-                                </v-list-tile-action>
-                            </v-list-tile>
-                        </v-list-group>
-                        <v-list-group
-                            v-if="album.urls != null && album.urls.length > 0"
+                            v-if="artist.urls != null && artist.urls.length > 0"
                             prepend-icon="fas fa-link"
                         >
                             <v-list-tile slot='activator'>
@@ -176,7 +222,7 @@
                             </v-list-tile>
 
                             <v-list-tile
-                                v-for="url in album.urls"
+                                v-for="url in artist.urls"
                                 :key="url.label"
                                 avatar
                                 :href="url.value"
@@ -198,6 +244,23 @@
                 </v-card>
             </v-flex>
         </v-layout>
+        <v-layout v-else>
+            <v-flex xs12>
+                <div class="text-xs-center">
+                    <br><br><br>
+                    <div class="display-1 font-weight-black primary--text">
+                        Loading
+                    </div>
+                    <br>
+                    <v-progress-circular
+                        :size="100"
+                        :width="10"
+                        indeterminate
+                        color="primary"
+                    ></v-progress-circular>
+                </div>
+            </v-flex>
+        </v-layout>
     </div>
 </template>
 
@@ -213,26 +276,46 @@ export default {
   },
 
   data: () => ({
-    album: {},
+    artist: {},
     loading: true
   }),
 
   mounted: async function () {
     try {
-      var response = await request.getAPI(this.$urlAPI + '/albums/' + this.id)
-      this.album = response.data[0]
+      var response = await request.getAPI(this.$urlAPI + '/artists/' + this.id)
+      this.artist = response.data[0]
 
-      response = await request.getAPI(this.$urlAPI + '/albums/' + this.id + '/artistsCredit')
-      this.album.artistsCredit = response.data
+      response = await request.getAPI(this.$urlAPI + '/artists/' + this.id + '/aliases')
+      this.artist.aliases = response.data.map(e => e.alias).join(', ')
 
-      response = await request.getAPI(this.$urlAPI + '/albums/' + this.id + '/tags')
-      this.album.tags = response.data.map(e => e.tag).join(', ')
+      response = await request.getAPI(this.$urlAPI + '/artists/' + this.id + '/albums')
+      this.artist.albums = response.data
 
-      response = await request.getAPI(this.$urlAPI + '/albums/' + this.id + '/tracks')
-      this.album.recordings = response.data
+      response = await request.getAPI(this.$urlAPI + '/artists/' + this.id + '/tags')
+      this.artist.tags = response.data.map(e => e.tag).join(', ')
 
-      response = await request.getAPI(this.$urlAPI + '/albums/' + this.id + '/urls')
-      this.album.urls = response.data
+      response = await request.getAPI(this.$urlAPI + '/artists/' + this.id + '/urls')
+      this.artist.urls = response.data
+
+      this.artist.rating = 0
+      this.artist.nRating = 0
+      this.artist.views = 0
+
+      var recordings = await request.getAPI(this.$urlAPI + '/artists/' + this.id + '/recordings')
+      recordings = recordings.data
+      var stats = await request.getAPI(this.$urlAPI + '/stats')
+      stats = stats.data
+
+      for (var i = 0; i < recordings.length; i++) {
+        var index = stats.findIndex(s => s.id === recordings[i].id.split('#')[1])
+        if (index !== -1) {
+          this.artist.views += stats[index].views
+          if (stats[index].nRating > 0) {
+            this.artist.rating = (this.artist.rating * this.artist.nRating + stats[index].avgRating * stats[index].nRating) / (this.artist.nRating + stats[index].nRating)
+          }
+          this.artist.nRating += stats[index].nRating
+        }
+      }
 
       this.loading = false
     } catch (e) {
