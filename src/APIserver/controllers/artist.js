@@ -77,11 +77,12 @@ Artist.getURLs = async (id) => {
 
 Artist.getRecordings = async (id) => {
     const query = `
-    select * where {
+    select distinct ?id (SAMPLE(?title) as ?title) where {
         ?id a :Recording ;
             :artistCredit :${id} ;
             :title ?title .
     }
+    group by ?id
     order by ASC(?title)` 
     
     return await execQuery(query)

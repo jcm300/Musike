@@ -145,9 +145,9 @@ router.delete('/:id', auth.isAuthenticated, function(req, res) {
                     promises.push(Stats.createOrUpdate(stats[i]))
                 Promise.all(promises)
                     .then(responses => res.jsonp(responses))
-                    .catch(error => {console.log("AQUI2"); res.status(500).jsonp(error)})
+                    .catch(error => res.status(500).jsonp(error))
             })
-            .catch(error => {console.log("AQUI"); res.status(500).jsonp(error)})
+            .catch(error => res.status(500).jsonp(error))
     }else{
         res.status(403).jsonp("You have no permission to delete another user!")
     }

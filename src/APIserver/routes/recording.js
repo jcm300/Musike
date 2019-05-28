@@ -3,6 +3,11 @@ var router = express.Router();
 var Recording = require("../controllers/recording") 
 var auth = require("../auth/auth")
 
+router.get('/search', auth.isAuthenticated, async function(req, res) {
+    var data = await Recording.searchForRecordings(decodeURIComponent(req.query.name), decodeURIComponent(req.query.title))
+    res.jsonp(data)
+});
+
 router.get('/:id/albums', auth.isAuthenticated, async function(req, res) {
     var data = await Recording.getAlbums(req.params.id)
     res.jsonp(data)

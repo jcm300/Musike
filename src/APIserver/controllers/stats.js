@@ -5,20 +5,23 @@ var mongoose = require("mongoose")
 const Stats = module.exports
 
 Stats.createOrUpdate = async (stat) => {
-    var statM = await Stat.findOne({_id: new mongoose.Types.ObjectId(stat.id)})
+    var statM = await Stat.findOne({id: stat.id})
+    
     if(statM != null){
         if(stat.rating>0){
+            var newAvgRating = (statM.avgRating * statM.nRating + stat.rating) / (statM.nRating + 1)
             statM.nRating++
+        }else{
+            var newAvgRating = statM.avgRating
         }
-        var newAvgRating = (statM.avgRating * statM.nRating + stat.rating) / (statM.nRating)
         return Stat
-            .findOneAndUpdate({_id: stat.id}, {$set: {views: statM.views + stat.views, avgRating: newAvgRating, nRating: statM.nRating}}, {useFindAndModify: false})
+            .findOneAndUpdate({id: stat.id}, {$set: {views: statM.views + stat.views, avgRating: newAvgRating, nRating: statM.nRating}}, {useFindAndModify: false})
             .exec()
     }else{
         if(stat.rating>0){
-            var newStat = {_id: stat.id, views: stat.views, avgRating: stat.rating, nRating: 1}
+            var newStat = {id: stat.id, views: stat.views, avgRating: stat.rating, nRating: 1}
         }else{
-            var newStat = {_id: stat.id, views: stat.views, avgRating: stat.rating, nRating: 0}
+            var newStat = {id: stat.id, views: stat.views, avgRating: stat.rating, nRating: 0}
         }
         return Stat.create(newStat)
     }
@@ -35,8 +38,8 @@ Stats.getStats = async () => {
             if(index != -1){
                 values[index].views += s.views
                 if(s.rating>0){
+                    values[index].avgRating = (values[index].avgRating * values[index].nRating + s.rating) / (values[index].nRating + 1)
                     values[index].nRating++
-                    values[index].avgRating = (values[index].avgRating * values[index].nRating + s.rating) / values[index].nRating
                 }
             }else{
                 if(s.rating==0){
@@ -50,18 +53,18 @@ Stats.getStats = async () => {
 
     rawValues = await Stat.find()
     rawValues.forEach(s => {
-        var index = values.findIndex(elem => elem.id == s._id)
+        var index = values.findIndex(elem => elem.id == s.id)
         if(index != -1){
             values[index].views += s.views
             if(s.nRating>0){
+                values[index].avgRating = (values[index].avgRating * values[index].nRating + s.avgRating * s.nRating) / (values[index].nRating + s.nRating)
                 values[index].nRating+=s.nRating
-                values[index].avgRating = (values[index].avgRating * values[index].nRating + s.avgRating * s.nRating) / values[index].nRating
             }
         }else{
             if(s.nRating==0){
-                values.push({id: s._id, views: s.views, avgRating: s.avgRating, nRating: 0})
+                values.push({id: s.id, views: s.views, avgRating: s.avgRating, nRating: 0})
             }else{
-                values.push({id: s._id, views: s.views, avgRating: s.avgRating, nRating: s.nRating})
+                values.push({id: s.id, views: s.views, avgRating: s.avgRating, nRating: s.nRating})
             }
         }
     })
@@ -86,11 +89,11 @@ Stats.getMoreRecordingsViews = async () => {
 
     rawValues = await Stat.find()
     rawValues.forEach(s => {
-        var index = values.findIndex(elem => elem.id == s._id)
+        var index = values.findIndex(elem => elem.id == s.id)
         if(index != -1){
             values[index].views += s.views
         }else{
-            values.push({id: s._id, views: s.views})
+            values.push({id: s.id, views: s.views})
         }
     })
     var sorted = values.sort((a, b) => {return b.views - a.views})
@@ -107,19 +110,19 @@ Stats.getRecordingStats = async (id) => {
         if(index != -1){
             values.views += l[index].views
             if(l[index].rating>0){
+                values.avgRating = (values.avgRating * values.nRating + l[index].rating) / (values.nRating + 1)
                 values.nRating++
-                values.avgRating = (values.avgRating * values.nRating + l[index].rating) / values.nRating
             }
         }
     })
 
     rawValues = await Stat.find()
-    var index = rawValues.findIndex(elem => elem._id == id)
+    var index = rawValues.findIndex(elem => elem.id == id)
     if(index != -1){
         values.views += rawValues[index].views
         if(rawValues[index].nRating>0){
+            values.avgRating = (values.avgRating * values.nRating + rawValues[index].avgRating * rawValues[index].nRating) / (values.nRating + rawValues[index].nRating)
             values.nRating+=rawValues[index].nRating
-            values.avgRating = (values.avgRating * values.nRating + rawValues[index].avgRating * rawValues[index].nRating) / values.nRating
         }
     }
     return values

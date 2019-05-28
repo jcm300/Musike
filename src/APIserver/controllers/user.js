@@ -32,10 +32,19 @@ Users.createUser = user => {
     return User.create(user)
 }
 
-Users.updateUser = (id, user) => {
-    return User
-        .findOneAndUpdate({_id: id}, {$set: {name: user.name, email: user.email}}, {useFindAndModify: false})
-        .exec()
+Users.updateUser = async (id, user) => {
+    var userF = await Users.findOne(user.email)
+    if(userF!=null){
+        if(userF.id == id){
+            return User
+                .findOneAndUpdate({_id: id}, {$set: {name: user.name, email: user.email}}, {useFindAndModify: false})
+                .exec()
+        }else return null
+    }else{
+        return User
+            .findOneAndUpdate({_id: id}, {$set: {name: user.name, email: user.email}}, {useFindAndModify: false})
+            .exec()
+    }
 }
 
 Users.updatePassword = async (id, prevPass, newPass) => {

@@ -96,3 +96,18 @@ Recording.getAlbums = async (id) => {
     
     return await execQuery(query)
 }
+
+Recording.searchForRecordings = async (name, title) => {
+    const query = `
+    select distinct ?id ?name ?title where {
+        ?idA a :Artist ;
+            :name ?name .
+        FILTER strstarts(?name,"${name}")
+        ?id :artistCredit ?idA ;
+            :title ?title .
+        FILTER strstarts(?title,"${title}")
+    }
+    order by ASC(?name) ASC(?title)`
+    
+    return await execQuery(query)
+}
