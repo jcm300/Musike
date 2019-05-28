@@ -51,8 +51,15 @@
                     </div>
                 </v-form>
                 <v-alert
-                    v-if="$route.query.signup=='true'"
-                    :value="true"
+                    :value="$route.query.deleted=='true'"
+                    type="success"
+                    @click="$router.push('/')"
+                    dismissible
+                >
+                    Account deleted successfully!
+                </v-alert>
+                <v-alert
+                    :value="$route.query.signup=='true'"
                     type="success"
                     @click="$router.push('/')"
                     dismissible
@@ -60,9 +67,9 @@
                     Sign Up successfully!
                 </v-alert>
                 <v-alert
-                    v-if="error!=''"
-                    :value="true"
+                    :value="error!=''"
                     type="error"
+                    @click="error=''"
                     dismissible
                 >
                     {{ error }}

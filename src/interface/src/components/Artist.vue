@@ -11,7 +11,23 @@
             <v-flex xs8>
                 <v-card>
                     <v-card-title>
-                        <h1>Artist - {{ artist.name }}</h1>
+                        <v-flex xs9>
+                            <h1>Artist - {{ artist.name }}</h1>
+                        </v-flex>
+                        <v-flex xs3>
+                            <v-btn
+                                color="warning"
+                                large
+                                :href="'https://musicbrainz.org/artist/' + this.id.split('_')[1]"
+                            >
+                                See at&nbsp;&nbsp;
+                                <v-img
+                                    src="/static/musicbrainz.png"
+                                    height="40"
+                                    width="60"
+                                ></v-img>
+                            </v-btn>
+                        </v-flex>
                     </v-card-title>
 
                     <v-divider></v-divider>
@@ -69,7 +85,10 @@
                                 {{ artist.gender }}
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-tile v-if="artist.nameArea != null">
+                        <v-list-tile
+                            v-if="artist.nameArea != null"
+                            @click="$router.push('/areas/' + artist.areaId.split('#')[1])"
+                        >
                             <v-list-tile-avatar>
                                 <v-icon color="deep-orange lighten-1">fas fa-flag</v-icon>
                             </v-list-tile-avatar>
@@ -81,6 +100,10 @@
                             <v-list-tile-content>
                                 {{ artist.nameArea }}
                             </v-list-tile-content>
+
+                            <v-list-tile-action>
+                                <v-icon right color="info">fas fa-info-circle</v-icon>
+                            </v-list-tile-action>
                         </v-list-tile>
                         <v-list-tile v-if="artist.beginDate != null">
                             <v-list-tile-avatar>
@@ -148,19 +171,22 @@
                                 {{ artist.views }}
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-tile v-if="artist.tags != null && artist.tags != ''">
-                                <v-list-tile-avatar>
+                        <v-card
+                            v-if="artist.tags != null && artist.tags != ''"
+                            class="elevation-0"
+                        >
+                                <v-card-title>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <v-icon color="deep-orange lighten-1">fas fa-tag</v-icon>
-                                </v-list-tile-avatar>
+                                    <span>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tags:
+                                    </span>
+                                </v-card-title>
 
-                                <v-list-tile-content>
-                                    Tags:
-                                </v-list-tile-content>
-
-                                <v-list-tile-content>
-                                    <p>{{ artist.tags }}</p>
-                                </v-list-tile-content>
-                        </v-list-tile>
+                                <v-card-text>
+                                    {{ artist.tags }}
+                                </v-card-text>
+                        </v-card>
                         <v-list-group
                             v-if="artist.albums != null && artist.albums.length > 0"
                             prepend-icon="fas fa-compact-disc"
@@ -187,19 +213,22 @@
                                 </v-list-tile-action>
                             </v-list-tile>
                         </v-list-group>
-                        <v-list-tile v-if="artist.about != null && artist.about != ''">
-                            <v-list-tile-avatar>
+                        <v-card
+                            v-if="artist.about != null && artist.about != ''"
+                            class="elevation-0"
+                        >
+                            <v-card-title>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <v-icon color="deep-orange lighten-1">fas fa-info</v-icon>
-                            </v-list-tile-avatar>
+                                <span>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About:
+                                </span>
+                            </v-card-title>
 
-                            <v-list-tile-content>
-                                About:
-                            </v-list-tile-content>
-
-                            <v-list-tile-content>
+                            <v-card-text>
                                 {{ artist.about }}
-                            </v-list-tile-content>
-                        </v-list-tile>
+                            </v-card-text>
+                        </v-card>
                         <v-list-tile v-if="artist.disambiguation != null && artist.disambiguation != ''">
                             <v-list-tile-avatar>
                                 <v-icon color="deep-orange lighten-1">fas fa-info</v-icon>
@@ -312,8 +341,8 @@ export default {
           this.artist.views += stats[index].views
           if (stats[index].nRating > 0) {
             this.artist.rating = (this.artist.rating * this.artist.nRating + stats[index].avgRating * stats[index].nRating) / (this.artist.nRating + stats[index].nRating)
+            this.artist.nRating += stats[index].nRating
           }
-          this.artist.nRating += stats[index].nRating
         }
       }
 

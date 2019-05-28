@@ -11,7 +11,23 @@
             <v-flex xs8>
                 <v-card>
                     <v-card-title>
-                        <h1>Area - {{ area.name }}</h1>
+                        <v-flex xs9>
+                            <h1>Area - {{ area.name }}</h1>
+                        </v-flex>
+                        <v-flex xs3>
+                            <v-btn
+                                color="warning"
+                                large
+                                :href="'https://musicbrainz.org/area/' + this.id.split('_')[1]"
+                            >
+                                See at&nbsp;&nbsp;
+                                <v-img
+                                    src="/static/musicbrainz.png"
+                                    height="40"
+                                    width="60"
+                                ></v-img>
+                            </v-btn>
+                        </v-flex>
                     </v-card-title>
 
                     <v-divider></v-divider>
@@ -82,19 +98,22 @@
                                 {{ area.endDate }}
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-tile v-if="area.about != null && area.about != ''">
-                            <v-list-tile-avatar>
+                        <v-card
+                            v-if="area.about != null && area.about != ''"
+                            class="elevation-0"
+                        >
+                            <v-card-title>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <v-icon color="deep-orange lighten-1">fas fa-info</v-icon>
-                            </v-list-tile-avatar>
+                                <span>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About:
+                                </span>
+                            </v-card-title>
 
-                            <v-list-tile-content>
-                                About:
-                            </v-list-tile-content>
-
-                            <v-list-tile-content>
+                            <v-card-text>
                                 {{ area.about }}
-                            </v-list-tile-content>
-                        </v-list-tile>
+                            </v-card-text>
+                        </v-card>
                         <v-list-tile v-if="area.disambiguation != null && area.disambiguation != ''">
                             <v-list-tile-avatar>
                                 <v-icon color="deep-orange lighten-1">fas fa-info</v-icon>
@@ -155,32 +174,6 @@
                                 <v-list-tile-content>
                                     <v-list-tile-title>{{ areaP.name }}</v-list-tile-title>
                                     <v-list-tile-sub-title>{{ areaP.type }}</v-list-tile-sub-title>
-                                </v-list-tile-content>
-
-                                <v-list-tile-action>
-                                    <v-icon right color="info">fas fa-info-circle</v-icon>
-                                </v-list-tile-action>
-                            </v-list-tile>
-                        </v-list-group>
-                        <v-list-group
-                            v-if="area.artists != null && area.artists.length > 0"
-                            prepend-icon="fas fa-podcast"
-                        >
-                            <v-list-tile slot='activator'>
-                                <v-list-tile-title>Artists:</v-list-tile-title>
-                            </v-list-tile>
-
-                            <v-list-tile
-                                v-for="artist in area.artists"
-                                :key="artist.id"
-                                avatar
-                                @click="$router.push('/artists/' + artist.id.split('#')[1])"
-                            >
-                                <v-list-tile-avatar>
-                                    <v-icon color="deep-orange lighten-1">fas fa-podcast</v-icon>
-                                </v-list-tile-avatar>
-                                <v-list-tile-content>
-                                    <v-list-tile-title>{{ artist.name }}</v-list-tile-title>
                                 </v-list-tile-content>
 
                                 <v-list-tile-action>
@@ -262,9 +255,6 @@ export default {
 
       response = await request.getAPI(this.$urlAPI + '/areas/' + this.id + '/aliases')
       this.area.aliases = response.data.map(e => e.alias).join(', ')
-
-      response = await request.getAPI(this.$urlAPI + '/areas/' + this.id + '/artists')
-      this.area.artists = response.data
 
       response = await request.getAPI(this.$urlAPI + '/areas/' + this.id + '/parts')
       this.area.parts = response.data

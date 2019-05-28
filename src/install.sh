@@ -14,7 +14,7 @@ if [ $# -eq 1 ]; then
         mongod --dbpath ./mongoDB/ &
 
         #start graphDB
-        graphdb &
+        graphdb -Xmx2048m  &
 
         cd APIserver
         npm install
@@ -30,7 +30,7 @@ if [ $# -eq 1 ]; then
         mongod --dbpath ./mongoDB/ &
 
         #start graphDB
-        graphdb &
+        graphdb -Xmx2048m  &
 
         cd APIserver
         npm install
@@ -46,7 +46,7 @@ if [ $# -eq 1 ]; then
         mongod --dbpath ./mongoDB/ & 
         
         #start graphDB
-        graphdb &
+        graphdb -Xmx2048m  &
 
         #wait
         sleep 10

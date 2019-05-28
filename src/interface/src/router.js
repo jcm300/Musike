@@ -66,6 +66,11 @@ export default new Router({
       path: '/recordings/:id',
       name: 'Recording',
       component: () => import('./views/Recording.vue')
+    },
+    {
+      path: '/recordings/search',
+      name: 'Recordings Search',
+      component: () => import('./views/RecordingsSearch.vue')
     }
   ]
 })

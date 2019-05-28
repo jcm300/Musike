@@ -72,10 +72,9 @@
                     </div>
                 </v-form>
                 <v-alert
-                    v-if="error!=''"
-                    :value="true"
+                    :value="error!=''"
                     type="error"
-                    @click="error=false"
+                    @click="error=''"
                     dismissible
                 >
                     {{ error }}

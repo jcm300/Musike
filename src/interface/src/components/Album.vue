@@ -11,7 +11,23 @@
             <v-flex xs8>
                 <v-card>
                     <v-card-title>
-                        <h1>Album - {{ album.title }}</h1>
+                        <v-flex xs9>
+                            <h1>Album - {{ album.title }}</h1>
+                        </v-flex>
+                        <v-flex xs3>
+                            <v-btn
+                                color="warning"
+                                large
+                                :href="'https://musicbrainz.org/release-group/' + this.id.split('_')[1]"
+                            >
+                                See at&nbsp;&nbsp;
+                                <v-img
+                                    src="/static/musicbrainz.png"
+                                    height="40"
+                                    width="60"
+                                ></v-img>
+                            </v-btn>
+                        </v-flex>
                     </v-card-title>
 
                     <v-divider></v-divider>
@@ -109,19 +125,22 @@
                                 {{ album.totalDuration }} milliseconds (~{{ album.totalDurationM }} minutes)
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-tile v-if="album.tags != null && album.tags != ''">
-                            <v-list-tile-avatar>
+                        <v-card
+                            v-if="album.tags != null && album.tags != ''"
+                            class="elevation-0"
+                        >
+                            <v-card-title>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <v-icon color="deep-orange lighten-1">fas fa-tag</v-icon>
-                            </v-list-tile-avatar>
+                                <span>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tags:
+                                </span>
+                            </v-card-title>
 
-                            <v-list-tile-content>
-                                Tags:
-                            </v-list-tile-content>
-
-                            <v-list-tile-content>
+                            <v-card-text>
                                 {{ album.tags }}
-                            </v-list-tile-content>
-                        </v-list-tile>
+                            </v-card-text>
+                        </v-card>
                         <v-list-tile v-if="album.firstReleaseDate != null && album.firstReleaseDate != ''">
                             <v-list-tile-avatar>
                                 <v-icon color="deep-orange lighten-1">fas fa-calendar</v-icon>
@@ -135,19 +154,22 @@
                                 {{ album.firstReleaseDate }}
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-tile v-if="album.about != null && album.about != ''">
-                            <v-list-tile-avatar>
+                        <v-card
+                            v-if="album.about != null && album.about != ''"
+                            class="elevation-0"
+                        >
+                            <v-card-title>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <v-icon color="deep-orange lighten-1">fas fa-info</v-icon>
-                            </v-list-tile-avatar>
+                                <span>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About:
+                                </span>
+                            </v-card-title>
 
-                            <v-list-tile-content>
-                                About:
-                            </v-list-tile-content>
-
-                            <v-list-tile-content>
+                            <v-card-text>
                                 {{ album.about }}
-                            </v-list-tile-content>
-                        </v-list-tile>
+                            </v-card-text>
+                        </v-card>
                         <v-list-tile v-if="album.disambiguation != null && album.disambiguation != ''">
                             <v-list-tile-avatar>
                                 <v-icon color="deep-orange lighten-1">fas fa-info</v-icon>
@@ -171,7 +193,7 @@
 
                             <v-list-tile
                                 v-for="recording in album.recordings"
-                                :key="recording.title"
+                                :key="recording.id"
                                 avatar
                                 @click="$router.push('/recordings/' + recording.id.split('#')[1])"
                             >
@@ -179,7 +201,14 @@
                                     <v-icon color="deep-orange lighten-1">fas fa-music</v-icon>
                                 </v-list-tile-avatar>
                                 <v-list-tile-content>
-                                    <v-list-tile-title>{{ recording.title }}</v-list-tile-title>
+                                    <v-list-tile-title>
+                                        {{ recording.title }}
+                                    </v-list-tile-title>
+                                    <v-list-tile-sub-title>
+                                        <v-flex v-if="recording.disambiguation != null">
+                                            &nbsp;({{ recording.disambiguation }})
+                                        </v-flex>
+                                    </v-list-tile-sub-title>
                                 </v-list-tile-content>
 
                                 <v-list-tile-action>
@@ -286,8 +315,8 @@ export default {
           this.album.views += stats[index].views
           if (stats[index].nRating > 0) {
             this.album.rating = (this.album.rating * this.album.nRating + stats[index].avgRating * stats[index].nRating) / (this.album.nRating + stats[index].nRating)
+            this.album.nRating += stats[index].nRating
           }
-          this.album.nRating += stats[index].nRating
         }
       }
 
