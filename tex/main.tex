@@ -7,7 +7,6 @@
 \usepackage{verbatim}
 \usepackage{fancyvrb}
 \usepackage[bottom]{footmisc}
-\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 \usepackage[style=numeric]{biblatex}
 \usepackage{hyperref}
 \usepackage{mathtools}
@@ -127,9 +126,15 @@ Por fim, apresentar estatísticas gerais do website entre as quais:
 
 De forma adicional, seria interessante dar sugestões ao utilizador de músicas a ouvir a partir das estatisticas do utilizador.
 
-\section{Parte Estrutural da Ontologia}
+\section{Ontologia baseada no \textit{MusicBrainz}} \label{ontologia}
 
-Portanto, a partir do que se pretende construir e tendo já em ideia o dataset a ser usado (\textit{MusicBrainz}~\cite{mbSchema}) foi construída a seguinte estrutura:
+Para o tema escolhido é necessário um dataset que possua a informação de albums, artistas, músicas e áreas. Como tal foi escolhido o dataset JSON do \textit{MusicBrainz}.
+
+A partir deste dataset bem como das caracteristicas do tema escolhido, foi construido a estrutura da ontologia e posteriormentei foi povoada com a informação presente no dataset (JSON).
+
+\subsection{Parte Estrutural da Ontologia}
+
+O primeiro passo foi a construção da estrutura ontologia baseada no dataset JSON do \textit{MusicBrainz}~\cite{mbSchema}. O desenho da estrutura pode ser visualizado de seguida:
 
 \begin{figure}[H]
     \centering
@@ -196,7 +201,7 @@ Quanto às propriedades/relações, a ontologia apresenta as seguintes:
 
 É importante voltar a referir que as subclasses herdam as propriedades das superclasses.
 
-\section{De JSON para Turtle - Povoamento da Ontologia}
+\subsection{De JSON para Turtle - Povoamento da Ontologia}
 
 Com a estrutura da ontologia e com uma ideia da informação necessária, foi então usado um dataset (\url{http://ftp.musicbrainz.org/pub/musicbrainz/data/json-dumps/20190403-001001/}) para popular a ontologia. Este dataset é proveniente do \textbf{MusicBrainz} estando o mesmo em JSON. O seu timestamp é de 2019-04-03, portanto um dataset bastante recente possuindo cerca de 240GB de tamanho. Visto o mesmo estar em JSON é necessário então convertê-lo para Turtle.
 
@@ -296,17 +301,85 @@ Por forma a automatizar os conversores, estes podem ser chamados ao correr a scr
 
 Por fim, concatena-se os vários ficheiros gerados e o ficheiro com a estrutura gerando um ficheiro Turtle final, passível de ser carregado no \textit{GraphDB}.
 
-\section{servidor API}
+\section{Servidor API}
 
-%introdução, colocar gráfico da arquitetura (mongo, graphdb, express(node))
+O servidor com a API foi desenvolvido recorrendo ao \textit{Node.js}, usando a \textit{framework} de desenvolvimento \textit{Express.js}. O servidor está em constante comunicação com duas bases de dados, \textit{MongoDB} e \textit{GraphDB}. No \textit{GraphDB}, base de dados de semântica baseada em grafos, foi carregado a ontologia já populada referida anteriormente (ver \ref{ontologia}). Já no \textit{MongoDB}, base de dados baeada em documentos, é onde se encontra a informação dos utilizadores, o seu nome, email, password e estatísticas (visualizações e ratings). Para além da informação dos utilizadores, quando um utilizador apaga a sua conta, as visualizações e ratings são salvaguardados, sendo agragegados pelo identificador da música. A API serve como ponto de ligação para os utilizadores/aplicações à informação. A API está protegida em grande parte das rotas por autenticação, algo que será abordado mais à frente (ver \ref{auth}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm]{Pictures/backend.png}
+    \caption{Estrutura do backend}
+    \label{backend}
+\end{figure}
+
+Esta estrutura, demonstrada na figura acima (fig. \ref{backend}), é modular, ou seja, cada um dos três componentes identificados pode estar num servidor/máquina diferente, o que permite escalar a API.
+
+Nas próximas secções será aprofundado os vários constituintes e camadas da API.
 
 \subsection{Modelos}
 
+Nos \texttt{Models} define-se os \textit{schemas} das coleções de documentos da base de dados \textit{MongoDB}. Cada ficheiro \texttt{.js} corresponde a uma coleção, sendo que cada \texttt{schema} permite definir a estrutura de cada tipo de documento. Foram definidos os seguintes \textit{Schemas}/Documentos:
+
+\paragraph{\textbf{User:}} representa um utilizador
+    \begin{itemize}
+        \item \texttt{name:} String obrigatória referente ao nome do utilizador;
+        \item \texttt{email:} String obrigatória, única, ou seja sem repetição na base de dados, portanto pode servir de identificação, representado o email do utilizador;
+        \item \texttt{password:} String obrigatória encriptada referente à password do utilizador;
+        \item \texttt{stats:} lista com as estatísticas do utilizador;
+            \begin{itemize}
+                \item \texttt{id:} id (String) do \textit{Recording} a que se associa os valores seguintes;
+                \item \texttt{views:} número de visualizações do utilizador deste \textit{Recording};
+                \item \texttt{rating:} classificação dado pelo utilizador a este \textit{Recording}.
+            \end{itemize}
+    \end{itemize}
+
+\paragraph{\textbf{Stats:}} salvaguarda as estatísticas que antigos utilizadores (utilizadores que apagaram a sua conta)
+    \begin{itemize}
+        \item \texttt{id:} id (String) do \textit{Recording} a que se associa os valores seguintes;
+        \item \texttt{views:} número de visualizações do \textit{Recording} salvaguardadas;
+        \item \texttt{avgRating:} classificação média do \textit{Recording} salvaguardada;
+        \item \texttt{nRating:} número de utilizadores que classificaram o \textit{Recording}.
+    \end{itemize}
+
 \subsection{Controladores}
+
+Os \texttt{controllers} possuem várias funções que permitem manusear os documentos e os seus valores. As coleções de documentos são estruturados por \texttt{Schemas} recorrendo ao \texttt{Mongoose}, sendo nos \texttt{Controllers} onde se encontram definidos a criação, atualização, destruição, listagem e obtenção de estatísticas dos mesmos. Apresenta-se de seguida os \textit{controllers} dos \textit{models} \textit{User} e \textit{Stats}:
+
+\paragraph{\textbf{User:}}
+    \begin{itemize}
+        \item \texttt{} ;
+    \end{itemize}
+
+\paragraph{\textbf{Stats:}}
+    \begin{itemize}
+        \item \texttt{} ;
+    \end{itemize}
+
+Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as \textit{queries} à base de dados \textit{GraphDB}. Por forma, a modularizar o código, no ficheiro \textit{execQuery.js} é definida a função \texttt{execQuery}, onde apenas recebe a \textit{query} a ser realizada, e devolve o resultado já ``limpo'', ou seja, uma lista de resultados, onde cada elemento, tem como atributos as variáveis devolvidas pela \textit{query} e como valor o seu valor obtido. A função \texttt{execQuery} já inclui o prefixo da ontologia pelo que na \textit{query} não é necessário indicar a totalidade do \textit{URI} bastando apenas colocar ``:'' quando se refere a um \textit{URI} da ontologia definida neste trabalho (ver \ref{ontologia}). Todas as \textit{queries} realizadas são de leitura de informação, sendo estas dividas em ficheiros pela classe que questionam. Sendo assim existem os seguintes \texttt{controllers} que questionam o \textit{GraphDB} de forma a obter informação de indivíduos da classe:
+
+\paragraph{\textbf{Album:}}
+    \begin{itemize}
+        \item \texttt{} ;
+    \end{itemize}
+
+\paragraph{\textbf{Area:}}
+    \begin{itemize}
+        \item \texttt{} ;
+    \end{itemize}
+
+\paragraph{\textbf{Artist:}}
+    \begin{itemize}
+        \item \texttt{} ;
+    \end{itemize}
+
+\paragraph{\textbf{Recording:}}
+    \begin{itemize}
+        \item \texttt{} ;
+    \end{itemize}
 
 \subsection{Rotas}
 
-\subsection{Autenticação}
+\subsection{Autenticação} \label{auth}
 
 \section{Interface}
 
