@@ -68,7 +68,7 @@ export default new Router({
       component: () => import('./views/Recording.vue')
     },
     {
-      path: '/recordings/search',
+      path: '/recordingsSearch',
       name: 'Recordings Search',
       component: () => import('./views/RecordingsSearch.vue')
     }

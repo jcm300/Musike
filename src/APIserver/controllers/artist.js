@@ -24,7 +24,7 @@ Artist.listArtistsByFilter = async (offset,filter) => {
         ?id a :Artist ;
             :name ?name ;
             :type ?type .
-        FILTER regex(?name,'^${filter}.*')
+        FILTER strstarts(?name,'${filter}')
     }
     order by ASC(?name) ASC(?type)
     offset ${offset}

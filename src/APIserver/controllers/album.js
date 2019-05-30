@@ -22,7 +22,7 @@ Album.listAlbumsByFilter = async (offset,filter) => {
     select * where {
         ?id a :Album ;
             :title ?title.
-        FILTER regex(?title,'^${filter}.*')
+        FILTER strstarts(?title,'${filter}')
     }
     order by ASC(?title)
     offset ${offset}

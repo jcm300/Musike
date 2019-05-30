@@ -132,10 +132,11 @@ export default {
         response = await request.getAPI(this.$urlAPI + '/recordings/' + recordings[index].id.split('#')[1] + '/artistsCredit')
         recordings[index].artistsCredit = 'by ' + response.data.map(e => e.name).join(', ')
       }
-
+      alert(JSON.stringify(response.data))
       // store
       this.recordings = recordings
     } catch (e) {
+      alert(JSON.stringify(e))
       this.logout()
     }
   },

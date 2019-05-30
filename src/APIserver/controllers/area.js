@@ -24,7 +24,7 @@ Area.listAreasByFilter = async (offset,filter) => {
         ?id a :Area ;
             :name ?name ;
             :type ?type .
-        FILTER regex(?name,'^${filter}.*')
+        FILTER strstarts(?name,'${filter}')
     }
     order by ASC(?name) ASC(?type)
     offset ${offset}

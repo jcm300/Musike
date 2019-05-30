@@ -22,7 +22,7 @@ Recording.listRecordingsByFilter = async (offset,filter) => {
     select * where {
         ?id a :Recording ;
             :title ?title .
-        FILTER regex(?title,'^${filter}.*')
+        FILTER strstarts(?title,'${filter}')
     }
     order by ASC(?title)
     offset ${offset}
@@ -98,15 +98,20 @@ Recording.getAlbums = async (id) => {
 }
 
 Recording.searchForRecordings = async (name, title) => {
+    name = name.replace(/\\'/g,"'")
+    name = name.replace(/'/g,"\\'")
+    title = title.replace(/\\'/g,"'")
+    title = title.replace(/'/g,"\\'")
     const query = `
-    select distinct ?id ?name ?title where {
+    select distinct ?id ?name (SAMPLE(?title) as ?title) where {
         ?idA a :Artist ;
             :name ?name .
-        FILTER strstarts(?name,"${name}")
+        FILTER strstarts(?name,'${name}')
         ?id :artistCredit ?idA ;
             :title ?title .
-        FILTER strstarts(?title,"${title}")
+        FILTER strstarts(?title,'${title}')
     }
+    group by ?id ?name
     order by ASC(?name) ASC(?title)`
     
     return await execQuery(query)

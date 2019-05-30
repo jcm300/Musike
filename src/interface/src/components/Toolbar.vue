@@ -118,7 +118,7 @@ export default {
     search () {
       if (/^.*-.*$/.test(this.filter)) {
         var s = this.filter.split('-')
-        this.$router.push('/recordings/search?name=' + encodeURIComponent(s[0]) + '&title=' + encodeURIComponent(s[1]))
+        this.$router.push('/recordingsSearch?name=' + encodeURIComponent(s[0]) + '&title=' + encodeURIComponent(s[1]))
       } else {
         this.error = 'Wrong pattern. Should be: Artist-Recording!'
       }

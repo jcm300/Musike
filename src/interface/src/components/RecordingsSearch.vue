@@ -39,7 +39,6 @@
                 <v-layout v-if="recordings.length==0">
                     <v-flex xs12 class="display-1 font-weight-black">
                         <v-alert
-                            :value="noResults"
                             type="warning"
                             dismissible
                         >
@@ -89,10 +88,8 @@ export default {
       // get recordings
       var response = await request.getAPI(this.$urlAPI + '/recordings/search?name=' + this.$route.query.name + '&title=' + this.$route.query.title)
       this.recordings = response.data
-      alert(JSON.stringify(response.data))
       this.loading = false
     } catch (e) {
-      alert(JSON.stringify(e))
       this.logout()
     }
   },
