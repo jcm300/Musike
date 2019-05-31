@@ -5,12 +5,13 @@ const saltRounds = 12
 
 const Users = module.exports
 
+/*
 Users.list = () => {
     return User
         .find()
         .sort({name: -1})
         .exec()
-}
+}*/
 
 Users.findOne = emailI => {
     return User
@@ -41,9 +42,7 @@ Users.updateUser = async (id, user) => {
                 .exec()
         }else return null
     }else{
-        return User
-            .findOneAndUpdate({_id: id}, {$set: {name: user.name, email: user.email}}, {useFindAndModify: false})
-            .exec()
+        return null
     }
 }
 
@@ -117,7 +116,8 @@ Users.updateRating = async (id, idMusic, rating) => {
     }
 }
 
+/*
 Users.deleteStat = idMusic => {
     return User
         .updateMany({},{ $pull: {stats: { id: idMusic}}},{useFindAndModify: false})
-}
+}*/

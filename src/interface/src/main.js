@@ -9,7 +9,6 @@ Vue.use(VueYouTubeEmbed)
 Vue.config.productionTip = false
 
 Vue.prototype.$urlAPI = 'http://localhost:3000'
-Vue.prototype.$token = ''
 
 new Vue({
   router,

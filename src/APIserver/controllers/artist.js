@@ -36,8 +36,7 @@ Artist.listArtistsByFilter = async (offset,filter) => {
 Artist.getArtist = async (id) => {
     const query = `
     select * where {
-        :${id} :name ?name ;
-            :type ?type .
+        :${id} :name ?name .
         OPTIONAL{ :${id} :sortName ?sortName . }
         OPTIONAL{ :${id} :type ?type . }
         OPTIONAL{ :${id} :beginDate ?beginDate . }
