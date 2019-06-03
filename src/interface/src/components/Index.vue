@@ -12,6 +12,8 @@
                 <v-tabs
                     color="primary"
                     dark
+                    centered
+                    grow
                     slider-color="deep-orange lighten-1"
                 >
                     <v-tab ripple>
@@ -25,6 +27,8 @@
                         <v-tabs
                             color="primary"
                             dark
+                            centered
+                            grow
                             slider-color="deep-orange lighten-1"
                         >
                             <v-tab ripple>
@@ -44,106 +48,206 @@
                             </v-tab>
 
                             <v-tab-item>
-                                <v-data-table
-                                    :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="tenMoreRecordingsViews"
-                                    class="elevation-1"
-                                    :total-items=10
-                                    rows-per-page-text=10
-                                    hide-actions
+                                <v-tabs
+                                    color="primary"
+                                    dark
+                                    centered
+                                    grow
+                                    slider-color="deep-orange lighten-1"
                                 >
-                                    <template v-slot:items="props">
-                                        <tr :active="props.selected" @click="$router.push('/recordings/' + props.item.id)">
-                                            <td class="text-xs-center">
-                                                <v-icon left color="deep-orange lighten-1">fas fa-music</v-icon>
-                                                {{ props.item.title }}
-                                            </td>
-                                            <td class="text-xs-center">{{ props.item.views }}</td>
-                                        </tr>
-                                    </template>
-                                </v-data-table>
+                                    <v-tab ripple>
+                                        By Views
+                                    </v-tab>
+                                    <v-tab ripple>
+                                        By Rating
+                                    </v-tab>
+
+                                    <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
+                                            :items="tenMoreRecordingsViews"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/recordings/' + props.item.id)">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-music</v-icon>
+                                                        {{ props.item.title }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.views }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                    </v-tab-item>
+                                </v-tabs>
                             </v-tab-item>
 
                             <v-tab-item>
-                                <v-data-table
-                                    :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="tenMoreArtistsViews"
-                                    class="elevation-1"
-                                    :total-items=10
-                                    rows-per-page-text=10
-                                    hide-actions
+                                <v-tabs
+                                    color="primary"
+                                    dark
+                                    centered
+                                    grow
+                                    slider-color="deep-orange lighten-1"
                                 >
-                                    <template v-slot:items="props">
-                                        <tr :active="props.selected" @click="$router.push('/artists/' + props.item.id.split('#')[1])">
-                                            <td class="text-xs-center">
-                                                <v-icon left color="deep-orange lighten-1">fas fa-podcast</v-icon>
-                                                {{ props.item.name }}
-                                            </td>
-                                            <td class="text-xs-center">{{ props.item.views }}</td>
-                                        </tr>
-                                    </template>
-                                </v-data-table>
+                                    <v-tab ripple>
+                                        By Views
+                                    </v-tab>
+                                    <v-tab ripple>
+                                        By Rating
+                                    </v-tab>
+
+                                    <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
+                                            :items="tenMoreArtistsViews"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/artists/' + props.item.id.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-podcast</v-icon>
+                                                        {{ props.item.name }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.views }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                    </v-tab-item>
+                                </v-tabs>
                             </v-tab-item>
 
                             <v-tab-item>
-                                <v-data-table
-                                    :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="tenMoreAlbumsViews"
-                                    class="elevation-1"
-                                    :total-items=10
-                                    rows-per-page-text=10
-                                    hide-actions
+                                <v-tabs
+                                    color="primary"
+                                    dark
+                                    centered
+                                    grow
+                                    slider-color="deep-orange lighten-1"
                                 >
-                                <template v-slot:items="props">
-                                        <tr :active="props.selected" @click="$router.push('/albums/' + props.item.id.split('#')[1])">
-                                            <td class="text-xs-center">
-                                                <v-icon left color="deep-orange lighten-1">fas fa-compact-disc</v-icon>
-                                                {{ props.item.title }}
-                                            </td>
-                                            <td class="text-xs-center">{{ props.item.views }}</td>
-                                        </tr>
-                                    </template>
-                                </v-data-table>
+                                    <v-tab ripple>
+                                        By Views
+                                    </v-tab>
+                                    <v-tab ripple>
+                                        By Rating
+                                    </v-tab>
+
+                                    <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
+                                            :items="tenMoreAlbumsViews"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                        <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/albums/' + props.item.id.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-compact-disc</v-icon>
+                                                        {{ props.item.title }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.views }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                    </v-tab-item>
+                                </v-tabs>
                             </v-tab-item>
 
                             <v-tab-item>
-                                <v-data-table
-                                    :headers="[{text: 'Tag', align:'center', sortable: false, value: 'tag'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="tenMoreTagsViews"
-                                    class="elevation-1"
-                                    :total-items=10
-                                    rows-per-page-text=10
-                                    hide-actions
+                                <v-tabs
+                                    color="primary"
+                                    dark
+                                    centered
+                                    grow
+                                    slider-color="deep-orange lighten-1"
                                 >
-                                    <template v-slot:items="props">
-                                        <td class="text-xs-center">
-                                            <v-icon left color="deep-orange lighten-1">fas fa-tag</v-icon>
-                                            {{ props.item.tag }}
-                                        </td>
-                                        <td class="text-xs-center">{{ props.item.views }}</td>
-                                    </template>
-                                </v-data-table>
+                                    <v-tab ripple>
+                                        By Views
+                                    </v-tab>
+                                    <v-tab ripple>
+                                        By Rating
+                                    </v-tab>
+
+                                    <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Tag', align:'center', sortable: false, value: 'tag'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
+                                            :items="tenMoreTagsViews"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <td class="text-xs-center">
+                                                    <v-icon left color="deep-orange lighten-1">fas fa-tag</v-icon>
+                                                    {{ props.item.tag }}
+                                                </td>
+                                                <td class="text-xs-center">{{ props.item.views }}</td>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                    </v-tab-item>
+                                </v-tabs>
                             </v-tab-item>
 
                             <v-tab-item>
-                                <v-data-table
-                                    :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="countriesTenMoreViews"
-                                    class="elevation-1"
-                                    :total-items=10
-                                    rows-per-page-text=10
-                                    hide-actions
+                                <v-tabs
+                                    color="primary"
+                                    dark
+                                    centered
+                                    grow
+                                    slider-color="deep-orange lighten-1"
                                 >
-                                <template v-slot:items="props">
-                                        <tr :active="props.selected" @click="$router.push('/areas/' + props.item.id)">
-                                            <td class="text-xs-center">
-                                                <v-icon left color="deep-orange lighten-1">fas fa-map-marker-alt</v-icon>
-                                                {{ props.item.name }}
-                                            </td>
-                                            <td class="text-xs-center">{{ props.item.views }}</td>
-                                        </tr>
-                                    </template>
-                                </v-data-table>
+                                    <v-tab ripple>
+                                        By Views
+                                    </v-tab>
+                                    <v-tab ripple>
+                                        By Rating
+                                    </v-tab>
+
+                                    <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
+                                            :items="countriesTenMoreViews"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                        <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/areas/' + props.item.id)">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-map-marker-alt</v-icon>
+                                                        {{ props.item.name }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.views }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                    </v-tab-item>
+                                </v-tabs>
                             </v-tab-item>
                         </v-tabs>
                     </v-tab-item>
@@ -152,6 +256,8 @@
                         <v-tabs
                             color="primary"
                             dark
+                            centered
+                            grow
                             slider-color="deep-orange lighten-1"
                         >
                             <v-tab ripple>
@@ -165,66 +271,126 @@
                             </v-tab>
 
                             <v-tab-item>
-                                <v-data-table
-                                    :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="userTenMoreRecordingsViews"
-                                    class="elevation-1"
-                                    :total-items=10
-                                    rows-per-page-text=10
-                                    hide-actions
+                                <v-tabs
+                                    color="primary"
+                                    dark
+                                    centered
+                                    grow
+                                    slider-color="deep-orange lighten-1"
                                 >
-                                    <template v-slot:items="props">
-                                        <tr :active="props.selected" @click="$router.push('/recordings/' + props.item.id)">
-                                            <td class="text-xs-center">
-                                                <v-icon left color="deep-orange lighten-1">fas fa-music</v-icon>
-                                                {{ props.item.title }}
-                                            </td>
-                                            <td class="text-xs-center">{{ props.item.views }}</td>
-                                        </tr>
-                                    </template>
-                                </v-data-table>
+                                    <v-tab ripple>
+                                        By Views
+                                    </v-tab>
+                                    <v-tab ripple>
+                                        By Rating
+                                    </v-tab>
+
+                                    <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
+                                            :items="userTenMoreRecordingsViews"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/recordings/' + props.item.id)">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-music</v-icon>
+                                                        {{ props.item.title }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.views }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                    </v-tab-item>
+                                </v-tabs>
                             </v-tab-item>
 
                             <v-tab-item>
-                                <v-data-table
-                                    :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="userTenMoreArtistsViews"
-                                    class="elevation-1"
-                                    :total-items=10
-                                    rows-per-page-text=10
-                                    hide-actions
+                                <v-tabs
+                                    color="primary"
+                                    dark
+                                    centered
+                                    grow
+                                    slider-color="deep-orange lighten-1"
                                 >
-                                    <template v-slot:items="props">
-                                        <tr :active="props.selected" @click="$router.push('/artists/' + props.item.id.split('#')[1])">
-                                            <td class="text-xs-center">
-                                                <v-icon left color="deep-orange lighten-1">fas fa-podcast</v-icon>
-                                                {{ props.item.name }}
-                                            </td>
-                                            <td class="text-xs-center">{{ props.item.views }}</td>
-                                        </tr>
-                                    </template>
-                                </v-data-table>
+                                    <v-tab ripple>
+                                        By Views
+                                    </v-tab>
+                                    <v-tab ripple>
+                                        By Rating
+                                    </v-tab>
+
+                                    <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
+                                            :items="userTenMoreArtistsViews"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/artists/' + props.item.id.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-podcast</v-icon>
+                                                        {{ props.item.name }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.views }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                    </v-tab-item>
+                                </v-tabs>
                             </v-tab-item>
 
                             <v-tab-item>
-                                <v-data-table
-                                    :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="userTenMoreAlbumsViews"
-                                    class="elevation-1"
-                                    :total-items=10
-                                    rows-per-page-text=10
-                                    hide-actions
+                                <v-tabs
+                                    color="primary"
+                                    dark
+                                    centered
+                                    grow
+                                    slider-color="deep-orange lighten-1"
                                 >
-                                    <template v-slot:items="props">
-                                        <tr :active="props.selected" @click="$router.push('/albums/' + props.item.id.split('#')[1])">
-                                            <td class="text-xs-center">
-                                                <v-icon left color="deep-orange lighten-1">fas fa-compact-disc</v-icon>
-                                                {{ props.item.title }}
-                                            </td>
-                                            <td class="text-xs-center">{{ props.item.views }}</td>
-                                        </tr>
-                                    </template>
-                                </v-data-table>
+                                    <v-tab ripple>
+                                        By Views
+                                    </v-tab>
+                                    <v-tab ripple>
+                                        By Rating
+                                    </v-tab>
+
+                                    <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
+                                            :items="userTenMoreAlbumsViews"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/albums/' + props.item.id.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-compact-disc</v-icon>
+                                                        {{ props.item.title }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.views }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                    </v-tab-item>
+                                </v-tabs>
                             </v-tab-item>
                         </v-tabs>
                     </v-tab-item>
