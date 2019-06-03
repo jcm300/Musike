@@ -9,28 +9,44 @@
             v-if="!loading"
         >
             <v-flex xs8>
-                <v-card>
-                    <v-card-title>
-                        <h1>Musike Statistics</h1>
-                    </v-card-title>
+                <v-tabs
+                    color="primary"
+                    dark
+                    slider-color="deep-orange lighten-1"
+                >
+                    <v-tab ripple>
+                        <h3>Musike Statistics</h3>
+                    </v-tab>
+                    <v-tab ripple>
+                        <h3>User Statistics</h3>
+                    </v-tab>
 
-                    <v-divider></v-divider>
+                    <v-tab-item>
+                        <v-tabs
+                            color="primary"
+                            dark
+                            slider-color="deep-orange lighten-1"
+                        >
+                            <v-tab ripple>
+                                More viewed recordings
+                            </v-tab>
+                            <v-tab ripple>
+                                More viewed artists
+                            </v-tab>
+                            <v-tab ripple>
+                                More viewed albums
+                            </v-tab>
+                            <v-tab ripple>
+                                More viewed tags
+                            </v-tab>
+                            <v-tab ripple>
+                                Countries with more "views"
+                            </v-tab>
 
-                     <v-layout
-                        row wrap
-                        fill-height
-                        justify-center
-                        align-center
-                    >
-                        <v-flex xs10>
-                            <v-card>
-                                <v-card-title>
-                                    <h3 class="text-xs-center">More viewed recordings</h3>
-                                </v-card-title>
-
+                            <v-tab-item>
                                 <v-data-table
                                     :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="tenMoreRecordings"
+                                    :items="tenMoreRecordingsViews"
                                     class="elevation-1"
                                     :total-items=10
                                     rows-per-page-text=10
@@ -46,26 +62,12 @@
                                         </tr>
                                     </template>
                                 </v-data-table>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
-                    <br>
+                            </v-tab-item>
 
-                    <v-layout
-                        row wrap
-                        fill-height
-                        justify-center
-                        align-center
-                    >
-                        <v-flex xs10>
-                            <v-card>
-                                <v-card-title>
-                                    <h3 class="text-xs-center">More viewed artists</h3>
-                                </v-card-title>
-
+                            <v-tab-item>
                                 <v-data-table
                                     :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="tenMoreArtists"
+                                    :items="tenMoreArtistsViews"
                                     class="elevation-1"
                                     :total-items=10
                                     rows-per-page-text=10
@@ -81,26 +83,12 @@
                                         </tr>
                                     </template>
                                 </v-data-table>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
-                    <br>
+                            </v-tab-item>
 
-                    <v-layout
-                        row wrap
-                        fill-height
-                        justify-center
-                        align-center
-                    >
-                        <v-flex xs10>
-                            <v-card>
-                                <v-card-title>
-                                    <h3 class="text-xs-center">More viewed albums</h3>
-                                </v-card-title>
-
+                            <v-tab-item>
                                 <v-data-table
                                     :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="tenMoreAlbums"
+                                    :items="tenMoreAlbumsViews"
                                     class="elevation-1"
                                     :total-items=10
                                     rows-per-page-text=10
@@ -116,26 +104,12 @@
                                         </tr>
                                     </template>
                                 </v-data-table>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
-                    <br>
+                            </v-tab-item>
 
-                    <v-layout
-                        row wrap
-                        fill-height
-                        justify-center
-                        align-center
-                    >
-                        <v-flex xs10>
-                            <v-card>
-                                <v-card-title>
-                                    <h3 class="text-xs-center">More viewed tags</h3>
-                                </v-card-title>
-
+                            <v-tab-item>
                                 <v-data-table
                                     :headers="[{text: 'Tag', align:'center', sortable: false, value: 'tag'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="tenMoreTags"
+                                    :items="tenMoreTagsViews"
                                     class="elevation-1"
                                     :total-items=10
                                     rows-per-page-text=10
@@ -149,23 +123,9 @@
                                         <td class="text-xs-center">{{ props.item.views }}</td>
                                     </template>
                                 </v-data-table>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
-                    <br>
+                            </v-tab-item>
 
-                    <v-layout
-                        row wrap
-                        fill-height
-                        justify-center
-                        align-center
-                    >
-                        <v-flex xs10>
-                            <v-card>
-                                <v-card-title>
-                                    <h3 class="text-xs-center">Countries with more "views"</h3>
-                                </v-card-title>
-
+                            <v-tab-item>
                                 <v-data-table
                                     :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
                                     :items="countriesTenMoreViews"
@@ -184,34 +144,30 @@
                                         </tr>
                                     </template>
                                 </v-data-table>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
-                    <br>
-                </v-card>
-                <br>
-                <v-card>
-                    <v-card-title>
-                        <h1>User Statistics</h1>
-                    </v-card-title>
+                            </v-tab-item>
+                        </v-tabs>
+                    </v-tab-item>
 
-                    <v-divider></v-divider>
+                    <v-tab-item>
+                        <v-tabs
+                            color="primary"
+                            dark
+                            slider-color="deep-orange lighten-1"
+                        >
+                            <v-tab ripple>
+                                More viewed recordings
+                            </v-tab>
+                            <v-tab ripple>
+                                More viewed artists
+                            </v-tab>
+                            <v-tab ripple>
+                                More viewed albums
+                            </v-tab>
 
-                    <v-layout
-                        row wrap
-                        fill-height
-                        justify-center
-                        align-center
-                    >
-                        <v-flex xs10>
-                            <v-card>
-                                <v-card-title>
-                                    <h3 class="text-xs-center">More viewed recordings</h3>
-                                </v-card-title>
-
+                            <v-tab-item>
                                 <v-data-table
                                     :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="userTenMoreRecordings"
+                                    :items="userTenMoreRecordingsViews"
                                     class="elevation-1"
                                     :total-items=10
                                     rows-per-page-text=10
@@ -227,26 +183,12 @@
                                         </tr>
                                     </template>
                                 </v-data-table>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
-                    <br>
+                            </v-tab-item>
 
-                    <v-layout
-                        row wrap
-                        fill-height
-                        justify-center
-                        align-center
-                    >
-                        <v-flex xs10>
-                            <v-card>
-                                <v-card-title>
-                                    <h3 class="text-xs-center">More viewed artists</h3>
-                                </v-card-title>
-
+                            <v-tab-item>
                                 <v-data-table
                                     :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="userTenMoreArtists"
+                                    :items="userTenMoreArtistsViews"
                                     class="elevation-1"
                                     :total-items=10
                                     rows-per-page-text=10
@@ -262,26 +204,12 @@
                                         </tr>
                                     </template>
                                 </v-data-table>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
-                    <br>
+                            </v-tab-item>
 
-                    <v-layout
-                        row wrap
-                        fill-height
-                        justify-center
-                        align-center
-                    >
-                        <v-flex xs10>
-                            <v-card>
-                                <v-card-title>
-                                    <h3 class="text-xs-center">More viewed albums</h3>
-                                </v-card-title>
-
+                            <v-tab-item>
                                 <v-data-table
                                     :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                    :items="userTenMoreAlbums"
+                                    :items="userTenMoreAlbumsViews"
                                     class="elevation-1"
                                     :total-items=10
                                     rows-per-page-text=10
@@ -297,11 +225,10 @@
                                         </tr>
                                     </template>
                                 </v-data-table>
-                            </v-card>
-                        </v-flex>
-                    </v-layout>
-                    <br>
-                </v-card>
+                            </v-tab-item>
+                        </v-tabs>
+                    </v-tab-item>
+                </v-tabs>
             </v-flex>
         </v-layout>
         <v-layout v-else>
@@ -337,26 +264,26 @@ export default {
 
   data: () => ({
     loading: true,
-    tenMoreRecordings: [],
-    tenMoreArtists: [],
-    tenMoreAlbums: [],
-    tenMoreTags: [],
+    tenMoreRecordingsViews: [],
+    tenMoreArtistsViews: [],
+    tenMoreAlbumsViews: [],
+    tenMoreTagsViews: [],
     countriesTenMoreViews: [],
     musikeStats: [],
-    userTenMoreRecordings: [],
-    userTenMoreArtists: [],
-    userTenMoreAlbums: [],
+    userTenMoreRecordingsViews: [],
+    userTenMoreArtistsViews: [],
+    userTenMoreAlbumsViews: [],
     userStats: []
   }),
 
   mounted: async function () {
     var response = await request.getAPI(this.$urlAPI + '/stats/more')
-    this.tenMoreRecordings = response.data
+    this.tenMoreRecordingsViews = response.data
 
-    // titles for tenMoreRecordings
-    for (var i = 0; i < this.tenMoreRecordings.length; i++) {
-      response = await request.getAPI(this.$urlAPI + '/recordings/' + this.tenMoreRecordings[i].id)
-      this.tenMoreRecordings[i].title = response.data[0].title
+    // titles for tenMoreRecordingsViews
+    for (var i = 0; i < this.tenMoreRecordingsViews.length; i++) {
+      response = await request.getAPI(this.$urlAPI + '/recordings/' + this.tenMoreRecordingsViews[i].id)
+      this.tenMoreRecordingsViews[i].title = response.data[0].title
     }
 
     response = await request.getAPI(this.$urlAPI + '/stats')
@@ -380,30 +307,30 @@ export default {
     // 10 more artists
     this.musikeStats.forEach(s => {
       s.artists.forEach(a => {
-        var index = this.tenMoreArtists.findIndex(e => e.id === a.id)
+        var index = this.tenMoreArtistsViews.findIndex(e => e.id === a.id)
         if (index !== -1) {
-          this.tenMoreArtists[index].views += s.views
+          this.tenMoreArtistsViews[index].views += s.views
         } else {
-          this.tenMoreArtists.push({ id: a.id, name: a.name, views: s.views })
+          this.tenMoreArtistsViews.push({ id: a.id, name: a.name, views: s.views })
         }
       })
     })
 
     // 10 more countries with views
-    for (i = 0; i < this.tenMoreArtists.length; i++) {
-      response = await request.getAPI(this.$urlAPI + '/artists/' + this.tenMoreArtists[i].id.split('#')[1])
+    for (i = 0; i < this.tenMoreArtistsViews.length; i++) {
+      response = await request.getAPI(this.$urlAPI + '/artists/' + this.tenMoreArtistsViews[i].id.split('#')[1])
       if (response.data[0].nameArea != null && response.data[0].nameArea !== '') {
         var index = this.countriesTenMoreViews.findIndex(e => e.id === response.data[0].areaId.split('#')[1])
         if (index !== -1) {
-          this.countriesTenMoreViews[index].views += this.tenMoreArtists[i].views
+          this.countriesTenMoreViews[index].views += this.tenMoreArtistsViews[i].views
         } else {
-          this.countriesTenMoreViews.push({ id: response.data[0].areaId.split('#')[1], name: response.data[0].nameArea, views: this.tenMoreArtists[i].views })
+          this.countriesTenMoreViews.push({ id: response.data[0].areaId.split('#')[1], name: response.data[0].nameArea, views: this.tenMoreArtistsViews[i].views })
         }
       }
     }
 
-    var sorted = this.tenMoreArtists.sort((a, b) => { return b.views - a.views })
-    this.tenMoreArtists = sorted.slice(0, 10)
+    var sorted = this.tenMoreArtistsViews.sort((a, b) => { return b.views - a.views })
+    this.tenMoreArtistsViews = sorted.slice(0, 10)
 
     sorted = this.countriesTenMoreViews.sort((a, b) => { return b.views - a.views })
     this.countriesTenMoreViews = sorted.slice(0, 10)
@@ -411,41 +338,41 @@ export default {
     // 10 more albums
     this.musikeStats.forEach(s => {
       s.albums.forEach(a => {
-        var index = this.tenMoreAlbums.findIndex(e => e.id === a.id)
+        var index = this.tenMoreAlbumsViews.findIndex(e => e.id === a.id)
         if (index !== -1) {
-          this.tenMoreAlbums[index].views += s.views
+          this.tenMoreAlbumsViews[index].views += s.views
         } else {
-          this.tenMoreAlbums.push({ id: a.id, title: a.title, views: s.views })
+          this.tenMoreAlbumsViews.push({ id: a.id, title: a.title, views: s.views })
         }
       })
     })
 
-    sorted = this.tenMoreAlbums.sort((a, b) => { return b.views - a.views })
-    this.tenMoreAlbums = sorted.slice(0, 10)
+    sorted = this.tenMoreAlbumsViews.sort((a, b) => { return b.views - a.views })
+    this.tenMoreAlbumsViews = sorted.slice(0, 10)
 
     // this.tenMoreTags
     this.musikeStats.forEach(s => {
       s.tags.forEach(a => {
-        var index = this.tenMoreTags.findIndex(e => e.tag === a.tag)
+        var index = this.tenMoreTagsViews.findIndex(e => e.tag === a.tag)
         if (index !== -1) {
-          this.tenMoreTags[index].views += s.views
+          this.tenMoreTagsViews[index].views += s.views
         } else {
-          this.tenMoreTags.push({ tag: a.tag, views: s.views })
+          this.tenMoreTagsViews.push({ tag: a.tag, views: s.views })
         }
       })
     })
 
-    sorted = this.tenMoreTags.sort((a, b) => { return b.views - a.views })
-    this.tenMoreTags = sorted.slice(0, 10)
+    sorted = this.tenMoreTagsViews.sort((a, b) => { return b.views - a.views })
+    this.tenMoreTagsViews = sorted.slice(0, 10)
 
     var id = localStorage.getItem('user-id')
     response = await request.getAPI(this.$urlAPI + '/users/' + id + '/statsMore')
-    this.userTenMoreRecordings = response.data
+    this.userTenMoreRecordingsViews = response.data
 
-    // titles userTenMoreRecordings
-    for (i = 0; i < this.userTenMoreRecordings.length; i++) {
-      response = await request.getAPI(this.$urlAPI + '/recordings/' + this.userTenMoreRecordings[i].id)
-      this.userTenMoreRecordings[i].title = response.data[0].title
+    // titles userTenMoreRecordingsViews
+    for (i = 0; i < this.userTenMoreRecordingsViews.length; i++) {
+      response = await request.getAPI(this.$urlAPI + '/recordings/' + this.userTenMoreRecordingsViews[i].id)
+      this.userTenMoreRecordingsViews[i].title = response.data[0].title
     }
 
     response = await request.getAPI(this.$urlAPI + '/users/' + id + '/stats')
@@ -466,32 +393,32 @@ export default {
     // 10 more user artists
     this.userStats.forEach(s => {
       s.artists.forEach(a => {
-        var index = this.userTenMoreArtists.findIndex(e => e.id === a.id)
+        var index = this.userTenMoreArtistsViews.findIndex(e => e.id === a.id)
         if (index !== -1) {
-          this.userTenMoreArtists[index].views += s.views
+          this.userTenMoreArtistsViews[index].views += s.views
         } else {
-          this.userTenMoreArtists.push({ id: a.id, name: a.name, views: s.views })
+          this.userTenMoreArtistsViews.push({ id: a.id, name: a.name, views: s.views })
         }
       })
     })
 
-    sorted = this.userTenMoreArtists.sort((a, b) => { return b.views - a.views })
-    this.userTenMoreArtists = sorted.slice(0, 10)
+    sorted = this.userTenMoreArtistsViews.sort((a, b) => { return b.views - a.views })
+    this.userTenMoreArtistsViews = sorted.slice(0, 10)
 
     // 10 more user albums
     this.userStats.forEach(s => {
       s.albums.forEach(a => {
-        var index = this.userTenMoreAlbums.findIndex(e => e.id === a.id)
+        var index = this.userTenMoreAlbumsViews.findIndex(e => e.id === a.id)
         if (index !== -1) {
-          this.userTenMoreAlbums[index].views += s.views
+          this.userTenMoreAlbumsViews[index].views += s.views
         } else {
-          this.userTenMoreAlbums.push({ id: a.id, title: a.title, views: s.views })
+          this.userTenMoreAlbumsViews.push({ id: a.id, title: a.title, views: s.views })
         }
       })
     })
 
-    sorted = this.userTenMoreAlbums.sort((a, b) => { return b.views - a.views })
-    this.userTenMoreAlbums = sorted.slice(0, 10)
+    sorted = this.userTenMoreAlbumsViews.sort((a, b) => { return b.views - a.views })
+    this.userTenMoreAlbumsViews = sorted.slice(0, 10)
 
     this.loading = false
   },
