@@ -71,8 +71,8 @@ Stats.getStats = async () => {
     return values
 }
 
-//get 10 more recordings views
-Stats.getMoreRecordingsViews = async () => {
+//get 10 Most recordings views
+Stats.getMostRecordingsViews = async () => {
     var rawValues = await User.find()
     rawValues = rawValues.map(u => {return u.stats})
     var values = []
@@ -97,6 +97,41 @@ Stats.getMoreRecordingsViews = async () => {
         }
     })
     var sorted = values.sort((a, b) => {return b.views - a.views})
+    return sorted.slice(0,10)
+}
+
+//get 10 Most recordings rating
+Stats.getMostRecordingsRating = async () => {
+    var rawValues = await User.find()
+    rawValues = rawValues.map(u => {return u.stats})
+    var values = []
+    rawValues.forEach(l => {
+        l.forEach(s => {
+            if(s.rating > 0){
+                var index = values.findIndex(elem => elem.id == s.id)
+                if(index != -1){
+                    values[index].avgRating = (values[index].avgRating * values[index].nRating + s.rating) / (values[index].nRating + 1)
+                    values[index].nRating ++
+                }else{
+                    values.push({id: s.id, avgRating: s.rating, nRating: 1})
+                }
+            }
+        })
+    })
+
+    rawValues = await Stat.find()
+    rawValues.forEach(s => {
+        if(s.avgRating > 0){
+            var index = values.findIndex(elem => elem.id == s.id)
+            if(index != -1){
+                values[index].avgRating = (values[index].avgRating * values[index].nRating + s.avgRating * s.nRating) / (values[index].nRating + s.nRating)
+                values[index].nRating += s.nRating
+            }else{
+                values.push({id: s.id, avgRating: s.avgRating, nRating: s.nRating})
+            }
+        }
+    })
+    var sorted = values.sort((a, b) => {return b.avgRating - a.avgRating})
     return sorted.slice(0,10)
 }
 

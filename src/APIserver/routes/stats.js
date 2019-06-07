@@ -3,8 +3,14 @@ var router = express.Router();
 var Stats = require("../controllers/stats")
 var auth = require("../auth/auth")
 
-router.get('/more', auth.isAuthenticated, function(req, res) {
-    Stats.getMoreRecordingsViews()
+router.get('/mostViews', auth.isAuthenticated, function(req, res) {
+    Stats.getMostRecordingsViews()
+        .then(data => res.jsonp(data))
+        .catch(error => res.status(500).jsonp(error))
+});
+
+router.get('/mostRating', auth.isAuthenticated, function(req, res) {
+    Stats.getMostRecordingsRating()
         .then(data => res.jsonp(data))
         .catch(error => res.status(500).jsonp(error))
 });

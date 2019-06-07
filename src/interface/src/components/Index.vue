@@ -32,19 +32,19 @@
                             slider-color="deep-orange lighten-1"
                         >
                             <v-tab ripple>
-                                More viewed recordings
+                                Most recordings
                             </v-tab>
                             <v-tab ripple>
-                                More viewed artists
+                                Most artists
                             </v-tab>
                             <v-tab ripple>
-                                More viewed albums
+                                Most albums
                             </v-tab>
                             <v-tab ripple>
-                                More viewed tags
+                                Most tags
                             </v-tab>
                             <v-tab ripple>
-                                Countries with more "views"
+                                Countries with Most
                             </v-tab>
 
                             <v-tab-item>
@@ -65,7 +65,7 @@
                                     <v-tab-item>
                                         <v-data-table
                                             :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                            :items="tenMoreRecordingsViews"
+                                            :items="tenMostRecordingsViews"
                                             class="elevation-1"
                                             :total-items=10
                                             rows-per-page-text=10
@@ -84,6 +84,25 @@
                                     </v-tab-item>
 
                                     <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Rating', align:'center', sortable: false, value: 'rating'}, {text: 'Number of User Votes', align:'center', sortable: false, value: 'numberRating'}]"
+                                            :items="tenMostRecordingsRating"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/recordings/' + props.item.id)">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-music</v-icon>
+                                                        {{ props.item.title }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.avgRating }}</td>
+                                                    <td class="text-xs-center">{{ props.item.nRating }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-tab-item>
@@ -106,7 +125,7 @@
                                     <v-tab-item>
                                         <v-data-table
                                             :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                            :items="tenMoreArtistsViews"
+                                            :items="tenMostArtistsViews"
                                             class="elevation-1"
                                             :total-items=10
                                             rows-per-page-text=10
@@ -125,6 +144,25 @@
                                     </v-tab-item>
 
                                     <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Rating (average of all recording ratings)', align:'center', sortable: false, value: 'rating'}, {text: 'Number of User Votes', align:'center', sortable: false, value: 'numberRating'}]"
+                                            :items="tenMostArtistsRating"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/artists/' + props.item.id.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-podcast</v-icon>
+                                                        {{ props.item.name }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.avgRating }}</td>
+                                                    <td class="text-xs-center">{{ props.item.nRating }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-tab-item>
@@ -147,7 +185,7 @@
                                     <v-tab-item>
                                         <v-data-table
                                             :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                            :items="tenMoreAlbumsViews"
+                                            :items="tenMostAlbumsViews"
                                             class="elevation-1"
                                             :total-items=10
                                             rows-per-page-text=10
@@ -166,6 +204,25 @@
                                     </v-tab-item>
 
                                     <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Rating (average of all recording ratings)', align:'center', sortable: false, value: 'rating'}, {text: 'Number of User Votes', align:'center', sortable: false, value: 'numberRating'}]"
+                                            :items="tenMostAlbumsRating"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                        <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/albums/' + props.item.id.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-compact-disc</v-icon>
+                                                        {{ props.item.title }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.avgRating }}</td>
+                                                    <td class="text-xs-center">{{ props.item.nRating }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-tab-item>
@@ -188,7 +245,7 @@
                                     <v-tab-item>
                                         <v-data-table
                                             :headers="[{text: 'Tag', align:'center', sortable: false, value: 'tag'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                            :items="tenMoreTagsViews"
+                                            :items="tenMostTagsViews"
                                             class="elevation-1"
                                             :total-items=10
                                             rows-per-page-text=10
@@ -205,6 +262,23 @@
                                     </v-tab-item>
 
                                     <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Tag', align:'center', sortable: false, value: 'tag'}, {text: 'Rating (average of all recording ratings)', align:'center', sortable: false, value: 'rating'}, {text: 'Number of User Votes', align:'center', sortable: false, value: 'numberRating'}]"
+                                            :items="tenMostTagsRating"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <td class="text-xs-center">
+                                                    <v-icon left color="deep-orange lighten-1">fas fa-tag</v-icon>
+                                                    {{ props.item.tag }}
+                                                </td>
+                                                <td class="text-xs-center">{{ props.item.avgRating }}</td>
+                                                <td class="text-xs-center">{{ props.item.nRating }}</td>
+                                            </template>
+                                        </v-data-table>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-tab-item>
@@ -218,16 +292,16 @@
                                     slider-color="deep-orange lighten-1"
                                 >
                                     <v-tab ripple>
-                                        By Views
+                                        Views
                                     </v-tab>
                                     <v-tab ripple>
-                                        By Rating
+                                        Rating
                                     </v-tab>
 
                                     <v-tab-item>
                                         <v-data-table
                                             :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                            :items="countriesTenMoreViews"
+                                            :items="countriesTenMostViews"
                                             class="elevation-1"
                                             :total-items=10
                                             rows-per-page-text=10
@@ -246,6 +320,25 @@
                                     </v-tab-item>
 
                                     <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Rating (average of all recording ratings)', align:'center', sortable: false, value: 'rating'}, {text: 'Number of User Votes', align:'center', sortable: false, value: 'numberRating'}]"
+                                            :items="countriesTenMostRating"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                        <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/areas/' + props.item.id)">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-map-marker-alt</v-icon>
+                                                        {{ props.item.name }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.avgRating }}</td>
+                                                    <td class="text-xs-center">{{ props.item.nRating }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-tab-item>
@@ -261,13 +354,13 @@
                             slider-color="deep-orange lighten-1"
                         >
                             <v-tab ripple>
-                                More viewed recordings
+                                Most recordings
                             </v-tab>
                             <v-tab ripple>
-                                More viewed artists
+                                Most artists
                             </v-tab>
                             <v-tab ripple>
-                                More viewed albums
+                                Most albums
                             </v-tab>
 
                             <v-tab-item>
@@ -288,7 +381,7 @@
                                     <v-tab-item>
                                         <v-data-table
                                             :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                            :items="userTenMoreRecordingsViews"
+                                            :items="userTenMostRecordingsViews"
                                             class="elevation-1"
                                             :total-items=10
                                             rows-per-page-text=10
@@ -307,6 +400,24 @@
                                     </v-tab-item>
 
                                     <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Rating', align:'center', sortable: false, value: 'rating'}]"
+                                            :items="userTenMostRecordingsRating"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/recordings/' + props.item.id)">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-music</v-icon>
+                                                        {{ props.item.title }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.rating }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-tab-item>
@@ -329,7 +440,7 @@
                                     <v-tab-item>
                                         <v-data-table
                                             :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                            :items="userTenMoreArtistsViews"
+                                            :items="userTenMostArtistsViews"
                                             class="elevation-1"
                                             :total-items=10
                                             rows-per-page-text=10
@@ -348,6 +459,25 @@
                                     </v-tab-item>
 
                                     <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Rating (average of all recording ratings)', align:'center', sortable: false, value: 'rating'}, {text: 'Number of User Votes', align:'center', sortable: false, value: 'numberRating'}]"
+                                            :items="userTenMostArtistsRating"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/artists/' + props.item.id.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-podcast</v-icon>
+                                                        {{ props.item.name }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.avgRating }}</td>
+                                                    <td class="text-xs-center">{{ props.item.nRating }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-tab-item>
@@ -370,7 +500,7 @@
                                     <v-tab-item>
                                         <v-data-table
                                             :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Views', align:'center', sortable: false, value: 'views'}]"
-                                            :items="userTenMoreAlbumsViews"
+                                            :items="userTenMostAlbumsViews"
                                             class="elevation-1"
                                             :total-items=10
                                             rows-per-page-text=10
@@ -389,6 +519,25 @@
                                     </v-tab-item>
 
                                     <v-tab-item>
+                                        <v-data-table
+                                            :headers="[{text: 'Title', align:'center', sortable: false, value: 'title'}, {text: 'Rating (average of all recording ratings)', align:'center', sortable: false, value: 'rating'}, {text: 'Number of User Votes', align:'center', sortable: false, value: 'numberRating'}]"
+                                            :items="userTenMostAlbumsRating"
+                                            class="elevation-1"
+                                            :total-items=10
+                                            rows-per-page-text=10
+                                            hide-actions
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/albums/' + props.item.id.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-compact-disc</v-icon>
+                                                        {{ props.item.title }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.avgRating }}</td>
+                                                    <td class="text-xs-center">{{ props.item.nRating }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-tab-item>
@@ -423,6 +572,76 @@ import Toolbar from './Toolbar'
 var request = require('./request.js')
 var auth = require('./auth.js')
 
+async function titles (list, entity, url) {
+  for (var i = 0; i < list.length; i++) {
+    var response = await request.getAPI(url + '/' + entity + '/' + list[i].id)
+    list[i].title = response.data[0].title
+  }
+}
+
+function getViews (stats, listR, type, entity) {
+  stats.forEach(s => {
+    s[entity].forEach(a => {
+      var index = -1
+      if (entity !== 'tags') {
+        index = listR.findIndex(e => e.id === a.id)
+      } else {
+        index = listR.findIndex(e => e.tag === a.tag)
+      }
+      if (index !== -1) {
+        listR[index].views += s.views
+      } else {
+        var elem = { views: s.views }
+        if (entity !== 'tags') {
+          elem.id = a.id
+        }
+        elem[type] = a[type]
+        listR.push(elem)
+      }
+    })
+  })
+}
+
+function sortViews (list) {
+  var sorted = list.sort((a, b) => { return b.views - a.views })
+  return sorted.slice(0, 10)
+}
+
+function getRating (stats, listR, type, entity) {
+  stats.forEach(s => {
+    if (s.avgRating == null) {
+      s.avgRating = s.rating
+      s.nRating = 1
+    }
+    s[entity].forEach(a => {
+      if (s.avgRating > 0) {
+        var index = -1
+        if (entity !== 'tags') {
+          index = listR.findIndex(e => e.id === a.id)
+        } else {
+          index = listR.findIndex(e => e.tag === a.tag)
+        }
+        if (index !== -1) {
+          listR[index].avgRating = (listR[index].avgRating * listR[index].nRating + s.avgRating * s.nRating) / (listR[index].nRating + s.nRating)
+          listR[index].nRating += s.nRating
+        } else {
+          var elem = { avgRating: s.avgRating, nRating: s.nRating }
+          if (entity !== 'tags') {
+            elem.id = a.id
+          }
+          elem[type] = a[type]
+          listR.push(elem)
+        }
+      }
+    })
+  })
+}
+
+function sortRating (list) {
+  var sorted = list.sort((a, b) => { return b.avgRating - a.avgRating })
+  return sorted.slice(0, 10)
+}
+
 export default {
   components: {
     Toolbar
@@ -430,33 +649,40 @@ export default {
 
   data: () => ({
     loading: true,
-    tenMoreRecordingsViews: [],
-    tenMoreArtistsViews: [],
-    tenMoreAlbumsViews: [],
-    tenMoreTagsViews: [],
-    countriesTenMoreViews: [],
+    tenMostRecordingsViews: [],
+    tenMostArtistsViews: [],
+    tenMostAlbumsViews: [],
+    tenMostTagsViews: [],
+    countriesTenMostViews: [],
+    tenMostRecordingsRating: [],
+    tenMostArtistsRating: [],
+    tenMostAlbumsRating: [],
+    tenMostTagsRating: [],
+    countriesTenMostRating: [],
     musikeStats: [],
-    userTenMoreRecordingsViews: [],
-    userTenMoreArtistsViews: [],
-    userTenMoreAlbumsViews: [],
+    userTenMostRecordingsViews: [],
+    userTenMostArtistsViews: [],
+    userTenMostAlbumsViews: [],
+    userTenMostRecordingsRating: [],
+    userTenMostArtistsRating: [],
+    userTenMostAlbumsRating: [],
     userStats: []
   }),
 
   mounted: async function () {
-    var response = await request.getAPI(this.$urlAPI + '/stats/more')
-    this.tenMoreRecordingsViews = response.data
+    var response = await request.getAPI(this.$urlAPI + '/stats/mostViews')
+    this.tenMostRecordingsViews = response.data
+    titles(this.tenMostRecordingsViews, 'recordings', this.$urlAPI)
 
-    // titles for tenMoreRecordingsViews
-    for (var i = 0; i < this.tenMoreRecordingsViews.length; i++) {
-      response = await request.getAPI(this.$urlAPI + '/recordings/' + this.tenMoreRecordingsViews[i].id)
-      this.tenMoreRecordingsViews[i].title = response.data[0].title
-    }
+    response = await request.getAPI(this.$urlAPI + '/stats/mostRating')
+    this.tenMostRecordingsRating = response.data
+    titles(this.tenMostRecordingsRating, 'recordings', this.$urlAPI)
 
     response = await request.getAPI(this.$urlAPI + '/stats')
     this.musikeStats = response.data
 
     // get artists and albums
-    for (i = 0; i < this.musikeStats.length; i++) {
+    for (var i = 0; i < this.musikeStats.length; i++) {
       response = await request.getAPI(this.$urlAPI + '/recordings/' + this.musikeStats[i].id)
       this.musikeStats[i].title = response.data[0].title
 
@@ -470,76 +696,72 @@ export default {
       this.musikeStats[i].tags = response.data
     }
 
-    // 10 more artists
-    this.musikeStats.forEach(s => {
-      s.artists.forEach(a => {
-        var index = this.tenMoreArtistsViews.findIndex(e => e.id === a.id)
-        if (index !== -1) {
-          this.tenMoreArtistsViews[index].views += s.views
-        } else {
-          this.tenMoreArtistsViews.push({ id: a.id, name: a.name, views: s.views })
-        }
-      })
-    })
+    // 10 Most artists with views
+    getViews(this.musikeStats, this.tenMostArtistsViews, 'name', 'artists')
 
-    // 10 more countries with views
-    for (i = 0; i < this.tenMoreArtistsViews.length; i++) {
-      response = await request.getAPI(this.$urlAPI + '/artists/' + this.tenMoreArtistsViews[i].id.split('#')[1])
+    // 10 Most artists with ratings
+    getRating(this.musikeStats, this.tenMostArtistsRating, 'name', 'artists')
+
+    // 10 Most countries with views
+    for (i = 0; i < this.tenMostArtistsViews.length; i++) {
+      response = await request.getAPI(this.$urlAPI + '/artists/' + this.tenMostArtistsViews[i].id.split('#')[1])
       if (response.data[0].nameArea != null && response.data[0].nameArea !== '') {
-        var index = this.countriesTenMoreViews.findIndex(e => e.id === response.data[0].areaId.split('#')[1])
+        var index = this.countriesTenMostViews.findIndex(e => e.id === response.data[0].areaId.split('#')[1])
         if (index !== -1) {
-          this.countriesTenMoreViews[index].views += this.tenMoreArtistsViews[i].views
+          this.countriesTenMostViews[index].views += this.tenMostArtistsViews[i].views
         } else {
-          this.countriesTenMoreViews.push({ id: response.data[0].areaId.split('#')[1], name: response.data[0].nameArea, views: this.tenMoreArtistsViews[i].views })
+          this.countriesTenMostViews.push({ id: response.data[0].areaId.split('#')[1], name: response.data[0].nameArea, views: this.tenMostArtistsViews[i].views })
         }
       }
     }
 
-    var sorted = this.tenMoreArtistsViews.sort((a, b) => { return b.views - a.views })
-    this.tenMoreArtistsViews = sorted.slice(0, 10)
-
-    sorted = this.countriesTenMoreViews.sort((a, b) => { return b.views - a.views })
-    this.countriesTenMoreViews = sorted.slice(0, 10)
-
-    // 10 more albums
-    this.musikeStats.forEach(s => {
-      s.albums.forEach(a => {
-        var index = this.tenMoreAlbumsViews.findIndex(e => e.id === a.id)
+    // 10 Most countries with ratings
+    for (i = 0; i < this.tenMostArtistsRating.length; i++) {
+      response = await request.getAPI(this.$urlAPI + '/artists/' + this.tenMostArtistsRating[i].id.split('#')[1])
+      if (response.data[0].nameArea != null && response.data[0].nameArea !== '') {
+        index = this.countriesTenMostRating.findIndex(e => e.id === response.data[0].areaId.split('#')[1])
         if (index !== -1) {
-          this.tenMoreAlbumsViews[index].views += s.views
+          this.countriesTenMostRating[index].avgRating = (this.countriesTenMostRating[index].avgRating * this.countriesTenMostRating[index].nRating + this.tenMostArtistsRating[i].avgRating * this.tenMostArtistsRating[i].nRating) / (this.countriesTenMostRating[index].nRating + this.tenMostArtistsRating[i].nRating)
+          this.countriesTenMostRating[index].nRating += this.tenMostArtistsRating[i].nRating
         } else {
-          this.tenMoreAlbumsViews.push({ id: a.id, title: a.title, views: s.views })
+          this.countriesTenMostRating.push({ id: response.data[0].areaId.split('#')[1], name: response.data[0].nameArea, avgRating: this.tenMostArtistsRating[i].avgRating, nRating: this.tenMostArtistsRating[i].nRating })
         }
-      })
-    })
+      }
+    }
 
-    sorted = this.tenMoreAlbumsViews.sort((a, b) => { return b.views - a.views })
-    this.tenMoreAlbumsViews = sorted.slice(0, 10)
+    this.tenMostArtistsViews = sortViews(this.tenMostArtistsViews)
+    this.tenMostArtistsRating = sortRating(this.tenMostArtistsRating)
+    this.countriesTenMostViews = sortViews(this.countriesTenMostViews)
+    this.countriesTenMostRating = sortRating(this.countriesTenMostRating)
 
-    // this.tenMoreTags
-    this.musikeStats.forEach(s => {
-      s.tags.forEach(a => {
-        var index = this.tenMoreTagsViews.findIndex(e => e.tag === a.tag)
-        if (index !== -1) {
-          this.tenMoreTagsViews[index].views += s.views
-        } else {
-          this.tenMoreTagsViews.push({ tag: a.tag, views: s.views })
-        }
-      })
-    })
+    // 10 Most albums with views
+    getViews(this.musikeStats, this.tenMostAlbumsViews, 'title', 'albums')
+    this.tenMostAlbumsViews = sortViews(this.tenMostAlbumsViews)
 
-    sorted = this.tenMoreTagsViews.sort((a, b) => { return b.views - a.views })
-    this.tenMoreTagsViews = sorted.slice(0, 10)
+    // 10 Most albums with rating
+    getRating(this.musikeStats, this.tenMostAlbumsRating, 'title', 'albums')
+    this.tenMostAlbumsRating = sortRating(this.tenMostAlbumsRating)
+
+    // this.tenMostTags with Views
+    getViews(this.musikeStats, this.tenMostTagsViews, 'tag', 'tags')
+    this.tenMostTagsViews = sortViews(this.tenMostTagsViews)
+
+    // this.tenMostTags with Rating
+    getRating(this.musikeStats, this.tenMostTagsRating, 'tag', 'tags')
+    this.tenMostTagsRating = sortRating(this.tenMostTagsRating)
 
     var id = localStorage.getItem('user-id')
-    response = await request.getAPI(this.$urlAPI + '/users/' + id + '/statsMore')
-    this.userTenMoreRecordingsViews = response.data
+    response = await request.getAPI(this.$urlAPI + '/users/' + id + '/statsMostViews')
+    this.userTenMostRecordingsViews = response.data
 
-    // titles userTenMoreRecordingsViews
-    for (i = 0; i < this.userTenMoreRecordingsViews.length; i++) {
-      response = await request.getAPI(this.$urlAPI + '/recordings/' + this.userTenMoreRecordingsViews[i].id)
-      this.userTenMoreRecordingsViews[i].title = response.data[0].title
-    }
+    // titles userTenMostRecordingsViews
+    titles(this.userTenMostRecordingsViews, 'recordings', this.$urlAPI)
+
+    response = await request.getAPI(this.$urlAPI + '/users/' + id + '/statsMostRating')
+    this.userTenMostRecordingsRating = response.data
+
+    // titles userTenMostRecordingsRating
+    titles(this.userTenMostRecordingsRating, 'recordings', this.$urlAPI)
 
     response = await request.getAPI(this.$urlAPI + '/users/' + id + '/stats')
     this.userStats = response.data
@@ -556,35 +778,21 @@ export default {
       this.userStats[i].albums = response.data
     }
 
-    // 10 more user artists
-    this.userStats.forEach(s => {
-      s.artists.forEach(a => {
-        var index = this.userTenMoreArtistsViews.findIndex(e => e.id === a.id)
-        if (index !== -1) {
-          this.userTenMoreArtistsViews[index].views += s.views
-        } else {
-          this.userTenMoreArtistsViews.push({ id: a.id, name: a.name, views: s.views })
-        }
-      })
-    })
+    // 10 Most user artists with views
+    getViews(this.userStats, this.userTenMostArtistsViews, 'name', 'artists')
+    this.userTenMostArtistsViews = sortViews(this.userTenMostArtistsViews)
 
-    sorted = this.userTenMoreArtistsViews.sort((a, b) => { return b.views - a.views })
-    this.userTenMoreArtistsViews = sorted.slice(0, 10)
+    // 10 Most user artists with rating
+    getRating(this.userStats, this.userTenMostArtistsRating, 'name', 'artists')
+    this.userTenMostArtistsRating = sortRating(this.userTenMostArtistsRating)
 
-    // 10 more user albums
-    this.userStats.forEach(s => {
-      s.albums.forEach(a => {
-        var index = this.userTenMoreAlbumsViews.findIndex(e => e.id === a.id)
-        if (index !== -1) {
-          this.userTenMoreAlbumsViews[index].views += s.views
-        } else {
-          this.userTenMoreAlbumsViews.push({ id: a.id, title: a.title, views: s.views })
-        }
-      })
-    })
+    // 10 Most user albums with views
+    getViews(this.userStats, this.userTenMostAlbumsViews, 'title', 'albums')
+    this.userTenMostAlbumsViews = sortViews(this.userTenMostAlbumsViews)
 
-    sorted = this.userTenMoreAlbumsViews.sort((a, b) => { return b.views - a.views })
-    this.userTenMoreAlbumsViews = sorted.slice(0, 10)
+    // 10 Most user albums with rating
+    getRating(this.userStats, this.userTenMostAlbumsRating, 'title', 'albums')
+    this.userTenMostAlbumsRating = sortRating(this.userTenMostAlbumsRating)
 
     this.loading = false
   },

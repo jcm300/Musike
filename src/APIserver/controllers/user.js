@@ -70,11 +70,31 @@ Users.getRecordingsUser = async id => {
     return user.stats
 }
 
-//get 10 recordings with more views of a user
-Users.getMoreRecordingsViewsUser = async id => {
+//get 10 recordings with Most views of a user
+Users.getMostRecordingsViewsUser = async id => {
     var user = await User.findOne({_id: id})
-    var values = user.stats.map(s => {return {id: s.id, views: s.views}})
+    var values = user.stats.map(s => {
+        if(s.views > 0) 
+            return {id: s.id, views: s.views} 
+        else 
+            return null
+    })
+    values = values.filter(e => e!=null)
     var sorted = values.sort((a, b) => {return b.views - a.views})
+    return sorted.slice(0,10)
+}
+
+//get 10 recordings with Most rating of a user
+Users.getMostRecordingsRatingUser = async id => {
+    var user = await User.findOne({_id: id})
+    var values = user.stats.map(s => {
+        if(s.rating > 0) 
+            return {id: s.id, rating: s.rating} 
+        else 
+            return null
+    })
+    values = values.filter(e => e!=null)
+    var sorted = values.sort((a, b) => {return b.rating - a.rating})
     return sorted.slice(0,10)
 }
 

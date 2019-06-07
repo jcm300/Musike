@@ -355,7 +355,8 @@ Os \texttt{controllers} possuem várias funções que permitem manusear os docum
         \item \texttt{updatePassword}: dado o id de um utilizador, a password atual e a nova password, verifica se a password atual está correta (se é igual à presente na base de dados), e em caso afirmativo, encripta a nova password e passa a ser a password atual do utilizador;
         \item \texttt{deleteUser}: dado um id de um utilizador, apaga-o;
         \item \texttt{getRecordingsUser}: dado um id de um utilizador, obtém uma lista com todas as estatisticas do utilizador (visualizações e classificações);
-        \item \texttt{getMoreRecordingsViewsUser}: dado um id de um utilizador, obtém uma lista das 10 músicas mais ouvidas/vistas pelo utilizador; cada elemento desta lista tem o id da música e o número de visualizações desta;
+        \item \texttt{getMostRecordingsViewsUser}: dado um id de um utilizador, obtém uma lista das 10 músicas mais ouvidas/vistas pelo utilizador; cada elemento desta lista tem o id da música e o número de visualizações desta;
+        \item \texttt{getMostRecordingsRatingUser}: dado um id de um utilizador, obtém uma lista das 10 músicas com maior classificação dada pelo utilizador; cada elemento desta lista tem o id da música e a classificação atribuída;
         \item \texttt{getRecordingUserRating}: dado um id de um utilizador e um id de uma música, devolve a classificação dada pelo utilizado à música; caso o utilizador não a tenha classificado, devolve 0;
         \item \texttt{updateViews}: dado um id de um utilizador e o id de uma música, soma mais uma visualização a uma música, caso as estatísticas para essa música já existam; caso não exista cria uma, com número de visualizações igual a 1 e classificação igual a 0;
         \item \texttt{updateRating}: dado um id de um utilizador, o id de uma música e a classificação a atribuir, caso as estatítiscas para esta música ja existam, atribui a nova classificação; caso não exista cria uma nova estatística para a música, com o número de visualizações igual a 0 e a classificação igual ao que foi inserida.
@@ -365,7 +366,8 @@ Os \texttt{controllers} possuem várias funções que permitem manusear os docum
     \begin{itemize}
         \item \texttt{createOrUpdate}: dado estatísticas de uma música (id, \textit{views}, \textit{rating}), agrega estes valores com os existentes, caso já exista o documento para o id desta música; caso ainda não exista é criado um;
         \item \texttt{getStats}: obtém todas as estatísticas, estejam elas presentes nos documentos \textit{Stats} ou nos utilizadores;
-        \item \texttt{getMoreRecordingsViews}: obtém as 10 músicas mais ouvidas;
+        \item \texttt{getMostRecordingsViews}: obtém as 10 músicas mais ouvidas;
+        \item \texttt{getMostRecordingsRating}: obtém as 10 músicas com maior classificação;
         \item \texttt{getRecordingStats}: dado o id de uma música, obtém as estatísticas para esta música;
         \item Nota: Para obter as estatísticas, foi necessário, como já referido, aceder aos documentos dos utilizadores a partir deste \texttt{controller}.
     \end{itemize}
@@ -430,7 +432,8 @@ De seguida, apresentam-se as rotas, a função que é chamada para cada rota e �
         \item método \texttt{GET}
             \begin{itemize}
                 \item \texttt{/isAuthenticated} - devolve ``Authenticated'' se o utilizador estiver autenticado, caso contrário devolve ``Unauthorized'', permite saber se um utilizador está autenticado
-                \item \texttt{/:id/statsMore} - \texttt{getMoreRecordingsViewsUser(:id)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
+                \item \texttt{/:id/statsMostViews} - \texttt{getMostRecordingsViewsUser(:id)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
+                \item \texttt{/:id/statsMostRating} - \texttt{getMostRecordingsRatingUser(:id)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
                 \item \texttt{/:id/stats?idRec=idRecI} - \texttt{getRecordingUserRating(:id, idRecI)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
                 \item \texttt{/:id/stats} - \texttt{getRecordingsUser(:id)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
                 \item \texttt{/:id} - \texttt{getUser(:id)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
@@ -457,7 +460,8 @@ De seguida, apresentam-se as rotas, a função que é chamada para cada rota e �
     \begin{itemize}
         \item método \texttt{GET}
             \begin{itemize}
-                \item \texttt{/more} - \texttt{getMoreRecordingsViews()} 
+                \item \texttt{/mostViews} - \texttt{getMostRecordingsViews()} 
+                \item \texttt{/mostRating} - \texttt{getMostRecordingsRating()} 
                 \item \texttt{/:id} - \texttt{getRecordingStats(:id)} 
                 \item \texttt{/} - \texttt{getStats()} 
             \end{itemize}
@@ -636,7 +640,7 @@ Para além disso, esta barra, por vezes, apresenta uma caixa de texto por forma 
 
 \paragraph{\texttt{Index.vue}:}\mbox{}\\
 
-Página inicial da interface. Apresenta estatísticas do utilizador e da aplicação, como as músicas mais ouvidas, entre outras (ver \ref{tema}). Ao carregar numa das músicas, albums, artistas ou areas, o utilizador é redirecionado para a página desse individuo.
+Página inicial da interface. Apresenta estatísticas do utilizador e da aplicação, como as músicas mais ouvidas e com melhor classificação, entre outras (ver \ref{tema}). Ao carregar numa das músicas, albums, artistas ou areas, o utilizador é redirecionado para a página desse individuo.
 
 \paragraph{\texttt{Albums.vue}:}\mbox{}\\
 

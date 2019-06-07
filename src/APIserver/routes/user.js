@@ -9,9 +9,19 @@ router.get('/isAuthenticated', auth.isAuthenticated, function(req, res) {
     res.jsonp("Authenticated")
 })
 
-router.get('/:id/statsMore', auth.isAuthenticated, function(req, res) {
+router.get('/:id/statsMostViews', auth.isAuthenticated, function(req, res) {
     if(req.params.id==req.user._id){
-        Users.getMoreRecordingsViewsUser(req.params.id)
+        Users.getMostRecordingsViewsUser(req.params.id)
+            .then(data => res.jsonp(data))
+            .catch(error => res.status(500).jsonp(error))
+    }else{
+        res.status(403).jsonp("You cannot access info from another user!")
+    }
+});
+
+router.get('/:id/statsMostRating', auth.isAuthenticated, function(req, res) {
+    if(req.params.id==req.user._id){
+        Users.getMostRecordingsRatingUser(req.params.id)
             .then(data => res.jsonp(data))
             .catch(error => res.status(500).jsonp(error))
     }else{
