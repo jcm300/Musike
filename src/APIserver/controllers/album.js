@@ -8,7 +8,7 @@ Album.listAlbums = async (offset) => {
         ?id a :Album ;
             :title ?title.
     }
-    order by ASC(?title)
+    #order by ASC(?title)
     offset ${offset}
     limit 50` 
     
@@ -24,7 +24,7 @@ Album.listAlbumsByFilter = async (offset,filter) => {
             :title ?title.
         FILTER strstarts(?title,'${filter}')
     }
-    order by ASC(?title)
+    #order by ASC(?title)
     offset ${offset}
     limit 50` 
     

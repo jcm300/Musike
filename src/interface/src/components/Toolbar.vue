@@ -8,7 +8,7 @@
             scroll-off-screen
             row wrap
         >
-            <v-flex>
+            <v-flex xs2>
                 <v-toolbar-side-icon>
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <v-btn @click="$router.push('/index')" flat>

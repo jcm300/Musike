@@ -9,7 +9,7 @@ Area.listAreas = async (offset) => {
             :name ?name ;
             :type ?type .
     }
-    order by ASC(?name) ASC(?type)
+    #order by ASC(?name) ASC(?type)
     offset ${offset}
     limit 50`
     
@@ -26,7 +26,7 @@ Area.listAreasByFilter = async (offset,filter) => {
             :type ?type .
         FILTER strstarts(?name,'${filter}')
     }
-    order by ASC(?name) ASC(?type)
+    #order by ASC(?name) ASC(?type)
     offset ${offset}
     limit 50`
     

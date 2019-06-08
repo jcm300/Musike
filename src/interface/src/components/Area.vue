@@ -11,10 +11,10 @@
             <v-flex xs8>
                 <v-card>
                     <v-card-title>
-                        <v-flex xs9>
+                        <v-flex xs8>
                             <h1>Area - {{ area.name }}</h1>
                         </v-flex>
-                        <v-flex xs3>
+                        <v-flex xs4>
                             <v-btn
                                 color="warning"
                                 large
@@ -46,19 +46,22 @@
                                 {{ area.name }}
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-tile v-if="area.aliases != null && area.aliases.length > 0">
-                            <v-list-tile-avatar>
+                        <v-card
+                            v-if="area.aliases != null && area.aliases.length > 0"
+                            class="elevation-0"
+                        >
+                            <v-card-title>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <v-icon color="deep-orange lighten-1">fas fa-equals</v-icon>
-                            </v-list-tile-avatar>
+                                <span>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aliases:
+                                </span>
+                            </v-card-title>
 
-                            <v-list-tile-content>
-                                Aliases:
-                            </v-list-tile-content>
-
-                            <v-list-tile-content>
+                            <v-card-text>
                                 {{ area.aliases }}
-                            </v-list-tile-content>
-                        </v-list-tile>
+                            </v-card-text>
+                        </v-card>
                         <v-list-tile>
                             <v-list-tile-avatar>
                                 <v-icon color="deep-orange lighten-1">fas fa-tag</v-icon>

@@ -17,10 +17,10 @@
                 <v-flex xs8>
                     <v-card>
                         <v-card-title>
-                            <v-flex xs9>
+                            <v-flex xs8>
                                 <h1>Recording - {{ recording.title }}</h1>
                             </v-flex>
-                            <v-flex xs3>
+                            <v-flex xs4>
                                 <v-btn
                                     color="warning"
                                     large

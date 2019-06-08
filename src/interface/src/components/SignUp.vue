@@ -63,6 +63,12 @@
                     ></v-text-field>
                     <div class="text-xs-center">
                         <v-btn
+                            color="error"
+                            @click="$router.go(-1)"
+                        >
+                            Back to Login
+                        </v-btn>
+                        <v-btn
                             :disabled="!valid"
                             color="success"
                             @click="signUp"

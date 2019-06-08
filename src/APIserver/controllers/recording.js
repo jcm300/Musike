@@ -8,7 +8,7 @@ Recording.listRecordings = async (offset) => {
         ?id a :Recording ;
             :title ?title .
     }
-    order by ASC(?title)
+    #order by ASC(?title)
     offset ${offset}
     limit 50` 
     
@@ -24,7 +24,7 @@ Recording.listRecordingsByFilter = async (offset,filter) => {
             :title ?title .
         FILTER strstarts(?title,'${filter}')
     }
-    order by ASC(?title)
+    #order by ASC(?title)
     offset ${offset}
     limit 50` 
     
