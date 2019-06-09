@@ -140,7 +140,7 @@
                                     ></v-rating>
                                 </v-list-tile-content>
                                 <v-list-tile-content>
-                                    ({{ recording.rating }})
+                                    ({{ Math.round(recording.rating * 100000) / 100000 }})
                                 </v-list-tile-content>
                             </v-list-tile>
                             <v-list-tile @click="newRating()">
@@ -215,7 +215,7 @@
                                 </v-card-title>
 
                                 <v-card-text>
-                                    {{ recording.about }}
+                                    <span v-html="recording.about"></span>
                                 </v-card-text>
                             </v-card>
                             <v-list-tile v-if="recording.disambiguation != null && recording.disambiguation != ''">
@@ -241,7 +241,7 @@
 
                                 <v-list-tile
                                     v-for="url in recording.urls"
-                                    :key="url.label"
+                                    :key="url.value"
                                     avatar
                                     :href="url.value"
                                 >
@@ -273,7 +273,7 @@
                     fill-height
                     justify-center
                     align-center
-                    v-if="lyrics.length == 2"
+                    v-if="lyrics.length == 2 && lyrics[0] != '' && lyrics[1] != ''"
                 >
                     <v-flex xs6>
                         <v-card color="secondary">
@@ -369,6 +369,16 @@ export default {
       var response = await request.getAPI(this.$urlAPI + '/recordings/' + this.id)
       this.recording = response.data[0]
       this.recording.durationM = ((response.data[0].duration / 1000) / 60).toFixed(2)
+      if (this.recording.about != null && this.recording.about !== '') {
+        this.recording.about = this.recording.about.replace(/''(.*?)''/g, '<i>$1</i>')
+        this.recording.about = this.recording.about.replace(/'''(.*?)'''/g, '<b>$1</b>')
+        this.recording.about = this.recording.about.replace(/=(.*?)=/g, '<h4>$1</h4>')
+        this.recording.about = this.recording.about.replace(/==(.*?)==/g, '<h5>$1</h5>')
+        this.recording.about = this.recording.about.replace(/===(.*?)===/g, '<h6>$1</h6>')
+        this.recording.about = this.recording.about.replace(/----/g, '<hr>')
+        this.recording.about = this.recording.about.replace(/\[(.*?)\|(.*?)\]/g, '<a href="$1">$2</a>')
+        this.recording.about = this.recording.about.replace(/\[(.*?)\]/g, '<a href="$1">$1</a>')
+      }
 
       response = await request.getAPI(this.$urlAPI + '/recordings/' + this.id + '/artistsCredit')
       this.recording.artistsCredit = response.data
@@ -398,7 +408,11 @@ export default {
 
       // lyrics (only 30%, restrictions of API)
       response = await axios.get('https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/matcher.lyrics.get?apikey=8078c141d5d3843a02aec12dcbe4cc0e&q_track=' + encodeURIComponent(this.recording.artistsCredit[0].name) + '&q_artist=' + encodeURIComponent(this.recording.title))
-      this.lyrics.push(response.data.message.body.lyrics.lyrics_body.replace(/\n/g, '<br>'))
+      if (response.data.message.body.length > 0) {
+        this.lyrics.push(response.data.message.body.lyrics.lyrics_body.replace(/\n/g, '<br>'))
+      } else {
+        this.lyrics.push('')
+      }
 
       response = await axios.get('https://cors-anywhere.herokuapp.com/http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist=' + encodeURIComponent(this.recording.artistsCredit[0].name) + '&song=' + encodeURIComponent(this.recording.title))
       var parser = new DOMParser()

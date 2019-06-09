@@ -96,7 +96,7 @@
                             </v-list-tile-content>
 
                             <v-list-tile-content>
-                                ({{ album.rating }})
+                                ({{ Math.round(album.rating * 100000) / 100000 }})
                             </v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile>
@@ -167,7 +167,7 @@
                             </v-card-title>
 
                             <v-card-text>
-                                {{ album.about }}
+                                <span v-html="album.about"></span>
                             </v-card-text>
                         </v-card>
                         <v-list-tile v-if="album.disambiguation != null && album.disambiguation != ''">
@@ -226,7 +226,7 @@
 
                             <v-list-tile
                                 v-for="url in album.urls"
-                                :key="url.label"
+                                :key="url.value"
                                 avatar
                                 :href="url.value"
                             >
@@ -287,6 +287,16 @@ export default {
     try {
       var response = await request.getAPI(this.$urlAPI + '/albums/' + this.id)
       this.album = response.data[0]
+      if (this.album.about != null && this.album.about !== '') {
+        this.album.about = this.album.about.replace(/''(.*?)''/g, '<i>$1</i>')
+        this.album.about = this.album.about.replace(/'''(.*?)'''/g, '<b>$1</b>')
+        this.album.about = this.album.about.replace(/=(.*?)=/g, '<h4>$1</h4>')
+        this.album.about = this.album.about.replace(/==(.*?)==/g, '<h5>$1</h5>')
+        this.album.about = this.album.about.replace(/===(.*?)===/g, '<h6>$1</h6>')
+        this.album.about = this.album.about.replace(/----/g, '<hr>')
+        this.album.about = this.album.about.replace(/\[(.*?)\|(.*?)\]/g, '<a href="$1">$2</a>')
+        this.album.about = this.album.about.replace(/\[(.*?)\]/g, '<a href="$1">$1</a>')
+      }
 
       response = await request.getAPI(this.$urlAPI + '/albums/' + this.id + '/artistsCredit')
       this.album.artistsCredit = response.data

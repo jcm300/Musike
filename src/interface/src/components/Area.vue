@@ -114,7 +114,7 @@
                             </v-card-title>
 
                             <v-card-text>
-                                {{ area.about }}
+                                <span v-html="area.about"></span>
                             </v-card-text>
                         </v-card>
                         <v-list-tile v-if="area.disambiguation != null && area.disambiguation != ''">
@@ -194,7 +194,7 @@
 
                             <v-list-tile
                                 v-for="url in area.urls"
-                                :key="url.label"
+                                :key="url.value"
                                 avatar
                                 :href="url.value"
                             >
@@ -255,6 +255,16 @@ export default {
     try {
       var response = await request.getAPI(this.$urlAPI + '/areas/' + this.id)
       this.area = response.data[0]
+      if (this.area.about != null && this.area.about !== '') {
+        this.area.about = this.area.about.replace(/''(.*?)''/g, '<i>$1</i>')
+        this.area.about = this.area.about.replace(/'''(.*?)'''/g, '<b>$1</b>')
+        this.area.about = this.area.about.replace(/=(.*?)=/g, '<h4>$1</h4>')
+        this.area.about = this.area.about.replace(/==(.*?)==/g, '<h5>$1</h5>')
+        this.area.about = this.area.about.replace(/===(.*?)===/g, '<h6>$1</h6>')
+        this.area.about = this.area.about.replace(/----/g, '<hr>')
+        this.area.about = this.area.about.replace(/\[(.*?)\|(.*?)\]/g, '<a href="$1">$2</a>')
+        this.area.about = this.area.about.replace(/\[(.*?)\]/g, '<a href="$1">$1</a>')
+      }
 
       response = await request.getAPI(this.$urlAPI + '/areas/' + this.id + '/aliases')
       this.area.aliases = response.data.map(e => e.alias).join(', ')
