@@ -395,6 +395,9 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
         \item \texttt{getParts}: dado o id de uma area obtém o id, nome e tipo das areas que contém;
         \item \texttt{getURLs}: dado o id de uma area, obtém os \textit{URLs} sobre a area, devolvendo uma lista onde cada elemento possui o nome do website e o \textit{URL};
         \item \texttt{getArtists}: dado o id de uma area, obtém os artistas que são dessa area, devolvendo para cada artista o seu id e nome.
+        \item \texttt{countriesWithMostArtists}: obtém uma lista de todos os paises, ordenados do país com mais artistas para o com menos
+        \item \texttt{countriesWithMostRecordings}: obtém uma lista de todos os paises, ordenados do país com mais músicas para o com menos
+        \item \texttt{countriesWithMostAlbums}: obtém uma lista de todos os paises, ordenados do país com mais albums para o com menos
     \end{itemize}
 
 \paragraph{\textbf{Artist:}}
@@ -491,6 +494,12 @@ De seguida, apresentam-se as rotas, a função que é chamada para cada rota e �
     \begin{itemize}
         \item método \texttt{GET}
             \begin{itemize}
+                \item \texttt{/countriesWithMostAlbums?cache=true} - o mesmo que \texttt{countriesWithMostAlbums()} mas a partir da cache, visto que o resultado é estático
+                \item \texttt{/countriesWithMostRecordings?cache=true} - o mesmo que \texttt{countriesWithMostRecordings()} mas a partir da cache, visto que o resultado é estático
+                \item \texttt{/countriesWithMostArtists?cache=true} - o mesmo que \texttt{countriesWithMostArtists()} mas a partir da cache, visto que o resultado é estático
+                \item \texttt{/countriesWithMostAlbums} - \texttt{countriesWithMostAlbums()}
+                \item \texttt{/countriesWithMostRecordings} - \texttt{countriesWithMostRecordings()}
+                \item \texttt{/countriesWithMostArtists} - \texttt{countriesWithMostArtists()}
                 \item \texttt{/:id/aliases} - \texttt{getAliases(:id)}
                 \item \texttt{/:id/artists} - \texttt{getArtists(:id)}
                 \item \texttt{/:id/urls} - \texttt{getURLs(:id)}
@@ -692,7 +701,7 @@ Componente usado pela página onde se apresenta um individuo da classe \textit{R
 
 \section{Conclusões e Trabalho Futuro}
 
-%tornar queries mais rápidas, as que são lentas, adicionar paginação nas listagems, criação e gestão de playlists, sugestão de músicas ao utilizador. As estatísticas 'paises com mais artistas', 'paises com mais músicas' e 'paises com mais albuns' não foram realizadas visto que atuais queries que varrem apenas uma das entidades demoram pelo menos 10 segundos, estas seriam ainda mais lentas
+%tornar queries mais rápidas, as que são lentas, adicionar paginação nas listagems, criação e gestão de playlists, sugestão de músicas ao utilizador.
 
 \newpage 
 \printbibliography

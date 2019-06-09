@@ -293,21 +293,21 @@
                                         dark
                                         slider-color="deep-orange lighten-1"
                                     >
-                                        <v-tab ripple>
+                                        <v-tab ripple v-if="lyrics[0]!=''">
                                             musixmatch
                                         </v-tab>
-                                        <v-tab ripple>
+                                        <v-tab ripple v-if="lyrics[1]!=''">
                                             Chartlyrics
                                         </v-tab>
 
-                                        <v-tab-item>
+                                        <v-tab-item v-if="lyrics[0]!=''">
                                             <v-card flat>
                                               <v-card-text>
                                                 <span v-html="lyrics[0]"></span>
                                               </v-card-text>
                                             </v-card>
                                         </v-tab-item>
-                                        <v-tab-item>
+                                        <v-tab-item v-if="lyrics[1]!=''">
                                             <v-card flat>
                                               <v-card-text>
                                                 <span v-html="lyrics[1]"></span>

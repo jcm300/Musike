@@ -103,13 +103,14 @@ Recording.searchForRecordings = async (name, title) => {
     title = title.replace(/\\'/g,"'")
     title = title.replace(/'/g,"\\'")
     const query = `
-    select distinct ?id ?name (SAMPLE(?title) as ?title) where {
+    select distinct ?id ?name (SAMPLE(?title) as ?title) (SAMPLE(?disambiguation) as ?disambiguation) where {
         ?idA a :Artist ;
             :name ?name .
         FILTER strstarts(?name,'${name}')
         ?id :artistCredit ?idA ;
             :title ?title .
         FILTER strstarts(?title,'${title}')
+        OPTIONAL {?id :disambiguation ?disambiguation .}
     }
     group by ?id ?name
     order by ASC(?name) ASC(?title)`

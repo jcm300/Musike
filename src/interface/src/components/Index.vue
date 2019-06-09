@@ -297,6 +297,15 @@
                                     <v-tab ripple>
                                         Rating
                                     </v-tab>
+                                    <v-tab ripple>
+                                        Artists
+                                    </v-tab>
+                                    <v-tab ripple>
+                                        Albums
+                                    </v-tab>
+                                    <v-tab ripple>
+                                        Recordings
+                                    </v-tab>
 
                                     <v-tab-item>
                                         <v-data-table
@@ -337,6 +346,99 @@
                                                     <td class="text-xs-center">{{ props.item.avgRating }}</td>
                                                     <td class="text-xs-center">{{ props.item.nRating }}</td>
                                                 </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                        <v-text-field
+                                            v-model="searchArtists"
+                                            append-icon="search"
+                                            label="Search"
+                                            single-line
+                                            hide-details
+                                        ></v-text-field>
+                                        <v-data-table
+                                            :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Number of Artists', align:'center', sortable: false, value: 'numberArtists'}]"
+                                            :items="countriesWithMostArtists"
+                                            class="elevation-1"
+                                            :search="searchArtists"
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/areas/' + props.item.area.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-map-marker-alt</v-icon>
+                                                        {{ props.item.name }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.artists }}</td>
+                                                </tr>
+                                            </template>
+                                            <template v-slot:no-results>
+                                                <v-alert :value="true" color="error" icon="warning">
+                                                  Your search for "{{ search }}" found no results.
+                                                </v-alert>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                        <v-text-field
+                                            v-model="searchAlbums"
+                                            append-icon="search"
+                                            label="Search"
+                                            single-line
+                                            hide-details
+                                        ></v-text-field>
+                                        <v-data-table
+                                            :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Number of Albums', align:'center', sortable: false, value: 'numberAlbums'}]"
+                                            :items="countriesWithMostAlbums"
+                                            class="elevation-1"
+                                            :search="searchAlbums"
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/areas/' + props.item.area.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-map-marker-alt</v-icon>
+                                                        {{ props.item.name }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.albums }}</td>
+                                                </tr>
+                                            </template>
+                                            <template v-slot:no-results>
+                                                <v-alert :value="true" color="error" icon="warning">
+                                                  Your search for "{{ search }}" found no results.
+                                                </v-alert>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+
+                                    <v-tab-item>
+                                        <v-text-field
+                                            v-model="searchRecordings"
+                                            append-icon="search"
+                                            label="Search"
+                                            single-line
+                                            hide-details
+                                        ></v-text-field>
+                                        <v-data-table
+                                            :headers="[{text: 'Name', align:'center', sortable: false, value: 'name'}, {text: 'Number of Recordings', align:'center', sortable: false, value: 'numberRecordings'}]"
+                                            :items="countriesWithMostRecordings"
+                                            class="elevation-1"
+                                            :search="searchRecordings"
+                                        >
+                                            <template v-slot:items="props">
+                                                <tr :active="props.selected" @click="$router.push('/areas/' + props.item.area.split('#')[1])">
+                                                    <td class="text-xs-center">
+                                                        <v-icon left color="deep-orange lighten-1">fas fa-map-marker-alt</v-icon>
+                                                        {{ props.item.name }}
+                                                    </td>
+                                                    <td class="text-xs-center">{{ props.item.recordings }}</td>
+                                                </tr>
+                                            </template>
+                                            <template v-slot:no-results>
+                                                <v-alert :value="true" color="error" icon="warning">
+                                                  Your search for "{{ search }}" found no results.
+                                                </v-alert>
                                             </template>
                                         </v-data-table>
                                     </v-tab-item>
@@ -666,7 +768,13 @@ export default {
     userTenMostRecordingsRating: [],
     userTenMostArtistsRating: [],
     userTenMostAlbumsRating: [],
-    userStats: []
+    userStats: [],
+    countriesWithMostAlbums: [],
+    countriesWithMostArtists: [],
+    countriesWithMostRecordings: [],
+    searchArtists: '',
+    searchRecordings: '',
+    searchAlbums: ''
   }),
 
   mounted: async function () {
@@ -793,6 +901,15 @@ export default {
     // 10 Most user albums with rating
     getRating(this.userStats, this.userTenMostAlbumsRating, 'title', 'albums')
     this.userTenMostAlbumsRating = sortRating(this.userTenMostAlbumsRating)
+
+    response = await request.getAPI(this.$urlAPI + '/areas/countriesWithMostArtists?cache=true')
+    this.countriesWithMostArtists = response.data
+
+    response = await request.getAPI(this.$urlAPI + '/areas/countriesWithMostRecordings?cache=true')
+    this.countriesWithMostRecordings = response.data
+
+    response = await request.getAPI(this.$urlAPI + '/areas/countriesWithMostAlbums?cache=true')
+    this.countriesWithMostAlbums = response.data
 
     this.loading = false
   },

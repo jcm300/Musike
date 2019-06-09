@@ -2,6 +2,40 @@ var express = require('express');
 var router = express.Router();
 var Area = require("../controllers/area") 
 var auth = require("../auth/auth")
+var fs = require("fs")
+
+router.get('/countriesWithMostAlbums', auth.isAuthenticated, async function(req, res) {
+    var data
+    if(req.query.cache == "true"){
+        var file = fs.readFileSync("cache/countriesWithMostAlbums.json")
+        data = JSON.parse(file)
+    }else{
+        data = await Area.countriesWithMostAlbums()
+    }
+    res.jsonp(data)
+});
+
+router.get('/countriesWithMostRecordings', auth.isAuthenticated, async function(req, res) {
+    var data
+    if(req.query.cache == "true"){
+        var file = fs.readFileSync("cache/countriesWithMostRecordings.json")
+        data = JSON.parse(file)
+    }else{
+        data = await Area.countriesWithMostRecordings()
+    }
+    res.jsonp(data)
+});
+
+router.get('/countriesWithMostArtists', auth.isAuthenticated, async function(req, res) {
+    var data
+    if(req.query.cache == "true"){
+        var file = fs.readFileSync("cache/countriesWithMostArtists.json")
+        data = JSON.parse(file)
+    }else{
+        data = await Area.countriesWithMostArtists()
+    }
+    res.jsonp(data)
+});
 
 router.get('/:id/aliases', auth.isAuthenticated, async function(req, res) {
     var data = await Area.getAliases(req.params.id)

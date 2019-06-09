@@ -27,6 +27,7 @@
 
                                 <v-list-tile-content>
                                     <v-list-tile-title>{{ recording.name }} - {{ recording.title }}</v-list-tile-title>
+                                    <v-list-tile-sub-title v-if="recording.disambiguation != ''"> {{ recording.disambiguation }}</v-list-tile-sub-title>
                                 </v-list-tile-content>
 
                                 <v-list-tile-action>
