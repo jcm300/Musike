@@ -62,6 +62,38 @@ Users.deleteUser = async id => {
         .exec()
 }
 
+//favs
+
+Users.getFavs = async (id) => {
+    var user = await User.findOne({_id: id})
+    return user.favs
+}
+
+Users.addFav = async (id, idRec) => {
+    if(await Users.isFav(id,idRec) == false){
+        return User
+            .findOneAndUpdate({_id: id},{ $push: {favs: idRec}}, {useFindAndModify: false})
+    }else{
+        return null
+    }
+}
+
+Users.removeFav = async (id, idRec) => {
+    return User
+        .findOneAndUpdate({_id: id},{ $pull: {favs: idRec}}, {useFindAndModify: false})
+}
+
+Users.isFav = async (id, idRec) => {
+    var user = await User.findOne({_id: id})
+    isFav = false
+
+    for(var i=0; i < user.favs.length && !isFav; i++){
+        if(idRec == user.favs[i]) isFav = true
+    }
+
+    return isFav
+}
+
 //stats
 
 //get all stats of user

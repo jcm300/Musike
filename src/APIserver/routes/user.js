@@ -9,6 +9,26 @@ router.get('/isAuthenticated', auth.isAuthenticated, function(req, res) {
     res.jsonp("Authenticated")
 })
 
+router.get('/:id/favs', auth.isAuthenticated, function(req, res) {
+    if(req.params.id==req.user._id){
+        Users.getFavs(req.params.id)
+            .then(data => res.jsonp(data))
+            .catch(error => res.status(500).jsonp(error))
+    }else{
+        res.status(403).jsonp("You have no permission to modify info of another user!")
+    }
+});
+
+router.get('/:id/isFav/:idMusic', auth.isAuthenticated, function(req, res) {
+    if(req.params.id==req.user._id){
+        Users.isFav(req.params.id,req.params.idMusic)
+            .then(data => res.jsonp(data))
+            .catch(error => res.status(500).jsonp(error))
+    }else{
+        res.status(403).jsonp("You have no permission to modify info of another user!")
+    }
+});
+
 router.get('/:id/statsMostViews', auth.isAuthenticated, function(req, res) {
     if(req.params.id==req.user._id){
         Users.getMostRecordingsViewsUser(req.params.id)
@@ -104,16 +124,6 @@ router.put('/updPass/:id', auth.isAuthenticated, function(req, res) {
     }
 });
 
-router.put('/:id', auth.isAuthenticated, function(req, res) {
-    if(req.params.id==req.user._id){
-        Users.updateUser(req.params.id,req.body)
-            .then(data => res.jsonp(data))
-            .catch(error => res.status(500).jsonp(error))
-    }else{
-        res.status(403).jsonp("You have no permission to modify info of another user!")
-    }
-});
-
 router.put('/views/:id', auth.isAuthenticated, function(req, res) {
     if(req.params.id==req.user._id){
         Users.updateViews(req.params.id,req.body.idMusic)
@@ -127,6 +137,36 @@ router.put('/views/:id', auth.isAuthenticated, function(req, res) {
 router.put('/rating/:id', auth.isAuthenticated, function(req, res) {
     if(req.params.id==req.user._id){
         Users.updateRating(req.params.id,req.body.idMusic,parseInt(req.body.rating))
+            .then(data => res.jsonp(data))
+            .catch(error => res.status(500).jsonp(error))
+    }else{
+        res.status(403).jsonp("You have no permission to modify info of another user!")
+    }
+});
+
+router.put('/addFav/:id', auth.isAuthenticated, function(req, res) {
+    if(req.params.id==req.user._id){
+        Users.addFav(req.params.id,req.body.idMusic)
+            .then(data => res.jsonp(data))
+            .catch(error => res.status(500).jsonp(error))
+    }else{
+        res.status(403).jsonp("You have no permission to modify info of another user!")
+    }
+});
+
+router.put('/removeFav/:id', auth.isAuthenticated, function(req, res) {
+    if(req.params.id==req.user._id){
+        Users.removeFav(req.params.id,req.body.idMusic)
+            .then(data => res.jsonp(data))
+            .catch(error => res.status(500).jsonp(error))
+    }else{
+        res.status(403).jsonp("You have no permission to modify info of another user!")
+    }
+});
+
+router.put('/:id', auth.isAuthenticated, function(req, res) {
+    if(req.params.id==req.user._id){
+        Users.updateUser(req.params.id,req.body)
             .then(data => res.jsonp(data))
             .catch(error => res.status(500).jsonp(error))
     }else{

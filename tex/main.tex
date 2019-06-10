@@ -331,6 +331,7 @@ Nos \texttt{Models} define se os \textit{schemas} das coleções de documentos d
                 \item \texttt{views:} número de visualizações do utilizador deste \textit{Recording};
                 \item \texttt{rating:} classificação dado pelo utilizador a este \textit{Recording}.
             \end{itemize}
+        \item \texttt{favs:} lista de identificadores dos \textit{Recordings} favoritos do utilizador
     \end{itemize}
 
 \paragraph{\textbf{Stats:}} salvaguarda as estatísticas que antigos utilizadores (utilizadores que apagaram a sua conta)
@@ -360,6 +361,11 @@ Os \texttt{controllers} possuem várias funções que permitem manusear os docum
         \item \texttt{getRecordingUserRating}: dado um id de um utilizador e um id de uma música, devolve a classificação dada pelo utilizado à música; caso o utilizador não a tenha classificado, devolve 0;
         \item \texttt{updateViews}: dado um id de um utilizador e o id de uma música, soma mais uma visualização a uma música, caso as estatísticas para essa música já existam; caso não exista cria uma, com número de visualizações igual a 1 e classificação igual a 0;
         \item \texttt{updateRating}: dado um id de um utilizador, o id de uma música e a classificação a atribuir, caso as estatítiscas para esta música ja existam, atribui a nova classificação; caso não exista cria uma nova estatística para a música, com o número de visualizações igual a 0 e a classificação igual ao que foi inserida.
+        \item \texttt{getFavs}: dado um id de um utilizador e o id da música, obtém a lista de favoritos do utilizador
+        \item \texttt{addFav}: dado um id de um utilizador e o id da música, adiciona a música à lista de favoritos do utilizador
+        \item \texttt{removeFav}: dado um id de um utilizador e o id da música, remove a música da lista de favoritos do utilizador
+        \item \texttt{isFav}: dado um id de um utilizador e o id da música, verifica se a música está na lista de favoritos do utilizador
+
     \end{itemize}
 
 \paragraph{\textbf{Stats:}}
@@ -435,6 +441,8 @@ De seguida, apresentam-se as rotas, a função que é chamada para cada rota e �
         \item método \texttt{GET}
             \begin{itemize}
                 \item \texttt{/isAuthenticated} - devolve ``Authenticated'' se o utilizador estiver autenticado, caso contrário devolve ``Unauthorized'', permite saber se um utilizador está autenticado
+                \item \texttt{/:id/favs} - \texttt{getFavs(:id)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
+                \item \texttt{/:id/isFav/:idMusic} - \texttt{isFav(:id,:idMusic)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
                 \item \texttt{/:id/statsMostViews} - \texttt{getMostRecordingsViewsUser(:id)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
                 \item \texttt{/:id/statsMostRating} - \texttt{getMostRecordingsRatingUser(:id)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
                 \item \texttt{/:id/stats?idRec=idRecI} - \texttt{getRecordingUserRating(:id, idRecI)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
@@ -451,6 +459,8 @@ De seguida, apresentam-se as rotas, a função que é chamada para cada rota e �
                 \item \texttt{/views/:id} - \texttt{updateViews(:id, body.idMusic)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
                 \item \texttt{/rating/:id} - \texttt{updateRating(:id, body.idMusic, body.rating)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
                 \item \texttt{/updPass/:id} - \texttt{updatePassword(:id, body.prevPass, body.newPass)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
+                \item \texttt{/addFav/:id} - \texttt{addFav(:id, body.idMusic)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
+                \item \texttt{/removeFav/:id} - \texttt{removeFav(:id, body.idMusic, body.rating)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
                 \item \texttt{/:id} - \texttt{updateUser(:id, body)} se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
             \end{itemize}
         \item método \texttt{DELETE}

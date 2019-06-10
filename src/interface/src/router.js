@@ -71,6 +71,11 @@ export default new Router({
       path: '/recordingsSearch',
       name: 'Recordings Search',
       component: () => import('./views/RecordingsSearch.vue')
+    },
+    {
+      path: '/favs',
+      name: 'Favs',
+      component: () => import('./views/Favs.vue')
     }
   ]
 })

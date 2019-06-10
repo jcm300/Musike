@@ -17,10 +17,22 @@
                 <v-flex xs8>
                     <v-card>
                         <v-card-title>
-                            <v-flex xs8>
+                            <v-flex xs7>
                                 <h1>Recording - {{ recording.title }}</h1>
                             </v-flex>
-                            <v-flex xs4>
+                            <v-flex v-if="isFav" xs2>
+                                <span>Remove from favs:</span>
+                                <v-btn icon flat @click="removeFav()">
+                                    <v-icon color="deep-orange lighten-1">fas fa-star</v-icon>
+                                </v-btn>
+                            </v-flex>
+                            <v-flex v-if="!isFav" xs2>
+                                <span>Add to favs:</span>
+                                <v-btn icon flat @click="addFav()">
+                                    <v-icon color="deep-orange lighten-1">far fa-star</v-icon>
+                                </v-btn>
+                            </v-flex>
+                            <v-flex xs3>
                                 <v-btn
                                     color="warning"
                                     large
@@ -361,7 +373,8 @@ export default {
     loading: true,
     query: '',
     userRating: 0,
-    lyrics: []
+    lyrics: [],
+    isFav: false
   }),
 
   mounted: async function () {
@@ -419,6 +432,9 @@ export default {
       var xmlDoc = parser.parseFromString(response.data, 'application/xml')
       this.lyrics.push(xmlDoc.getElementsByTagName('Lyric')[0].innerHTML.replace(/\n/g, '<br>'))
 
+      response = await request.getAPI(this.$urlAPI + '/users/' + id + '/isFav/' + this.id)
+      this.isFav = response.data
+
       this.loading = false
     } catch (e) {
       this.logout()
@@ -441,6 +457,18 @@ export default {
     newRating () {
       var id = localStorage.getItem('user-id')
       request.putAPI(this.$urlAPI + '/users/rating/' + id, 'idMusic=' + encodeURIComponent(this.id) + '&rating=' + encodeURIComponent(this.userRating))
+        .then(response => this.$router.go())
+        .catch(e => console.log(e))
+    },
+    addFav () {
+      var id = localStorage.getItem('user-id')
+      request.putAPI(this.$urlAPI + '/users/addFav/' + id, 'idMusic=' + encodeURIComponent(this.id))
+        .then(response => this.$router.go())
+        .catch(e => console.log(e))
+    },
+    removeFav () {
+      var id = localStorage.getItem('user-id')
+      request.putAPI(this.$urlAPI + '/users/removeFav/' + id, 'idMusic=' + encodeURIComponent(this.id))
         .then(response => this.$router.go())
         .catch(e => console.log(e))
     }

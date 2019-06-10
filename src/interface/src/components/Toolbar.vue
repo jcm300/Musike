@@ -20,7 +20,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-flex v-if="page != 'none' && page != 'userSettings'">
+            <v-flex v-if="page != 'none' && page != 'userSettings' && page != 'favs'">
                 <v-text-field
                     v-model="filter"
                     type="text"
@@ -34,7 +34,7 @@
                 ></v-text-field>
             </v-flex>
 
-            <v-flex v-if="page == 'none'">
+            <v-flex v-if="page == 'none' || page == 'favs'">
                 <v-text-field
                     v-model="filter"
                     type="text"
@@ -49,6 +49,14 @@
             </v-flex>
 
             <v-spacer></v-spacer>
+
+            <v-btn
+                @click="$router.push('/favs')"
+                :color="page == 'favs' ? 'secondary' : ''"
+                :flat="page != 'favs'"
+            >
+                Favs
+            </v-btn>
 
             <v-btn
                 @click="$router.push('/albums')"

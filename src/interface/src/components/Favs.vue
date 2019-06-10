@@ -1,7 +1,7 @@
 <template>
     <div>
         <Toolbar
-            page="none"
+            page="favs"
         />
         <v-layout
             row wrap
@@ -11,38 +11,40 @@
             v-if="!loading"
         >
             <v-flex xs12>
-                <v-layout v-if="recordings.length>0">
+                <v-layout v-if="favs.length>0">
                     <v-flex xs12>
                         <v-list two-line>
                             <v-list-tile
-                                v-for="recording in recordings"
-                                :key="recording.id"
+                                v-for="fav in favs"
+                                :key="fav.id"
                                 avatar
-                                @click="$router.push('/recordings/' + recording.id.split('#')[1])"
                             >
                                 <v-list-tile-avatar>
-                                    <!--<img src="">-->
                                     <v-icon color="deep-orange lighten-1">fas fa-music</v-icon>
                                 </v-list-tile-avatar>
 
                                 <v-list-tile-content>
-                                    <v-list-tile-title>{{ recording.name }} - {{ recording.title }}</v-list-tile-title>
-                                    <v-list-tile-sub-title v-if="recording.disambiguation != ''"> {{ recording.disambiguation }}</v-list-tile-sub-title>
+                                    <v-list-tile-title>{{ fav.artists.map(e => e.name).join(", ") }} - {{ fav.title }}</v-list-tile-title>
+                                    <v-list-tile-sub-title v-if="fav.disambiguation != ''"> {{ fav.disambiguation }}</v-list-tile-sub-title>
                                 </v-list-tile-content>
 
-                                <v-list-tile-action>
-                                    <v-icon right color="info">fas fa-info-circle</v-icon>
-                                </v-list-tile-action>
+                                <v-btn icon flat @click="removeFav(fav.id)">
+                                    <v-icon color="deep-orange lighten-1">fas fa-trash-alt</v-icon>
+                                </v-btn>
+
+                                <v-btn icon flat @click="$router.push('/recordings/' + fav.id)">
+                                    <v-icon color="info">fas fa-info-circle</v-icon>
+                                </v-btn>
                             </v-list-tile>
                         </v-list>
                     </v-flex>
                 </v-layout>
                 <v-alert
-                    :value="recordings.length==0"
+                    :value="favs.length==0"
                     type="warning"
                     dismissible
                 >
-                    No Results!
+                    You don't have any favourite recordings!
                 </v-alert>
             </v-flex>
         </v-layout>
@@ -77,15 +79,27 @@ export default {
   },
 
   data: () => ({
-    recordings: [],
+    favs: [],
     loading: true
   }),
 
   mounted: async function () {
     try {
-      // get recordings
-      var response = await request.getAPI(this.$urlAPI + '/recordings/search?name=' + this.$route.query.name + '&title=' + this.$route.query.title)
-      this.recordings = response.data.filter(v => Object.keys(v).length)
+      // get favs
+      var id = localStorage.getItem('user-id')
+      var response = await request.getAPI(this.$urlAPI + '/users/' + id + '/favs')
+      var favs = response.data
+
+      for (var i = 0; i < favs.length; i++) {
+        response = await request.getAPI(this.$urlAPI + '/recordings/' + favs[i])
+        this.favs[i] = {}
+        this.favs[i].id = favs[i]
+        this.favs[i].title = response.data[0].title
+        this.favs[i].disambiguation = response.data[0].disambiguation
+        response = await request.getAPI(this.$urlAPI + '/recordings/' + favs[i] + '/artistsCredit')
+        this.favs[i].artists = response.data
+      }
+
       this.loading = false
     } catch (e) {
       this.logout()
@@ -96,6 +110,12 @@ export default {
     logout () {
       auth.logout()
       this.$router.push('/')
+    },
+    removeFav (idMusic) {
+      var id = localStorage.getItem('user-id')
+      request.putAPI(this.$urlAPI + '/users/removeFav/' + id, 'idMusic=' + encodeURIComponent(idMusic))
+        .then(response => this.$router.go())
+        .catch(e => console.log(e))
     }
   }
 }
