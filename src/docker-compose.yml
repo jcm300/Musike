@@ -1,0 +1,35 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - db-data:/data/db
+    command: mongod --bind_ip_all
+    ports:
+      - "27017:27017"
+  graphdb:
+    build:
+      context: ./graphdb-free-8.9.0
+      dockerfile: Dockerfile
+    ports:
+      - "7200:7200"
+  server:
+    build:
+      context: ./APIserver
+      dockerfile: Dockerfile
+    restart: on-failure
+    links:
+      - mongo
+      - graphdb
+    ports:
+      - "3000:3000"
+  interface:
+    build:
+      context: ./interface
+      dockerfile: Dockerfile
+    links:
+      - server
+    ports:
+      - "8080:7777"
+volumes:
+  db-data:
