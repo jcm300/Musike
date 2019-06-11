@@ -7,6 +7,12 @@ var bodyParser = require('body-parser');
 var mongoose = require("mongoose")
 var passport = require('passport')
 
+var mongodb = (process.argv[2] || '127.0.0.1:27017')
+var graphdb = (process.argv[3] || 'localhost:7200')
+
+var execQuery = require('./controllers/execQuery')
+execQuery.set(graphdb)
+
 var albumAPIRouter = require('./routes/album')
 var areaAPIRouter = require('./routes/area')
 var artistAPIRouter = require('./routes/artist')
@@ -14,13 +20,12 @@ var recordingAPIRouter = require('./routes/recording')
 var usersAPIRouter = require('./routes/user')
 var statsAPIRouter = require('./routes/stats')
 
-
 var app = express();
 
 //Database connection
-mongoose.connect("mongodb://127.0.0.1:27017/Musike", {useNewUrlParser: true})
+mongoose.connect("mongodb://" + mongodb + "/Musike", {useNewUrlParser: true})
         .then(() => console.log("Mongo status " + mongoose.connection.readyState))
-        .catch(() => console.log("Mongo: connection error."))
+        .catch(() => {console.log("Mongo: connection error."); process.exit(1)})
 
 app.use(passport.initialize())
 

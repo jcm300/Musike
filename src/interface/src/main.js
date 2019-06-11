@@ -8,7 +8,7 @@ Vue.use(VueYouTubeEmbed)
 
 Vue.config.productionTip = false
 
-Vue.prototype.$urlAPI = 'http://localhost:3000'
+Vue.prototype.$urlAPI = 'http://' + process.env.VUE_APP_SERVER_URL
 
 new Vue({
   router,

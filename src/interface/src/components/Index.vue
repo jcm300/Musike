@@ -75,7 +75,7 @@
                                                 <tr :active="props.selected" @click="$router.push('/recordings/' + props.item.id)">
                                                     <td class="text-xs-center">
                                                         <v-icon left color="deep-orange lighten-1">fas fa-music</v-icon>
-                                                        {{ props.item.title }}
+                                                        {{ props.item.title }} by {{ props.item.artists.map(e => e.name).join(", ") }}
                                                     </td>
                                                     <td class="text-xs-center">{{ props.item.views }}</td>
                                                 </tr>
@@ -96,7 +96,7 @@
                                                 <tr :active="props.selected" @click="$router.push('/recordings/' + props.item.id)">
                                                     <td class="text-xs-center">
                                                         <v-icon left color="deep-orange lighten-1">fas fa-music</v-icon>
-                                                        {{ props.item.title }}
+                                                        {{ props.item.title }} by {{ props.item.artists.map(e => e.name).join(", ") }}
                                                     </td>
                                                     <td class="text-xs-center">{{ props.item.avgRating }}</td>
                                                     <td class="text-xs-center">{{ props.item.nRating }}</td>
@@ -493,7 +493,7 @@
                                                 <tr :active="props.selected" @click="$router.push('/recordings/' + props.item.id)">
                                                     <td class="text-xs-center">
                                                         <v-icon left color="deep-orange lighten-1">fas fa-music</v-icon>
-                                                        {{ props.item.title }}
+                                                        {{ props.item.title }} by {{ props.item.artists.map(e => e.name).join(", ") }}
                                                     </td>
                                                     <td class="text-xs-center">{{ props.item.views }}</td>
                                                 </tr>
@@ -514,7 +514,7 @@
                                                 <tr :active="props.selected" @click="$router.push('/recordings/' + props.item.id)">
                                                     <td class="text-xs-center">
                                                         <v-icon left color="deep-orange lighten-1">fas fa-music</v-icon>
-                                                        {{ props.item.title }}
+                                                        {{ props.item.title }} by {{ props.item.artists.map(e => e.name).join(", ") }}
                                                     </td>
                                                     <td class="text-xs-center">{{ props.item.rating }}</td>
                                                 </tr>
@@ -781,16 +781,24 @@ export default {
     var response = await request.getAPI(this.$urlAPI + '/stats/mostViews')
     this.tenMostRecordingsViews = response.data
     titles(this.tenMostRecordingsViews, 'recordings', this.$urlAPI)
+    for (var i = 0; i < this.tenMostRecordingsViews.length; i++) {
+      response = await request.getAPI(this.$urlAPI + '/recordings/' + this.tenMostRecordingsViews[i].id + '/artistsCredit')
+      this.tenMostRecordingsViews[i].artists = response.data
+    }
 
     response = await request.getAPI(this.$urlAPI + '/stats/mostRating')
     this.tenMostRecordingsRating = response.data
     titles(this.tenMostRecordingsRating, 'recordings', this.$urlAPI)
+    for (i = 0; i < this.tenMostRecordingsRating.length; i++) {
+      response = await request.getAPI(this.$urlAPI + '/recordings/' + this.tenMostRecordingsRating[i].id + '/artistsCredit')
+      this.tenMostRecordingsRating[i].artists = response.data
+    }
 
     response = await request.getAPI(this.$urlAPI + '/stats')
     this.musikeStats = response.data
 
     // get artists and albums
-    for (var i = 0; i < this.musikeStats.length; i++) {
+    for (i = 0; i < this.musikeStats.length; i++) {
       response = await request.getAPI(this.$urlAPI + '/recordings/' + this.musikeStats[i].id)
       this.musikeStats[i].title = response.data[0].title
 
@@ -864,12 +872,20 @@ export default {
 
     // titles userTenMostRecordingsViews
     titles(this.userTenMostRecordingsViews, 'recordings', this.$urlAPI)
+    for (i = 0; i < this.userTenMostRecordingsViews.length; i++) {
+      response = await request.getAPI(this.$urlAPI + '/recordings/' + this.userTenMostRecordingsViews[i].id + '/artistsCredit')
+      this.userTenMostRecordingsViews[i].artists = response.data
+    }
 
     response = await request.getAPI(this.$urlAPI + '/users/' + id + '/statsMostRating')
     this.userTenMostRecordingsRating = response.data
 
     // titles userTenMostRecordingsRating
     titles(this.userTenMostRecordingsRating, 'recordings', this.$urlAPI)
+    for (i = 0; i < this.userTenMostRecordingsRating.length; i++) {
+      response = await request.getAPI(this.$urlAPI + '/recordings/' + this.userTenMostRecordingsRating[i].id + '/artistsCredit')
+      this.userTenMostRecordingsRating[i].artists = response.data
+    }
 
     response = await request.getAPI(this.$urlAPI + '/users/' + id + '/stats')
     this.userStats = response.data

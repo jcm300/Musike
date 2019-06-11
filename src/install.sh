@@ -14,11 +14,11 @@ if [ $# -eq 1 ]; then
         mongod --dbpath ./mongoDB/ &
 
         #start graphDB
-        graphdb -Xmx5g  &
+        graphdb-free-8.9.0/bin/graphdb &
 
         cd APIserver
         npm install
-        npm start &
+        npm start "127.0.0.1:27017" "localhost:7200" &
 
         cd ../interface
         npm install -g @vue/cli
@@ -30,11 +30,11 @@ if [ $# -eq 1 ]; then
         mongod --dbpath ./mongoDB/ &
 
         #start graphDB
-        graphdb -Xmx5g  &
+        graphdb-free-8.9.0/bin/graphdb &
 
         cd APIserver
         npm install
-        npm start &
+        npm start "127.0.0.1:27017" "localhost:7200" &
 
         cd ../interface
         npm install -g @vue/cli
@@ -46,13 +46,13 @@ if [ $# -eq 1 ]; then
         mongod --dbpath ./mongoDB/ & 
         
         #start graphDB
-        graphdb -Xmx5g  &
+        graphdb-free-8.9.0/bin/graphdb  &
 
         #wait
         sleep 10
 
         cd APIserver
-        npm start &
+        npm start "127.0.0.1:27017" "localhost:7200" &
 
         cd ../interface
         npm run serve

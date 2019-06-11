@@ -3,7 +3,7 @@
         <v-content>
             <router-view/>
         </v-content>
-        <v-footer height="auto" fixed app>
+        <v-footer height="auto">
             <v-card
                 class="flex"
                 flat

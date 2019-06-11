@@ -1,16 +1,6 @@
 var axios = require("axios")
-var graphDB = "http://localhost:7200/repositories/musicbrainz?query="
+var graphdb = ''
 var prefix = `PREFIX : <https://musicbrainz.org#>`
-
-module.exports.execQuery = async function(query){
-    try{
-        var encoded = encodeURIComponent(prefix + query)
-        response = await axios.get(graphDB + encoded)
-        return prettyPrint(response.data)
-    }catch(error){
-        return "ERROR: " + error
-    }
-}
 
 function prettyPrint(data){
     var vars = data.head.vars
@@ -25,6 +15,21 @@ function prettyPrint(data){
         })
         out.push(outE)
     })
-
     return out
 }
+
+module.exports.set = function (url) {
+    graphdb = url
+}
+
+module.exports.execQuery = async function(query){
+    var graphDB = "http://" + graphdb + "/repositories/musicbrainz?query="
+    try{
+        var encoded = encodeURIComponent(prefix + query)
+        response = await axios.get(graphDB + encoded)
+        return prettyPrint(response.data)
+    }catch(error){
+        return "ERROR: " + error
+    }
+}
+

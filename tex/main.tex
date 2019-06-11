@@ -128,9 +128,9 @@ De forma adicional, seria interessante dar sugestões ao utilizador de músicas 
 
 \section{Ontologia baseada no \textit{MusicBrainz}} \label{ontologia}
 
-Para o tema escolhido é necessário um dataset que possua a informação de albuns, artistas, músicas e áreas. Como tal foi escolhido o dataset JSON do \textit{MusicBrainz}.
+Para o tema escolhido é necessário um dataset que possua a informação de albuns, artistas, músicas e áreas. Como tal foi escolhido o dataset JSON do \textit{MusicBrainz}. O \textit{MusicBrainz} é uma encicloédia de música que coleciona meta-dados de músicas e torna-as disponíveis para o público. É mantida pela comunidade e, para além do dataset, possui uma API e uma plataforma online para aceder aos dados, bem como, máquinas virtuais caso se pretenda hospedar a informação. Esta plataforma é usada por várias outras grandes plataformas online/empresas, tais como, \texttt{last.fm}, \textit{Amazon}, \textit{Universal Music}, \textit{Spotify}, \textit{BBC}, \textit{Google}, etc.
 
-A partir deste dataset bem como das características do tema escolhido, foi construído a estrutura da ontologia e posteriormente foi povoada com a informação presente no dataset (JSON).
+A partir deste dataset (do \textit{MusicBrainz}) em JSON bem como das características do tema escolhido, foi construído a estrutura da ontologia e, posteriormente, foi povoada com a informação presente no dataset.
 
 \subsection{Parte Estrutural da Ontologia}
 
@@ -382,8 +382,8 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
 
 \paragraph{\textbf{Album:}}
     \begin{itemize}
-        \item \texttt{listAlbums}: dado um \textit{offset}, lista os 50 albums (id e título do album) a partir do \textit{offset} da lista ordenada (pelos títulos) de todos os albums;
-        \item \texttt{listAlbumsByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista ordenada ser de todos os albums, é apenas dos albums que começam pelo valor presente no filtro;
+        \item \texttt{listAlbums}: dado um \textit{offset}, lista os 50 albums (id e título do album) a partir do \textit{offset} da lista (ordenada (pelos títulos), foi removido ordenação por questões de performance) de todos os albums;
+        \item \texttt{listAlbumsByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista (ordenada, foi removido ordenação por questões de performance) ser de todos os albums, é apenas dos albums que começam pelo valor presente no filtro;
         \item \texttt{getAlbum}: dado o id de um album, obtém o título, e caso exista, data da primeira \textit{release}, sobre (\textit{about}) e desambiguação;
         \item \texttt{getURLs}: dado o id de um album, obtém os \textit{URLs} sobre o album, devolvendo uma lista onde cada elemento possui o nome do website e o \textit{URL};
         \item \texttt{getTracks}: dado o id de um album, obtém as músicas pertencentes ao album, devolvendo uma lista, em que cada elemento tem o id, título, duração e, caso exista, desambiguação de uma música;
@@ -393,8 +393,8 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
 
 \paragraph{\textbf{Area:}}
     \begin{itemize}
-        \item \texttt{listAreas}: dado um \textit{offset}, lista as 50 areas (id e nome da area) a partir do \textit{offset} da lista ordenada (pelos nomes) de todas os areas;
-        \item \texttt{listAreasByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista ordenada ser de todas as areas, é apenas das areas que começam pelo valor presente no filtro;
+        \item \texttt{listAreas}: dado um \textit{offset}, lista as 50 areas (id e nome da area) a partir do \textit{offset} da lista (ordenada (pelos nomes), foi removido ordenação por questões de performance) de todas os areas;
+        \item \texttt{listAreasByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista (ordenada, foi removido ordenação por questões de performance) ser de todas as areas, é apenas das areas que começam pelo valor presente no filtro;
         \item \texttt{getArea}: dado o id de uma area, obtém o nome, o tipo, e caso exista, sobre (\textit{about}) e desambiguação;
         \item \texttt{getAliases}: dado o id de uma area obtém os nomes alternativos para a area;
         \item \texttt{getPartOf}: dado o id de uma area obtém o id, nome e tipo das areas a que pertence;
@@ -408,8 +408,8 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
 
 \paragraph{\textbf{Artist:}}
     \begin{itemize}
-        \item \texttt{listArtists}: dado um \textit{offset}, lista os 50 artistas (id e nome do artista) a partir do \textit{offset} da lista ordenada (pelos nomes) de todas os artistas;
-        \item \texttt{listArtistsByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista ordenada ser de todos os artistas, é apenas dos artistas que começam pelo valor presente no filtro;
+        \item \texttt{listArtists}: dado um \textit{offset}, lista os 50 artistas (id e nome do artista) a partir do \textit{offset} da lista (ordenada (pelos nomes),foi removido ordenação por questões de performance) de todas os artistas;
+        \item \texttt{listArtistsByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista (ordenada, foi removido ordenação por questões de performance) ser de todos os artistas, é apenas dos artistas que começam pelo valor presente no filtro;
         \item \texttt{getArtist}: dado o id de um artista, obtém o nome, e caso exista, o tipo, o nome para ordenar, a data de nascimento/início, a data de falecimento/fim, o sexo, o id da area, o nome da area, sobre (\textit{about}) e desambiguação;
         \item \texttt{getAliases}: dado o id de um artista obtém os nomes alternativos para o artista;
         \item \texttt{getURLs}: dado o id de um artista, obtém os \textit{URLs} sobre o artista, devolvendo uma lista onde cada elemento possui o nome do website e o \textit{URL};
@@ -420,8 +420,8 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
 
 \paragraph{\textbf{Recording:}}
     \begin{itemize}
-        \item \texttt{listRecordings}: dado um \textit{offset}, lista as 50 músicas (id e título da música) a partir do \textit{offset} da lista ordenada (pelos títulos) de todas as músicas;
-        \item \texttt{listRecordingsByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista ordenada ser de todas as músicas, é apenas das músicas que começam pelo valor presente no filtro;
+        \item \texttt{listRecordings}: dado um \textit{offset}, lista as 50 músicas (id e título da música) a partir do \textit{offset} da lista (ordenada (pelos títulos), foi removido ordenação por questões de performance) de todas as músicas;
+        \item \texttt{listRecordingsByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista (ordenada, foi removido ordenação por questões de performance) ser de todas as músicas, é apenas das músicas que começam pelo valor presente no filtro;
         \item \texttt{getRecording}: dado o id de uma música, obtém o título, e caso exista, a duração, sobre (\textit{about}) e desambiguação;
         \item \texttt{getLanguages}: dado o id de uma música obtém as línguas usadas;
         \item \texttt{getTags}: dado o id de uma música, obtém as tags da música;
@@ -619,11 +619,11 @@ As vistas definidas são bastante parecidas umas com as outras, tendo apenas alg
 
 Todas as vistas importam o componente com o mesmo nome que a vista, ou seja, por exemplo a vista \texttt{Areas.vue} importa o componente \texttt{Areas.vue}.
 
-As vistas \texttt{Index.vue}, \texttt{Recordings.vue}, \texttt{Areas.vue}, \texttt{Artists.vue}, \texttt{Albums.vue}, \texttt{RecordingsSearch.vue}, \texttt{Recording.vue}, \texttt{Area.vue}, \texttt{Artist.vue}, \texttt{Album.vue} e \texttt{UserSettings.vue} verificam se o utilizador está autenticado, em caso afirmativo é feito a renderização da páginas; em caso negativo o utilizador é redirecionado para a página de \textit{login} (rota \texttt{/}).
+As vistas \texttt{Index.vue}, \texttt{Recordings.vue}, \texttt{Areas.vue}, \texttt{Artists.vue}, \texttt{Albums.vue}, \texttt{RecordingsSearch.vue}, \texttt{Recording.vue}, \texttt{Area.vue}, \texttt{Artist.vue}, \texttt{Album.vue}, \texttt{UserSettings.vue} e \texttt{Favs.vue} verificam se o utilizador está autenticado, em caso afirmativo é feito a renderização da páginas; em caso negativo o utilizador é redirecionado para a página de \textit{login} (rota \texttt{/}).
 
 Em adição, as vistas \texttt{Recording.vue}, \texttt{Area.vue}, \texttt{Artist.vue} e \texttt{Album.vue}, passam um argumento para o componente. Este argumento é o id do individuo (\textit{Recording}, \textit{Area}, \textit{Artist} ou \textit{Album} respetivamente). A vista \texttt{UserSettings.vue} também passa um argumento para o componente, contudo este argumento é o id do utilizador.
 
-Por fim, as vistas \texttt{Login.vue} e \texttt{SignUp.vue} verificam se o utilizador está autenticado, em caso afirmativo é redirecionado para a página inicial (vista \texttt{Index.vue}, rota \texttt{/index}); em caso negativo a página é renderizada.
+Por fim, as vistas \texttt{Login.vue} e \texttt{SignUp.vue} verificam se o utilizador está autenticado, em caso afirmativo, o utilizador é redirecionado para a página inicial (vista \texttt{Index.vue}, rota \texttt{/index}); em caso negativo a página é renderizada.
 
 \subsection{Componentes}
 
@@ -633,15 +633,16 @@ Visto existirem várias funções que são usadas em vários componentes, foram 
 
 \paragraph{\texttt{auth.js}:}\mbox{}\\
 
-Possui duas funções, \texttt{isAuthenticated} e \textit{logout}. A primeira, pergunta à API se o utilizador está autenticado, caso não esteja, apaga da \textit{local storage} o \textit{token} e o id do utilizador. Já o \textit{logout} apaga da \textit{local storage} o \textit{token} e o id do utilizador, sem verificar se ainda está autenticado.
+Possui duas funções, \texttt{isAuthenticated} e \textit{logout}. A primeira, pergunta à API se o utilizador está autenticado, caso não esteja, apaga da \textit{local storage} o \textit{token} e o id do utilizador. Já o \textit{logout} apaga da \textit{local storage} o \textit{token} e o id do utilizador, sem verificar se ainda está autenticado. Ou seja, como foi dado a entender, durante a sessão de um utilizador, é guardado o seu id bem como o seu \textit{token} na \textit{local storage}.
 
 \paragraph{\texttt{request.js}:}\mbox{}\\
 
-Este ficheiro foi criado de forma a possuir funções que simplifiquem o uso da \textit{package} \texttt{axios}, com a colocação em cabeçalho do \textit{token} do utilizador. Neste ficheiro está presente três funções, \textit{getAPI}, \textit{putAPI} e \textit{deleteAPI}. A função \textit{getAPI} recebe como argumento um \textit{url} para onde é feito um pedido \texttt{GET}. Já a função para além de um \textit{url}, recebe também dados a enviar como argumento, realizando um pedido \texttt{PUT} desses dados para o \textit{url} fornecido. Por fim, o \textit{deleteAPI} recebe como argumento um \textit{url} para onde é feito um pedido \texttt{DELETE}. Como já referido estas três funções colocam nas \textit{headers} o \textit{token} do utilizador da forma já descrita na secção \ref{auth}.
+Este ficheiro foi criado de forma a possuir funções que simplifiquem o uso da \textit{package} \texttt{axios}, com a colocação em cabeçalho do \textit{token} do utilizador. Neste ficheiro está presente três funções, \textit{getAPI}, \textit{putAPI} e \textit{deleteAPI}. A função \textit{getAPI} recebe como argumento um \textit{url} para onde é feito um pedido \texttt{GET}. Já a função \textit{putAPI} para além de um \textit{url}, recebe também dados a enviar como argumento, realizando um pedido \texttt{PUT} desses dados para o \textit{url} fornecido. Por fim, o \textit{deleteAPI} recebe como argumento um \textit{url} para onde é feito um pedido \texttt{DELETE}. Como já referido estas três funções colocam nas \textit{headers} o \textit{token} do utilizador da forma já descrita na secção \ref{auth}.
 
 \vspace{10px}
 
-De seguida apresentam-se os componentes criados.
+De seguida apresentam-se os componentes criados. Os componentes \texttt{Album.vue}, \texttt{Area.vue}, \texttt{Artist.vue} e \texttt{Recording.vue}, que apresentam um campo chamado \textit{about}, realizam o processamento deste campo, visto o mesmo possuir uma sintaxe própria, passível de ser representada em \texttt{HTML}.
+%talvez explicar sintaxe
 
 \paragraph{\texttt{Login.vue}:}\mbox{}\\
 
@@ -649,13 +650,13 @@ Página onde se realiza o login, possui um formulário para preencher o email e 
 
 \paragraph{\texttt{SignUp.vue}:}\mbox{}\\
 
-Página onde os utilizadores podem se registar. Possui um formulário, onde o utilizador necessita de indicar nome, email, password, repetir a password e depois de tudo ser validado (de forma a validar foi usado \texttt{vuelidate}) o botão para submeter o registo fica disponível. Quando o utilizador carregar, é redirecionado para a página de login, sendo mostrado uma mensagem de sucesso se o registo for efetuado com sucesso, ou pelo contrário se não tiver sucesso, aparece uma mensagem de erro.
+Página onde os utilizadores podem se registar. Possui um formulário, onde o utilizador necessita de indicar nome, email, password, repetir a password e depois de tudo ser validado (de forma a validar foi usado \texttt{vuelidate}) o botão para submeter o registo fica disponível. Quando o utilizador carregar, é redirecionado para a página de login, sendo mostrado uma mensagem de sucesso se o registo for efetuado com sucesso, ou pelo contrário se não tiver sucesso, aparece uma mensagem de erro. Possui também um botão \textit{Back to Login}, para voltar à página de login.
 
 \paragraph{\texttt{Toolbar.vue}:}\mbox{}\\
 
-Componente usado por quase todos os componentes, com a exceção dos componentes \texttt{Login.vue} e \texttt{SignUp.vue}. Este componente representa a barra de ferramentas superior que se encontra em grande parte das páginas. Nesta barra está presente vários links para diferentes páginas da interface, o primeiro onde está o nome da aplicação e o seu símbolo, redireciona para a página inicial (\texttt{/index}). Depois por ordem, links para listagem de \textit{Albums}, \textit{Recordings}, \textit{Artists} e \textit{Areas}, para a página de configuração do utilizador e por fim \textit{Logout}. Quando o utilizador está numa destas páginas, a barra de ferramentas sinaliza a mesma ao usar uma cor diferente para o botão associada a essa página.
+Componente usado por quase todos os componentes, com a exceção dos componentes \texttt{Login.vue} e \texttt{SignUp.vue}. Este componente representa a barra de ferramentas superior que se encontra em grande parte das páginas. Nesta barra está presente vários links para diferentes páginas da interface, o primeiro onde está o nome da aplicação e o seu símbolo, redireciona para a página inicial (\texttt{/index}). Depois por ordem, links para \textit{Recordings} favoritos do utilizador, listagem de \textit{Albums}, \textit{Recordings}, \textit{Artists} e \textit{Areas}, para a página de configuração do utilizador e por fim \textit{Logout}. Quando o utilizador está numa destas páginas, a barra de ferramentas sinaliza a mesma ao usar uma cor diferente para o botão associada a essa página.
 
-Para além disso, esta barra, por vezes, apresenta uma caixa de texto por forma filtrar os resultados disponíveis ou para pesquisar. Quando se está nas páginas de listagem de \textit{Albums}, \textit{Recordings}, \textit{Artists} e \textit{Areas} esta caixa de texto permite filtrar os resultados. Nas restantes páginas em que aparece (página de um individuo \textit{Album}, \textit{Recording}, \textit{Artist} ou \textit{Area} e na página inicial \textit{Index}), esta caixa de texto permite pesquisar por arista mais música com o formato ``\textit{Artist}-\textit{Recording}.
+Para além disso, esta barra, por vezes, apresenta uma caixa de texto por forma filtrar os resultados disponíveis ou para pesquisar. Quando se está nas páginas de listagem de \textit{Albums}, \textit{Recordings}, \textit{Artists} e \textit{Areas} esta caixa de texto permite filtrar os resultados. Nas restantes páginas em que aparece (página de um individuo \textit{Album}, \textit{Recording}, \textit{Artist} ou \textit{Area}, na página inicial \textit{Index} e na página de favoritos do utilizador \textit{Favs}), esta caixa de texto permite pesquisar por arista mais música com o formato ``\textit{Artist}-\textit{Recording}.
 
 \paragraph{\texttt{Index.vue}:}\mbox{}\\
 
@@ -691,21 +692,27 @@ Página que apresenta toda a informação de um determinado individuo da classe 
 
 \paragraph{\texttt{Artist.vue}:}\mbox{}\\
 
-Página que apresenta toda a informação de um determinado individuo da classe \textit{Artist}. Apresenta também a classificação e o rating do artista. (ver \ref{tema})
+Página que apresenta toda a informação de um determinado individuo da classe \textit{Artist}. Apresenta também a classificação e o rating do artista, bem como as 10 músicas mais ouvidas e mais bem classificadas do artista. (ver \ref{tema})
 
 \paragraph{\texttt{Recording.vue}:}\mbox{}\\
 
-Página que apresenta toda a informação de um determinado individuo da classe \textit{Recording}. Apresenta também a classificação e o rating da música. Para além disso mostra o vídeo da música (quando possível, nem sempre acerta no vídeo correto) e as \textit{lyrics} da música. As \textit{lyrics} da música são obtidas a partid de duas APIs diferentes, \textit{musixmatch} e \textit{Chartlyrics}. (ver \ref{tema})
+Página que apresenta toda a informação de um determinado individuo da classe \textit{Recording}. Apresenta também a classificação e o rating da música. Para além disso mostra o vídeo da música (quando possível, nem sempre apresenta o vídeo correto) e as \textit{lyrics} da música. As \textit{lyrics} da música são obtidas a partid de duas APIs diferentes, \textit{musixmatch} e \textit{Chartlyrics}. (ver \ref{tema}) Por fim, apresenta também um botão por forma ao utilizador adicionar/remover a música aos/dos favoritos.
 
 \paragraph{\texttt{UserSettings.vue}:}\mbox{}\\
 
 Nesta página, estão presentes dois formulários onde o utilizador pode, num deles atualizar a sua password e no outro atualizar a sua informação (nome e email).
+
+\paragraph{\texttt{Favs.vue}:}\mbox{}\\
+
+Página que apresenta a listagem de todas as músicas favoritas do utilizador. É possível, através de dois botões, remover uma música dos favoritos ou aceder a página da música.
 
 \paragraph{\texttt{Youtube.vue}:}\mbox{}\\
 
 Componente usado pela página onde se apresenta um individuo da classe \textit{Recording}. Permite pesquisar vídeos do \textit{YouTube} por uma \textit{string} e mostrar o vídeo que mais se associa.
 
 \section{Instalação}
+
+Ao correr o servidor API, o mesmo, aceita dois parametros, hostname + porta do MongoDB e do GraphDB. Permite que na altura de instalação se possa agilizar mais facilmente o escalonamento da aplicação. Também nesse sentido, no interface existe um ficheiro \texttt{.env}, que possui a variável de ambiente \texttt{VUE\_APP\_SERVER\_URL}, por forma a indicar à interface qual é o hostname + porta do servidor API.
 
 ~\cite{mbAnnotation}
 
