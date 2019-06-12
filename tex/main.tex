@@ -41,17 +41,11 @@
 \today \\[1cm]
 }
 
-\begin{abstract}
-
-%TODO
-
-\end{abstract}
-
-\tableofcontents
-
 \section{Introdução}
 
 %TODO
+
+\tableofcontents
 
 \section{Contextualização}
 
@@ -380,9 +374,9 @@ Os \texttt{controllers} possuem várias funções que permitem manusear os docum
         \item \texttt{getMostRecordingsViewsUser}: dado um id de um utilizador, obtém uma lista das 10 músicas mais ouvidas/vistas pelo utilizador; cada elemento desta lista tem o id da música e o número de visualizações desta;
         \item \texttt{getMostRecordingsRatingUser}: dado um id de um utilizador, obtém uma lista das 10 músicas com maior classificação dada pelo utilizador; cada elemento desta lista tem o id da música e a classificação atribuída;
         \item \texttt{getRecordingUserRating}: dado um id de um utilizador e um id de uma música, devolve a classificação dada pelo utilizado à música; caso o utilizador não a tenha classificado, devolve 0;
-        \item \texttt{updateViews}: dado um id de um utilizador e o id de uma música, soma mais uma visualização a uma música, caso as estatísticas para essa música já existam; caso não exista cria uma, com número de visualizações igual a 1 e classificação igual a 0;
-        \item \texttt{updateRating}: dado um id de um utilizador, o id de uma música e a classificação a atribuir, caso as estatítiscas para esta música ja existam, atribui a nova classificação; caso não exista cria uma nova estatística para a música, com o número de visualizações igual a 0 e a classificação igual ao que foi inserida.
-        \item \texttt{getFavs}: dado um id de um utilizador e o id da música, obtém a lista de favoritos do utilizador
+        \item \texttt{updateViews}: dado um id de um utilizador e o id de uma música, soma mais uma visualização a essa música, caso as estatísticas para essa música já existam; caso não existam cria uma, com número de visualizações igual a 1 e classificação igual a 0;
+        \item \texttt{updateRating}: dado um id de um utilizador, o id de uma música e a classificação a atribuir, caso as estatítiscas para esta música ja existam, atribui a nova classificação; caso não existam cria uma nova estatística para a música, com o número de visualizações igual a 0 e a classificação igual à que foi inserida.
+        \item \texttt{getFavs}: dado um id de um utilizador, obtém a lista de favoritos do utilizador
         \item \texttt{addFav}: dado um id de um utilizador e o id da música, adiciona a música à lista de favoritos do utilizador
         \item \texttt{removeFav}: dado um id de um utilizador e o id da música, remove a música da lista de favoritos do utilizador
         \item \texttt{isFav}: dado um id de um utilizador e o id da música, verifica se a música está na lista de favoritos do utilizador
@@ -392,14 +386,14 @@ Os \texttt{controllers} possuem várias funções que permitem manusear os docum
 \paragraph{\textbf{Stats:}}
     \begin{itemize}
         \item \texttt{createOrUpdate}: dado estatísticas de uma música (id, \textit{views}, \textit{rating}), agrega estes valores com os existentes, caso já exista o documento para o id desta música; caso ainda não exista é criado um;
-        \item \texttt{getStats}: obtém todas as estatísticas, estejam elas presentes nos documentos \textit{Stats} ou nos utilizadores;
+        \item \texttt{getStats}: obtém todas as estatísticas, estejam elas presentes nos documentos \textit{Stats} ou nos utilizadores, agregando as estatísticas pelos ids das músicas;
         \item \texttt{getMostRecordingsViews}: obtém as 10 músicas mais ouvidas;
         \item \texttt{getMostRecordingsRating}: obtém as 10 músicas com maior classificação;
         \item \texttt{getRecordingStats}: dado o id de uma música, obtém as estatísticas para esta música;
         \item Nota: Para obter as estatísticas, foi necessário, como já referido, aceder aos documentos dos utilizadores a partir deste \texttt{controller}.
     \end{itemize}
 
-Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as \textit{queries} à base de dados \textit{GraphDB}. Por forma, a modularizar o código, no ficheiro \textit{execQuery.js} é definida a função \texttt{execQuery}, onde apenas recebe a \textit{query} a ser realizada, e devolve o resultado já ``limpo'', ou seja, uma lista de resultados, onde cada elemento, tem como atributos as variáveis devolvidas pela \textit{query} e como valor o seu valor obtido. A função \texttt{execQuery} já inclui o prefixo da ontologia pelo que na \textit{query} não é necessário indicar a totalidade do \textit{URI} bastando apenas colocar ``:'' quando se refere a um \textit{URI} da ontologia definida neste trabalho (ver \ref{ontologia}). Todas as \textit{queries} realizadas são de leitura de informação, sendo estas dividas em ficheiros pela classe que questionam. Sendo assim existem os seguintes \texttt{controllers} que questionam o \textit{GraphDB} de forma a obter informação de indivíduos da classe:
+Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as \textit{queries} à base de dados \textit{GraphDB}. Por forma, a modularizar o código, no ficheiro \textit{execQuery.js} é definida a função \texttt{execQuery}, onde apenas recebe a \textit{query} a ser realizada, e devolve o resultado já ``limpo'', ou seja, uma lista de resultados, onde cada elemento, tem como atributos as variáveis devolvidas pela \textit{query} e como valor o seu valor obtido. A função \texttt{execQuery} já inclui o prefixo da ontologia pelo que na \textit{query} não é necessário indicar a totalidade do \textit{URI} bastando apenas colocar ``:'' quando se refere a um \textit{URI} da ontologia definida neste trabalho (ver \ref{ontologia}). Contudo, antes de fazer qualquer pedido com esta função é necessário definir o \texttt{hostname:porta} através da função \texttt{set} (basta apenas definir uma vez). Esta função (\texttt{set}) foi criada por forma a facilitar o \textit{deployment} do servidor bem como do \textit{GraphDB}. Todas as \textit{queries} realizadas são de leitura de informação, sendo estas dividas em ficheiros pela classe que questionam. Sendo assim, existem os seguintes \texttt{controllers} que questionam o \textit{GraphDB} de forma a obter informação de indivíduos da classe:
 
 \paragraph{\textbf{Album:}}
     \begin{itemize}
@@ -422,21 +416,21 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
         \item \texttt{getParts}: dado o id de uma area obtém o id, nome e tipo das areas que contém;
         \item \texttt{getURLs}: dado o id de uma area, obtém os \textit{URLs} sobre a area, devolvendo uma lista onde cada elemento possui o nome do website e o \textit{URL};
         \item \texttt{getArtists}: dado o id de uma area, obtém os artistas que são dessa area, devolvendo para cada artista o seu id e nome.
-        \item \texttt{countriesWithMostArtists}: obtém uma lista de todos os paises, ordenados do país com mais artistas para o com menos
-        \item \texttt{countriesWithMostRecordings}: obtém uma lista de todos os paises, ordenados do país com mais músicas para o com menos
-        \item \texttt{countriesWithMostAlbums}: obtém uma lista de todos os paises, ordenados do país com mais albums para o com menos
+        \item \texttt{countriesWithMostArtists}: obtém uma lista de todos os paises, ordenados do país com mais artistas para o país com menos
+        \item \texttt{countriesWithMostRecordings}: obtém uma lista de todos os paises, ordenados do país com mais músicas para o país com menos
+        \item \texttt{countriesWithMostAlbums}: obtém uma lista de todos os paises, ordenados do país com mais albums para o país com menos
     \end{itemize}
 
 \paragraph{\textbf{Artist:}}
     \begin{itemize}
-        \item \texttt{listArtists}: dado um \textit{offset}, lista os 50 artistas (id e nome do artista) a partir do \textit{offset} da lista (ordenada (pelos nomes),foi removido ordenação por questões de performance) de todas os artistas;
+        \item \texttt{listArtists}: dado um \textit{offset}, lista os 50 artistas (id e nome do artista) a partir do \textit{offset} da lista (ordenada (pelos nomes), foi removido ordenação por questões de performance) de todas os artistas;
         \item \texttt{listArtistsByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista (ordenada, foi removido ordenação por questões de performance) ser de todos os artistas, é apenas dos artistas que começam pelo valor presente no filtro;
         \item \texttt{getArtist}: dado o id de um artista, obtém o nome, e caso exista, o tipo, o nome para ordenar, a data de nascimento/início, a data de falecimento/fim, o sexo, o id da area, o nome da area, sobre (\textit{about}) e desambiguação;
         \item \texttt{getAliases}: dado o id de um artista obtém os nomes alternativos para o artista;
         \item \texttt{getURLs}: dado o id de um artista, obtém os \textit{URLs} sobre o artista, devolvendo uma lista onde cada elemento possui o nome do website e o \textit{URL};
         \item \texttt{getRecordings}: dado o id de um artista, devolve o id e o título das músicas no qual o artista fez parte;
         \item \texttt{getTags}: dado o id de um artista, obtém as tags do artista, através das tags pertencentes às músicas no qual o artista fez parte;
-        \item \texttt{getAlbums}: dado o id de um artista, obtém os albums do artista onde o artista possui músicas nas quais fez parte.
+        \item \texttt{getAlbums}: dado o id de um artista, obtém os albums do artista, ou seja, onde o artista possui músicas nas quais fez parte.
     \end{itemize}
 
 \paragraph{\textbf{Recording:}}
@@ -444,7 +438,7 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
         \item \texttt{listRecordings}: dado um \textit{offset}, lista as 50 músicas (id e título da música) a partir do \textit{offset} da lista (ordenada (pelos títulos), foi removido ordenação por questões de performance) de todas as músicas;
         \item \texttt{listRecordingsByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista (ordenada, foi removido ordenação por questões de performance) ser de todas as músicas, é apenas das músicas que começam pelo valor presente no filtro;
         \item \texttt{getRecording}: dado o id de uma música, obtém o título, e caso exista, a duração, sobre (\textit{about}) e desambiguação;
-        \item \texttt{getLanguages}: dado o id de uma música obtém as línguas usadas;
+        \item \texttt{getLanguages}: dado o id de uma música obtém as línguas usadas na música;
         \item \texttt{getTags}: dado o id de uma música, obtém as tags da música;
         \item \texttt{getURLs}: dado o id de uma música, obtém os \textit{URLs} sobre a música, devolvendo uma lista onde cada elemento possui o nome do website e o \textit{URL};
         \item \texttt{getArtistsCredit}: dado o id de uma música, devolve o id e o nome dos artistas que fizeram parte da música;
@@ -472,7 +466,7 @@ De seguida, apresentam-se as rotas, a função que é chamada para cada rota e �
             \end{itemize}
         \item método \texttt{POST}
             \begin{itemize}
-                \item \texttt{/login} - permite a autenticação de um utilizador, caso o utilizador exista e a password seja a correta, é gerado um \textit{token} que é enviado ao cliente, esta parte será vista mais à frente (ver \ref{auth}) 
+                \item \texttt{/login} - permite a autenticação de um utilizador, caso o utilizador exista e a password seja a correta, gerando um \textit{token} que é enviado ao cliente. Esta parte será vista mais à frente (ver \ref{auth}) 
                 \item \texttt{/} - \texttt{createUser(body)}
             \end{itemize}
         \item método \texttt{PUT}
@@ -486,7 +480,7 @@ De seguida, apresentam-se as rotas, a função que é chamada para cada rota e �
             \end{itemize}
         \item método \texttt{DELETE}
             \begin{itemize}
-                \item \texttt{/:id} - \texttt{deleteUser(:id)} e para cada sub documento de estatísticas do utilizador apagado (\texttt{stat}) é realizado \texttt{createOrUpdate(stat)} do \texttt{controller} Stats, se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
+                \item \texttt{/:id} - \texttt{deleteUser(:id)} e para cada sub documento de estatísticas do utilizador apagado (\texttt{stat}) é a chamada a função \texttt{createOrUpdate(stat)} do \texttt{controller} Stats, se o ``:id'' for igual ao id do utilizador que está autenticado, senão devolve uma mensagem de erro
             \end{itemize}
     \end{itemize}
 
@@ -592,8 +586,9 @@ De forma a aceder às rotas protegidas, os clientes tem de enviar o \texttt{toke
     \label{exe_auth}
 \end{figure}
 
-O \textit{token} tem um tempo de validade, pelo que ao fim de 30 minutos expira.
-A autenticação é realizada com a ajuda do \texttt{passport-local}. De forma a gerar o \textit{token} recorre-se ao \texttt{jsonwebtoken} usando uma chave privada para gerar o \textit{token} através do algoritmo RS256 (\textit{RSA Signature with SHA-256}). Já na verificação do \textit{token} é utilizado o \texttt{passport-jwt} com a tática de extração \texttt{fromAuthHeaderAsBearerToken}, daí a necessidade de colocar o \textit{token} nas headers dos pedidos como indicado. Esta verificação recorre à chave pública para confirmar a validade do \textit{token}.
+O \textit{token} tem um tempo de validade, pelo que ao fim de 30 minutos expira, sendo necessária nova autenticação pelo utilizador.
+
+A autenticação é realizada com a ajuda do \texttt{passport-local}. De forma a gerar o \textit{token} recorre-se ao \texttt{jsonwebtoken} usando uma chave privada para gerar o \textit{token} através do algoritmo RS256 (\textit{RSA Signature with SHA-256}). Já na verificação do \textit{token} é utilizado o \texttt{passport-jwt} com a tática de extração \texttt{fromAuthHeaderAsBearerToken}, daí a necessidade de colocar o \textit{token} nas headers dos pedidos como indicado. Esta verificação recorre à chave pública para confirmar a validade do \textit{token}. Por fim, é importante referir que no \textit{deployment} deste servidor é de extrema importancia, trocar a chave privada e a chave pública, visto este trabalho estar disponível publicamente.
 
 \section{Interface}
 
@@ -610,7 +605,7 @@ Quanto a imagens usadas na interface, estas estão armazenadas em \texttt{public
 
 Já em relação ao aspeto visual da interface, ela possui um \textit{footer}, que aparece em todas as páginas, e como tal, foi definida na \texttt{App.vue}. Este \textit{footer} possui allguns \textit{URLs} importantes, desde API usadas, ao \textit{URL} onde se pode verificar o código produzido.
 
-Já na \texttt{main.js} é definida uma variável global (\texttt{\$urlAPI}) onde está presente o \textit{URL} da API, de forma a tornar o código mais limpo e mais fácil de futuramente ser mantido. É também aqui importado uma \textit{package} \textit{wrapper} da API do \textit{iframe} do \textit{Youtube}.
+Já na \texttt{main.js} é definida uma variável global (\texttt{\$urlAPI}) onde está presente o \textit{URL} da API, de forma a tornar o código mais limpo. O valor desta variável toma o valor da variável ambiente \texttt{VUE\_APP\_SERVER\_URL} definida em \texttt{.env} por forma a uma maior facilidade de \textit{deployment} da interface. É também aqui importado uma \textit{package} \textit{wrapper} da API do \textit{iframe} do \textit{Youtube}.
 
 De seguida, serão apresentadas as várias camadas da interface.
 
@@ -629,6 +624,7 @@ Visto que foi usada um versão do \textit{Vue.js} com um \textit{router} existem
     \item Rota \texttt{/areas} $\to$ vista \texttt{Areas.vue}
     \item Rota \texttt{/artists} $\to$ vista \texttt{Artists.vue}
     \item Rota \texttt{/albums} $\to$ vista \texttt{Albums.vue}
+    \item Rota \texttt{/favs} $\to$ vista \texttt{Favs.vue}
     \item Rota \texttt{/index} $\to$ vista \texttt{Index.vue}
     \item Rota \texttt{/signup} $\to$ vista \texttt{SignUp.vue}
     \item Rota \texttt{/} $\to$ vista \texttt{Login.vue}
@@ -640,7 +636,7 @@ As vistas definidas são bastante parecidas umas com as outras, tendo apenas alg
 
 Todas as vistas importam o componente com o mesmo nome que a vista, ou seja, por exemplo a vista \texttt{Areas.vue} importa o componente \texttt{Areas.vue}.
 
-As vistas \texttt{Index.vue}, \texttt{Recordings.vue}, \texttt{Areas.vue}, \texttt{Artists.vue}, \texttt{Albums.vue}, \texttt{RecordingsSearch.vue}, \texttt{Recording.vue}, \texttt{Area.vue}, \texttt{Artist.vue}, \texttt{Album.vue}, \texttt{UserSettings.vue} e \texttt{Favs.vue} verificam se o utilizador está autenticado, em caso afirmativo é feito a renderização da páginas; em caso negativo o utilizador é redirecionado para a página de \textit{login} (rota \texttt{/}).
+As vistas \texttt{Index.vue}, \texttt{Recordings.vue}, \texttt{Areas.vue}, \texttt{Artists.vue}, \texttt{Albums.vue}, \texttt{RecordingsSearch.vue}, \texttt{Recording.vue}, \texttt{Area.vue}, \texttt{Artist.vue}, \texttt{Album.vue}, \texttt{UserSettings.vue} e \texttt{Favs.vue} verificam se o utilizador está autenticado, em caso afirmativo é feito a renderização da página; em caso negativo o utilizador é redirecionado para a página de \textit{login} (rota \texttt{/}).
 
 Em adição, as vistas \texttt{Recording.vue}, \texttt{Area.vue}, \texttt{Artist.vue} e \texttt{Album.vue}, passam um argumento para o componente. Este argumento é o id do individuo (\textit{Recording}, \textit{Area}, \textit{Artist} ou \textit{Album} respetivamente). A vista \texttt{UserSettings.vue} também passa um argumento para o componente, contudo este argumento é o id do utilizador.
 
@@ -654,16 +650,28 @@ Visto existirem várias funções que são usadas em vários componentes, foram 
 
 \paragraph{\texttt{auth.js}:}\mbox{}\\
 
-Possui duas funções, \texttt{isAuthenticated} e \textit{logout}. A primeira, pergunta à API se o utilizador está autenticado, caso não esteja, apaga da \textit{local storage} o \textit{token} e o id do utilizador. Já o \textit{logout} apaga da \textit{local storage} o \textit{token} e o id do utilizador, sem verificar se ainda está autenticado. Ou seja, como foi dado a entender, durante a sessão de um utilizador, é guardado o seu id bem como o seu \textit{token} na \textit{local storage}.
+Possui duas funções, \texttt{isAuthenticated} e \texttt{logout}. A primeira, pergunta à API se o utilizador está autenticado, caso não esteja, apaga da \textit{local storage} o \textit{token} e o id do utilizador. Já o \texttt{logout} apaga da \textit{local storage} o \textit{token} e o id do utilizador, sem verificar se ainda está autenticado. Ou seja, como foi dado a entender, durante a sessão de um utilizador, é guardado o seu id bem como o seu \textit{token} na \textit{local storage}.
 
 \paragraph{\texttt{request.js}:}\mbox{}\\
 
-Este ficheiro foi criado de forma a possuir funções que simplifiquem o uso da \textit{package} \texttt{axios}, com a colocação em cabeçalho do \textit{token} do utilizador. Neste ficheiro está presente três funções, \textit{getAPI}, \textit{putAPI} e \textit{deleteAPI}. A função \textit{getAPI} recebe como argumento um \textit{url} para onde é feito um pedido \texttt{GET}. Já a função \textit{putAPI} para além de um \textit{url}, recebe também dados a enviar como argumento, realizando um pedido \texttt{PUT} desses dados para o \textit{url} fornecido. Por fim, o \textit{deleteAPI} recebe como argumento um \textit{url} para onde é feito um pedido \texttt{DELETE}. Como já referido estas três funções colocam nas \textit{headers} o \textit{token} do utilizador da forma já descrita na secção \ref{auth}.
+Este ficheiro foi criado de forma a possuir funções que simplifiquem o uso da \textit{package} \texttt{axios}, ou seja, a realização de pedidos \textit{web} com a colocação em cabeçalho do \textit{token} do utilizador. Neste ficheiro está presente três funções, \textit{getAPI}, \textit{putAPI} e \textit{deleteAPI}. A função \textit{getAPI} recebe como argumento um \textit{url} para onde é feito um pedido \texttt{GET}. Já a função \textit{putAPI} para além de um \textit{url}, recebe também dados a enviar como argumento, realizando um pedido \texttt{PUT} desses dados para o \textit{url} fornecido. Por fim, o \textit{deleteAPI} recebe como argumento um \textit{url} para onde é feito um pedido \texttt{DELETE}. Como já referido estas três funções colocam nas \textit{headers} o \textit{token} do utilizador da forma já descrita na secção \ref{auth}.
 
 \vspace{10px}
 
-De seguida apresentam-se os componentes criados. Os componentes \texttt{Album.vue}, \texttt{Area.vue}, \texttt{Artist.vue} e \texttt{Recording.vue}, que apresentam um campo chamado \textit{about}, realizam o processamento deste campo, visto o mesmo possuir uma sintaxe própria, passível de ser representada em \texttt{HTML}.
-%talvez explicar sintaxe
+De seguida apresentam-se os componentes criados.
+
+Os componentes \texttt{Album.vue}, \texttt{Area.vue}, \texttt{Artist.vue} e \texttt{Recording.vue}, que apresentam um campo chamado \textit{about}, realizam o processamento deste campo, visto o mesmo possuir uma sintaxe própria, passível de ser representada em \texttt{HTML}.~\cite{mbAnnotation}. Esta sintaxe, foi convertida da seguinte forma:
+\begin{itemize}
+    \item \verb|''pal''| (itálico) $\to$ \verb|<i>pal</i>|
+    \item \verb|'''pal'''| (bold) $\to$ \verb|<b>pal</b>|
+    \item \verb|----| (linha horizontal) $\to$ \verb|<hr>|
+    \item \verb|=title=| (título 1) $\to$ \verb|<h4>title</h4>|
+    \item \verb|==title==| (título 2) $\to$ \verb|<h5>title</h5>|
+    \item \verb|===title===| (título 3) $\to$ \verb|<h6>title</h6>|
+    \item \verb|[url]| (url) $\to$ \verb|<h6>title</h6>|
+    \item \texttt{[url|desc]} (url) $\to$ \verb|<h6>title</h6>|
+\end{itemize}
+Esta sintaxe usa \verb|''pal''| e \verb|'''pal'''| para colocar respetivamente a palavra/texto pal em itálico e em bold. Para além disso usa \verb|----| para representar uma linha horizontal, os titulos 
 
 \paragraph{\texttt{Login.vue}:}\mbox{}\\
 
@@ -671,13 +679,13 @@ Página onde se realiza o login, possui um formulário para preencher o email e 
 
 \paragraph{\texttt{SignUp.vue}:}\mbox{}\\
 
-Página onde os utilizadores podem se registar. Possui um formulário, onde o utilizador necessita de indicar nome, email, password, repetir a password e depois de tudo ser validado (de forma a validar foi usado \texttt{vuelidate}) o botão para submeter o registo fica disponível. Quando o utilizador carregar, é redirecionado para a página de login, sendo mostrado uma mensagem de sucesso se o registo for efetuado com sucesso, ou pelo contrário se não tiver sucesso, aparece uma mensagem de erro. Possui também um botão \textit{Back to Login}, para voltar à página de login.
+Página onde os utilizadores podem se registar. Possui um formulário, onde o utilizador necessita de indicar nome, email, password, repetir a password e depois de tudo ser validado (de forma a validar foi usado \href{https://vuelidate.netlify.com/}{\texttt{vuelidate}}) o botão para submeter o registo fica disponível. Quando o utilizador carregar para se registar, é redirecionado para a página de login, sendo mostrado uma mensagem de sucesso se o registo for efetuado com sucesso, ou pelo contrário se não tiver sucesso, aparece uma mensagem de erro. Possui também um botão \textit{Back to Login}, para voltar à página de login.
 
 \paragraph{\texttt{Toolbar.vue}:}\mbox{}\\
 
 Componente usado por quase todos os componentes, com a exceção dos componentes \texttt{Login.vue} e \texttt{SignUp.vue}. Este componente representa a barra de ferramentas superior que se encontra em grande parte das páginas. Nesta barra está presente vários links para diferentes páginas da interface, o primeiro onde está o nome da aplicação e o seu símbolo, redireciona para a página inicial (\texttt{/index}). Depois por ordem, links para \textit{Recordings} favoritos do utilizador, listagem de \textit{Albums}, \textit{Recordings}, \textit{Artists} e \textit{Areas}, para a página de configuração do utilizador e por fim \textit{Logout}. Quando o utilizador está numa destas páginas, a barra de ferramentas sinaliza a mesma ao usar uma cor diferente para o botão associada a essa página.
 
-Para além disso, esta barra, por vezes, apresenta uma caixa de texto por forma filtrar os resultados disponíveis ou para pesquisar. Quando se está nas páginas de listagem de \textit{Albums}, \textit{Recordings}, \textit{Artists} e \textit{Areas} esta caixa de texto permite filtrar os resultados. Nas restantes páginas em que aparece (página de um individuo \textit{Album}, \textit{Recording}, \textit{Artist} ou \textit{Area}, na página inicial \textit{Index} e na página de favoritos do utilizador \textit{Favs}), esta caixa de texto permite pesquisar por arista mais música com o formato ``\textit{Artist}-\textit{Recording}.
+Para além disso, esta barra, por vezes, apresenta uma caixa de texto por forma a filtrar os resultados disponíveis ou para pesquisar. Quando se está nas páginas de listagem de \textit{Albums}, \textit{Recordings}, \textit{Artists} e \textit{Areas} esta caixa de texto permite filtrar os resultados. Nas restantes páginas em que aparece (página de um individuo \textit{Album}, \textit{Recording}, \textit{Artist} ou \textit{Area}, na página inicial \textit{Index} e na página de favoritos do utilizador \textit{Favs}), esta caixa de texto permite pesquisar por artista mais música com o formato ``\textit{Artist}-\textit{Recording}''.
 
 \paragraph{\texttt{Index.vue}:}\mbox{}\\
 
@@ -717,25 +725,237 @@ Página que apresenta toda a informação de um determinado individuo da classe 
 
 \paragraph{\texttt{Recording.vue}:}\mbox{}\\
 
-Página que apresenta toda a informação de um determinado individuo da classe \textit{Recording}. Apresenta também a classificação e o rating da música. Para além disso mostra o vídeo da música (quando possível, nem sempre apresenta o vídeo correto) e as \textit{lyrics} da música. As \textit{lyrics} da música são obtidas a partid de duas APIs diferentes, \textit{musixmatch} e \textit{Chartlyrics}. (ver \ref{tema}) Por fim, apresenta também um botão por forma ao utilizador adicionar/remover a música aos/dos favoritos.
+Página que apresenta toda a informação de um determinado individuo da classe \textit{Recording}. Apresenta também a classificação e o rating da música. Para além disso mostra o vídeo da música (quando possível, nem sempre apresenta o vídeo correto) e as \textit{lyrics} da música. As \textit{lyrics} da música são obtidas a partir de duas APIs diferentes, \textit{musixmatch} e \textit{Chartlyrics}. A primeira API, apenas apresenta 30\% da música, visto estar a ser utilizado uma versão gratuita. Futuramente é necessário alterar o \textit{token} usado para aceder a esta API (\textit{musixmatch}) seja por questões de segurança ou para usar uma versão paga que apresenta toda a letra da música. Por fim, apresenta também um botão por forma ao utilizador adicionar/remover a música aos/dos favoritos.
 
 \paragraph{\texttt{UserSettings.vue}:}\mbox{}\\
 
-Nesta página, estão presentes dois formulários onde o utilizador pode, num deles atualizar a sua password e no outro atualizar a sua informação (nome e email).
+Nesta página, estão presentes dois formulários onde o utilizador pode, num deles atualizar a sua password e no outro atualizar a sua informação (nome e email). Os campos são igualmente verificados com \texttt{vuelidate}.
 
 \paragraph{\texttt{Favs.vue}:}\mbox{}\\
 
-Página que apresenta a listagem de todas as músicas favoritas do utilizador. É possível, através de dois botões, remover uma música dos favoritos ou aceder a página da música.
+Página que apresenta a listagem de todas as músicas favoritas do utilizador. É possível, através de dois botões, remover uma música dos favoritos ou aceder à página da música.
 
 \paragraph{\texttt{Youtube.vue}:}\mbox{}\\
 
-Componente usado pela página onde se apresenta um individuo da classe \textit{Recording}. Permite pesquisar vídeos do \textit{YouTube} por uma \textit{string} e mostrar o vídeo que mais se associa.
+Componente usado pela página onde se apresenta um individuo da classe \textit{Recording}. Permite pesquisar vídeos do \textit{YouTube} por uma \textit{string} e mostrar o vídeo que possui o título que mais se assemelha a essa \textit{string}.
 
 \section{Instalação}
 
-Ao correr o servidor API, o mesmo, aceita dois parametros, hostname + porta do MongoDB e do GraphDB. Permite que na altura de instalação se possa agilizar mais facilmente o escalonamento da aplicação. Também nesse sentido, no interface existe um ficheiro \texttt{.env}, que possui a variável de ambiente \texttt{VUE\_APP\_SERVER\_URL}, por forma a indicar à interface qual é o hostname + porta do servidor API.
+Antes de explicar a instalação, é importante referir que ao correr o servidor API, o mesmo, aceita dois parametros, \texttt{hostname + porta} do MongoDB e do GraphDB. Permite que na altura de instalação se possa agilizar mais facilmente o escalonamento da aplicação. Também nesse sentido, na interface existe um ficheiro \texttt{.env}, que possui a variável de ambiente \texttt{VUE\_APP\_SERVER\_URL}, por forma a indicar à interface qual é o \texttt{hostname + porta} do servidor API.
 
-~\cite{mbAnnotation}
+Todo o código produzido pode ser descarregado a partir do repositório disponível no \texttt{GitHub} em \url{https://github.com/jcm300/Musike}. 
+
+Em relação à instalação propriamente dita, pode ser realizada de várias formas, seja criando a ontologia de raíz (envolvendo conversão do dataset JSON) com posterior instalação da aplicação; seja usar a ontologia já criada com posterior instalação da aplicação; ou, por fim, através da utilização de containers (\textit{Docker}).
+
+\subsection{Instalação com criação da ontologia com posterior instalação da aplicação}
+
+Podemos dividir esta fase em duas partes, criação da ontologia e instalação da aplicação.
+
+\paragraph{Criação da ontologia:}\mbox{}\\
+
+Tem como dependências \texttt{git} e \texttt{Node.js}.
+
+\begin{framed}
+\begin{minted}{bash}
+# clonar repositório por ssh
+git clone git@github.com:jcm300/Musike.git
+# ou por https
+git clone https://github.com/jcm300/Musike.git
+
+# entrar no diretório
+cd Musike
+
+# descomprimir dataset em JSON
+cd datasets/JSON
+cat artist_aa artist_ab artist_ac artist_ad artist_ae artist_af artist_ag \ 
+    artist_ah artist_ai > artist.tar.xz
+cat release-group_aa release-group_ab release-group_ac > release-group.tar.xz
+cat release_aa release_ab release_ac release_ad release_ae release_af release_ag \ 
+    release_ah release_ai release_aj release_ak release_al release_am release_an \
+    release_ao release_ap release_aq release_ar release_as release_at release_au \
+    release_av release_aw release_ax release_ay release_az release_ba release_bb \
+    release_bc release_bd release_be release_bf release_bg release_bh release_bi \
+    release_bj release_bk release_bl release_bm release_bn release_bo release_bp \
+    release_bq release_br release_bs release_bt release_bu release_bv release_bw \
+    release_bx release_by release_bz release_ca release_cb release_cc release_cd \
+    release_ce release_cf release_cg release_ch release_ci release_cj release_ck \
+    release_cl release_cm release-group_aa release-group_ab \
+    release-group_ac > release.tar.xz
+cat work_aa work_ab work_ac work_ad > work.tar.xz
+tar xf area.tar.xz
+tar xf artist.tar.xz
+tar xf recording.tar.xz
+tar xf release.tar.xz #CUIDADO: este ocupa 230gb
+tar xf release-group.tar.xz
+tar xf work.tar.xz
+
+# preparar ficheiros para converter
+mv mbdump/area area.json
+mv mbdump/artist artist.json
+mv mbdump/recording recording.json
+mv mbdump/release release.json
+mv mbdump/release-group release-group.json
+mv mbdump/work work.json
+
+# converter ficheiros json, criando finalmente a ontologia
+cd ../../jsonTOturtle
+./convert.sh
+
+# a ontologia criada estará em:
+cd ../datasets/Turtle
+# com o nome igual a MusicBrainz.ttl 
+\end{minted}
+\end{framed}
+
+\paragraph{Instalação da aplicação:}\mbox{}\\
+
+Por forma a instalar a aplicação é necessário instalar, \texttt{Java 8} (dependência do \texttt{GraphDB}), \texttt{GraphDB}, \texttt{MongoDB} e \texttt{Node.js}.
+
+\begin{framed}
+\begin{minted}{bash}
+# criar uma pasta graph-import na home do utilizador
+mkdir ~/graph-import
+
+# mover ontologia para a pasta
+mv MusicBrainz.ttl ~/graph-import
+
+# Correr GraphDB e no GraphDB Workbench criar um repositório com id igual 
+# a "musicbrainz" e importar a ontologia para esse repositório
+
+cd ../../src # mover para a pasta Musike/src
+
+# alterar forma como é iniciado o GraphDB na script install.sh, caso seja necessário,
+# visto que assume que o GraphDB está instalado em Musike/src/graphdb-free-8.9.0
+
+# instalar dependências do node.js e iniciar GraphDB, MongoDB, servidor API e interface
+./install.sh i
+
+# depois de correr uma primeira vez o comando anterior, sempre que se pretender iniciar,
+# ou seja, iniciar GraphDB, MongoDB, servidor API e interface basta correr
+./install.sh r
+\end{minted}
+\end{framed}
+
+\subsection{Instalação usando ontologia já criada com posterior instalação da aplicação}
+
+Esta instalação também pode ser dividida em duas partes, importação da ontologia e instalação da aplicação.
+
+\paragraph{Importação da ontologia:}\mbox{}\\
+
+Em primeiro lugar, realiza-se a clonagem do repositório:
+
+\begin{framed}
+\begin{minted}{bash}
+# clonar repositório por ssh
+git clone git@github.com:jcm300/Musike.git
+# ou por https
+git clone https://github.com/jcm300/Musike.git
+
+cd Musike
+\end{minted}
+\end{framed}
+
+De seguida, instalasse \texttt{Java 8} (dependência do \texttt{GraphDB}).
+
+O próximo passo pode ser realizado de duas formas, importação da ontologia ou usar o GraphDB incluido no repositório que já inclui a importação da ontologia. No primeiro método segue-se os passos iniciais da instalação anterior ou seja:
+
+\begin{framed}
+\begin{minted}{bash}
+#Instalar GraphDB
+
+# descomprimir ontologia já criada
+cd datasets/Turtle
+cat MusicBrainz.ttl.gz_aa MusicBrainz.ttl.gz_ab MusicBrainz.ttl.gz_ac \
+    MusicBrainz.ttl.gz_ad MusicBrainz.ttl.gz_ae MusicBrainz.ttl.gz_af \
+    MusicBrainz.ttl.gz_ag MusicBrainz.ttl.gz_ah MusicBrainz.ttl.gz_ai \
+    MusicBrainz.ttl.gz_aj MusicBrainz.ttl.gz_ak MusicBrainz.ttl.gz_al \
+    MusicBrainz.ttl.gz_am MusicBrainz.ttl.gz_an MusicBrainz.ttl.gz_ao \
+    MusicBrainz.ttl.gz_ap MusicBrainz.ttl.gz_aq MusicBrainz.ttl.gz_ar \
+    MusicBrainz.ttl.gz_as MusicBrainz.ttl.gz_at MusicBrainz.ttl.gz_au \
+    MusicBrainz.ttl.gz_av MusicBrainz.ttl.gz_aw MusicBrainz.ttl.gz_ax \
+    MusicBrainz.ttl.gz_ay MusicBrainz.ttl.gz_az MusicBrainz.ttl.gz_ba \
+    MusicBrainz.ttl.gz_bb MusicBrainz.ttl.gz_bc MusicBrainz.ttl.gz_bd \
+    MusicBrainz.ttl.gz_be MusicBrainz.ttl.gz_bf MusicBrainz.ttl.gz_bg \
+    MusicBrainz.ttl.gz_bh MusicBrainz.ttl.gz_bi MusicBrainz.ttl.gz_bj \
+    MusicBrainz.ttl.gz_bk MusicBrainz.ttl.gz_bl MusicBrainz.ttl.gz_bm \
+    MusicBrainz.ttl.gz_bn > MusicBrainz.ttl.gz
+gunzip -k MusicBrainz.ttl.gz
+
+# criar uma pasta graph-import na home do utilizador
+mkdir ~/graph-import
+
+# mover ontologia para a pasta
+mv MusicBrainz.ttl ~/graph-import
+
+# Correr GraphDB e no GraphDB Workbench criar um repositório com id igual
+# a "musicbrainz" e importar a ontologia para esse repositório
+
+cd ../../src # mover para a pasta Musike/src
+
+# alterar forma como é iniciado o GraphDB na script install.sh, caso seja necessário,
+# visto que assume que o GraphDB está instalado em Musike/src/graphdb-free-8.9.0
+\end{minted}
+\end{framed}
+
+O segundo método é usar o \texttt{GraphDB} incluido no repositório no qual, já inclui a ontologia importada bastando seguir os seguintes passos:
+
+\begin{framed}
+\begin{minted}{bash}
+# descomprimir GraphDB
+cd src/graphdb-free-8.9.0
+cat graph.tar.gz_aa graph.tar.gz_ab graph.tar.gz_ac graph.tar.gz_ad graph.tar.gz_ae \
+    graph.tar.gz_af graph.tar.gz_ag graph.tar.gz_ah graph.tar.gz_ai graph.tar.gz_aj \
+    graph.tar.gz_ak graph.tar.gz_al graph.tar.gz_am graph.tar.gz_an graph.tar.gz_ao \
+    graph.tar.gz_ap graph.tar.gz_aq graph.tar.gz_ar graph.tar.gz_as graph.tar.gz_at \
+    graph.tar.gz_au graph.tar.gz_av graph.tar.gz_aw graph.tar.gz_ax graph.tar.gz_ay \
+    graph.tar.gz_az graph.tar.gz_ba graph.tar.gz_bb graph.tar.gz_bc graph.tar.gz_bd \
+    graph.tar.gz_be graph.tar.gz_bf graph.tar.gz_bg graph.tar.gz_bh graph.tar.gz_bi \
+    graph.tar.gz_bj graph.tar.gz_bk graph.tar.gz_bl graph.tar.gz_bm graph.tar.gz_bn \
+    graph.tar.gz_bo graph.tar.gz_bp graph.tar.gz_bq graph.tar.gz_br graph.tar.gz_bs \
+    graph.tar.gz_bt graph.tar.gz_bu graph.tar.gz_bv graph.tar.gz_bw graph.tar.gz_bx \
+    graph.tar.gz_by graph.tar.gz_bz graph.tar.gz_ca graph.tar.gz_cb graph.tar.gz_cc \
+    graph.tar.gz_cd graph.tar.gz_ce graph.tar.gz_cf > graph.tar.gz
+tar -xf graph.tar.gz
+
+cd .. # mover para a pasta Musike/src
+\end{minted}
+\end{framed}
+
+\paragraph{Instalação da aplicação:}\mbox{}\\
+
+Por forma a instalar a aplicação é necessário instalar, \texttt{MongoDB} e \texttt{Node.js}.
+
+\begin{framed}
+\begin{minted}{bash}
+# instalar dependências do node.js e iniciar GraphDB, MongoDB, servidor API e interface
+./install.sh i
+
+# depois de correr uma primeira vez o comando anterior, sempre que se pretender iniciar,
+# ou seja, iniciar GraphDB, MongoDB, servidor API e interface basta correr
+./install.sh r
+\end{minted}
+\end{framed}
+
+\subsection{Instalação através de containers (\texttt{Docker})}
+
+A instalação através de containers é a menos trabalhosa e mais simples contudo, normalmente possui pior performance em relação a uma instalação sobre um sistema operativo. Logo é deixado à escolha do utilizador/administrador o método que pretende usar para instalar.
+
+Portanto, para instalar tudo através de \textit{containers}, o primeiro passo é instalar o \texttt{docker} e o \texttt{docker-compose}. De seguida, os passos a realizar são os seguintes:
+
+\small
+\begin{framed}
+\begin{minted}{bash}
+# obter o ficheiro docker-compose para proceder à criação dos containers
+wget https://raw.githubusercontent.com/jcm300/Musike/master/src/docker-compose_without_build.yml
+# ou
+curl https://raw.githubusercontent.com/jcm300/Musike/master/src/docker-compose_without_build.yml \ 
+    > docker-compose_without_build.yml
+
+# criar e iniciar os containers
+sudo docker-compose -f docker-compose_without_build.yml up
+\end{minted}
+\end{framed}
+\normalsize
 
 \section{Conclusões e Trabalho Futuro}
 
