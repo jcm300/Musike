@@ -1,3 +1,4 @@
 FROM openjdk:8-jdk
 COPY . /graphdb
-CMD ["./graphdb/bin/graphdb"]
+EXPOSE 7200
+CMD ["./graphdb/bin/graphdb", "-s"]

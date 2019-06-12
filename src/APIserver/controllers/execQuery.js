@@ -24,8 +24,8 @@ module.exports.set = function (url) {
 
 module.exports.execQuery = async function(query){
     var graphDB = "http://" + graphdb + "/repositories/musicbrainz?query="
+    var encoded = encodeURIComponent(prefix + query)
     try{
-        var encoded = encodeURIComponent(prefix + query)
         response = await axios.get(graphDB + encoded)
         return prettyPrint(response.data)
     }catch(error){

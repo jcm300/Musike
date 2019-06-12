@@ -13,8 +13,8 @@ if [ $# -eq 1 ]; then
         #start mongoDB
         mongod --dbpath ./mongoDB/ &
 
-        #start graphDB
-        graphdb-free-8.9.0/bin/graphdb &
+        #start graphDB in server mode
+        graphdb-free-8.9.0/bin/graphdb -s &
 
         cd APIserver
         npm install
@@ -29,8 +29,8 @@ if [ $# -eq 1 ]; then
         #start mongoDB
         mongod --dbpath ./mongoDB/ &
 
-        #start graphDB
-        graphdb-free-8.9.0/bin/graphdb &
+        #start graphDB in server mode
+        graphdb-free-8.9.0/bin/graphdb -s &
 
         cd APIserver
         npm install
@@ -45,8 +45,8 @@ if [ $# -eq 1 ]; then
         #start mongoDB
         mongod --dbpath ./mongoDB/ & 
         
-        #start graphDB
-        graphdb-free-8.9.0/bin/graphdb  &
+        #start graphDB in server mode
+        graphdb-free-8.9.0/bin/graphdb -s &
 
         #wait
         sleep 10
