@@ -8,16 +8,10 @@ services:
       - "27017:27017"
   graphdb:
     image: jcm300/mb_graphdb:1.0.0
-    build:
-      context: ./graphdb-free-8.9.0
-      dockerfile: Dockerfile
     ports:
       - "7200:7200"
   server:
     image: jcm300/musike_api:1.0.0
-    build:
-      context: ./APIserver
-      dockerfile: Dockerfile
     restart: on-failure
     links:
       - mongo
@@ -26,9 +20,6 @@ services:
       - "3000:3000"
   interface:
     image: jcm300/musike_interface:1.0.0
-    build:
-      context: ./interface
-      dockerfile: Dockerfile
     links:
       - server
     ports:
