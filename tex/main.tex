@@ -31,7 +31,7 @@
 \textsc{\Large Mestrado em Engenharia Informática} \\ [0.5cm]
 \textsc{\large Processamento e Representação de Conhecimento} \\ [0.5cm]
 
-{\LARGE \bfseries Musike - Music Linked} \\[0.5cm]
+{\LARGE \bfseries Musike - \underline{Musi}c Lin\underline{ke}d} \\[0.5cm]
 
 \begin{tabular}{c} 
     José Carlos Lima Martins \\
@@ -43,19 +43,25 @@
 
 \section{Introdução}
 
-%TODO
+O seguinte trabalho, apresenta a construção de uma ontologia, ou seja, um dataset em \textit{RDF}, a partir de um dataset em \textit{JSON} do \texttt{MusicBrainz} bem como, a criação de uma aplicação que faz uso da informação proveniente desta ontologia, recorrendo a \textit{Noje.js} e a \textit{Vue.js}.
+
+Portanto, na secção \ref{context}, realiza-se uma pequena contextualização do trabalho, enquanto que na secção \ref{tema}, descreve-se o tema escolhido e os objetivos com a realização do trabalho. Por outro lado, na secção \ref{ontoStruct}, apresenta-se a estrutura na ontologia, para de seguida, na secção \ref{ontoPop}, povoá-la com o dataset \textit{JSON} do \texttt{MusicBrainz}.
+
+Por outro lado, na secção \ref{api} refere-se a construção da \texttt{API}, parte integrante da aplicação, para seguidamente, na secção \ref{interface}, apresentar a interface que comunica com esta \texttt{API}, por forma a obter a informação necessária a apresentar. 
+
+Por fim, refere-se vários métodos de instalação da secção \ref{install} e apresenta-se trabalho a realizar futuramente na secção \ref{future}.
 
 \tableofcontents
 
-\section{Contextualização}
+\section{Contextualização} \label{context}
 
-O trabalho a desenvolver passa por escolher uma área/tema de trabalho. A partir desse tema, criar/construir/limpar/extrair uma ontologia sobre o tema e que pode estar disponível na LOD (\textit{Linked Open Data}). Esta ontologia, em Turtle (\textit{Terse RDF Triple Language}, sintaxe e formato de ficheiros para expressar dados em \texttt{RDF - Resource Description Framework}), será armazenado em \textit{GraphDB}, base de dados de semântica baseada em grafos, onde será possível aceder/realizar \textit{queries} à ontologia localmente.
+O trabalho a desenvolver passa por escolher uma área/tema de trabalho. A partir desse tema, criar/construir/limpar/extrair uma ontologia sobre o tema e que pode estar disponível na LOD (\textit{Linked Open Data}). Esta ontologia, em Turtle (\textit{Terse RDF Triple Language}, sintaxe e formato de ficheiros para expressar dados em \texttt{RDF - Resource Description Framework}), será armazenada em \textit{GraphDB}, base de dados de semântica baseada em grafos, onde será possível aceder/realizar \textit{queries} à ontologia.
 
-De seguida, será criado um website/app web de forma a explorar a ontologia anteriormente criada. Este website deve possuir autenticação, usando para isso o \textit{MongoDB}, base de dados baseada em documentos.
+De seguida, será criado um web site/app de forma a explorar a ontologia anteriormente criada. Este web site deve possuir autenticação, usando para isso o \textit{MongoDB}, base de dados baseada em documentos.
 
 \section{Tema escolhido - \textbf{Musike}} \label{tema}
 
-O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website com a informação de artistas, bem como, das suas músicas e dos seus albuns. Em termos de informação a apresentar, pretendesse o seguinte:
+O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num web site com a informação de artistas, bem como, das suas músicas e dos seus albuns. Em termos de informação a apresentar, pretendesse o seguinte:
 \begin{itemize}
     \item Artista
         \begin{itemize}
@@ -68,19 +74,19 @@ O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website co
             \item nacionalidade (obtido através da área)
             \item descrição
             \item urls para página pessoal, redes sociais, etc
-            \item classificação dos utilizadores do website (média das classificações das músicas)
+            \item classificação dos utilizadores do web site (média das classificações das músicas)
             \item soma das visualizações das várias músicas
         \end{itemize}
     \item Album
         \begin{itemize}
             \item título
-            \item data do primeiro release
+            \item data do primeiro ``release''
             \item artista(s)
             \item descrição
             \item músicas do album
             \item tipos (tags) do album (clássica, rock, etc)
             \item urls sobre o album
-            \item classificação dos utilizadores do website (média das classificações das músicas)
+            \item classificação dos utilizadores do web site (média das classificações das músicas)
             \item soma das visualizações das várias músicas
         \end{itemize}
     \item Música
@@ -92,8 +98,8 @@ O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website co
             \item língua(s)
             \item tipos (tags) da música (clássica, rock, etc)
             \item urls sobre a música
-            \item classificação dos utilizadores do website
-            \item número de vezes ouvida pelos utilizadores do website
+            \item classificação dos utilizadores do web site
+            \item número de vezes ouvida pelos utilizadores do web site
         \end{itemize}
     \item Área
         \begin{itemize}
@@ -110,11 +116,11 @@ O \textbf{Musike}, abreviatura de \textit{Music Linked}, consiste num website co
 
 Para além disso, para cada música o objetivo é ter na sua página o vídeo presente no \textit{YouTube} bem como a letra da música. Com isto, pretendesse que por cada visualização do vídeo se conte que a música foi ouvida uma vez.
 
-Por outro lado, o website deve permitir aos utilizadores escolher as músicas e albuns que mais gosta, bem como, puder criar playlists.
+Por outro lado, o web site deve permitir aos utilizadores escolher as músicas que mais gosta, bem como, puder criar \textit{playlists}.
 
 Cada utilizador deve ter acesso às suas estatísticas, onde deve estar presente as músicas, artistas e albums que o utilizador ouve mais, bem como, os artistas, albuns e músicas com melhor classificação dada pelo utilizador.
 
-Por fim, apresentar estatísticas gerais do website entre as quais:
+Por fim, devem ser apresentadas estatísticas gerais do web site entre as quais:
 \begin{itemize}
     \item músicas mais ouvidas pelos utilizadores
     \item músicas com melhor classificação dada pelos utilizadores
@@ -139,13 +145,13 @@ Para o tema escolhido é necessário um dataset que possua a informação de alb
 
 A partir deste dataset (do \texttt{MusicBrainz}) em JSON bem como das características do tema escolhido, foi construído a estrutura da ontologia e, posteriormente, foi povoada com a informação presente no dataset.
 
-\subsection{Parte Estrutural da Ontologia}
+\subsection{Parte Estrutural da Ontologia} \label{ontoStruct}
 
 O primeiro passo foi a construção da estrutura da ontologia baseada no dataset JSON do \texttt{MusicBrainz}~\cite{mbSchema}. O desenho da estrutura pode ser visualizado de seguida:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=15cm]{Pictures/ontologySctructure.png}
+    \includegraphics[width=12cm]{Pictures/ontologySctructure.png}
     \caption{Estrutura da ontologia, imagem obtida através de \protect\href{http://www.visualdataweb.de/webvowl/}{WebVOWL}}
 \end{figure}
 
@@ -162,7 +168,7 @@ Quanto às propriedades/relações, a ontologia apresenta as seguintes:
         \end{itemize}
         \item Classe \textbf{\textit{URL}}
         \begin{itemize}
-            \item \textbf{\textit{label}}: o nome do website a que se refere o URL (exe: wikipédia)
+            \item \textbf{\textit{label}}: o nome do web site a que se refere o URL (exe: wikipédia)
             \item \textbf{\textit{value}}: URL propriamente dito
         \end{itemize}
         \item Classe \textbf{\textit{TimeLimitedEntity}}
@@ -208,7 +214,7 @@ Quanto às propriedades/relações, a ontologia apresenta as seguintes:
 
 É importante voltar a referir que as subclasses herdam as propriedades das superclasses.
 
-\subsection{De JSON para Turtle - Povoamento da Ontologia}
+\subsection{De JSON para Turtle - Povoamento da Ontologia} \label{ontoPop}
 
 A partir da estrutura da ontologia e da informação necessária, foi então usado um dataset (datasets JSON do \texttt{MusicBrainz} disponíveis em \url{http://ftp.musicbrainz.org/pub/musicbrainz/data/json-dumps/}) para popular a ontologia. Este dataset é proveniente do \textbf{MusicBrainz} estando o mesmo em JSON. O seu timestamp é de 2019-04-03, portanto um dataset bastante recente possuindo cerca de 240GB de tamanho. Visto o mesmo estar em JSON é necessário então convertê-lo para Turtle.
 
@@ -291,11 +297,11 @@ Num primeiro passo, percorresse os ficheiros JSON (possui em cada linha um eleme
         \end{itemize}
 \end{itemize}
 
-Nestes conversores, grande parte dos campos do dataset JSON são verificados se são nulos ou vazios antes de converter, por forma a garantir que é inserido informação válida e útil.
+Nestes conversores, grande parte dos campos do dataset JSON são verificados se são nulos ou vazios antes de converter, por forma a garantir que é inserido na ontologia informação válida e útil.
 
 Ainda nestes conversores, os ids são verificados, visto que, às vezes há ``merges'' de entidades no \textbf{MusicBrainz} e, quando isso acontece, passa a existir uma só entidade que representa as duas mas, é possível aceder à mesma através dos dois ids de cada entidade do ``merge''. De tal forma, para obter uma ontologia consistente, quando aparecem ids nos conversores acedesse o URL \url{https://musicbrainz.org/ws/2/entidade/id} usando o \textit{axios} e, do campo \texttt{data} da resposta, verificasse o campo \texttt{id}. Caso consigasse obter resposta usasse o id obtido, caso contrário (pode acontecer por exemplo quando a entidade não existe num dataset mais recente), mantém-se o atual. Contudo, o acesso através deste URL tem uma grande limitação, apenas se pode realizar um pedido a cada segundo, devido a restrições impostas pelo \textbf{MusicBrainz}~\cite{mbLimit}. 
 
-Portanto, por forma a contornar este obstáculo, obteve-se a máquina virtual disponibilizada em \url{ftp://ftp.eu.metabrainz.org/pub/musicbrainz-vm/musicbrainz-server-2018-08-14.ova} ou através do \textit{torrent} disponibilizado em \url{ftp://ftp.eu.metabrainz.org/pub/musicbrainz-vm/musicbrainz-server-2018-08-14.ova.torrent}. Esta máquina virtual possui o servidor do MusicBrainz já pronto a correr, bastando apenas iniciar a máquina virtual e autenticar-se com username e password igual a \texttt{vagrant}~\cite{mbSetup}. Porém, como o dataset que vinha com o servidor da máquina virtual era anterior ao dataset em que o trabalho se baseia, atualizou-se o dataset ao correr os seguintes comandos na máquina virtual~\cite{mbUpdate}:
+Portanto, por forma a contornar este obstáculo, obteve-se a máquina virtual disponibilizada em \url{ftp://ftp.eu.metabrainz.org/pub/musicbrainz-vm/musicbrainz-server-2018-08-14.ova} ou através do \textit{torrent} disponibilizado em \url{ftp://ftp.eu.metabrainz.org/pub/musicbrainz-vm/musicbrainz-server-2018-08-14.ova.torrent}. Esta máquina virtual possui o servidor do \texttt{MusicBrainz} já pronto a correr, bastando apenas iniciar a máquina virtual e autenticar-se com username e password igual a \texttt{vagrant}~\cite{mbSetup}. Porém, como o dataset que vinha com o servidor da máquina virtual era anterior ao dataset em que o trabalho se baseia, atualizou-se o dataset da máquina virtual ao correr os seguintes comandos na máquina virtual~\cite{mbUpdate}:
 
 \begin{framed}
 \begin{minted}{bash}
@@ -306,15 +312,15 @@ Portanto, por forma a contornar este obstáculo, obteve-se a máquina virtual di
 
 Assim, por forma a usar a máquina virtual em vez do servidor oficial do \texttt{MusicBrainz} e evitando assim a limitação do mesmo, basta aceder o URL \url{http://localhost:5000/ws/2/entidade/id} em vez do anteriormente referido, substituindo entidade por \texttt{area}, \texttt{artist}, \texttt{recording} ou \texttt{release-group} e id pelo id a verificar.
 
-De seguida, para verificar se os ids estavam corretos, bem como se todos os id's referenciados existem, foi criado uma \textit{script} também em \textit{Node.js} (\texttt{getIdsFromTTL.js}) que obtém dos ficheiros \textit{Turtle} os ids de indivíduos, bem como, os ids referenciados. Depois, também com recurso a uma \textit{script} criada (\texttt{compare.js}), obtém-se quais os ids referenciados em que o indivíduo existe. Ao correr esta parte, verificou-se que faltavam alguns artistas que apenas estavam presentes em \texttt{release.json}. Como tal, foi criado um outro conversor (\texttt{remainArtistsFromRelease.js}), que a partir dos ids que faltam obtém a informação de cada artista (de forma semelhante ao já referido para o ficheiro \texttt{artist.json} mas, sem ter em conta \textit{URLs}).
+De seguida, para verificar se os ids estão corretos, bem como se todos os id's referenciados existem, foi criado uma \textit{script} também em \textit{Node.js} (\texttt{getIdsFromTTL.js}) que obtém dos ficheiros \textit{Turtle} os ids de indivíduos, bem como, os ids referenciados. Depois, também com recurso a uma \textit{script} criada (\texttt{compare.js}), obtém-se quais os ids referenciados em que o indivíduo não existe. Ao correr esta script, verificou-se que faltavam alguns artistas que eram referenciados e estão apenas presentes em \texttt{release.json}, só que sem possuírem toda a informação (não possuem \textit{URLs} por exemplo). Como tal, foi criado um outro conversor (\texttt{remainArtistsFromRelease.js}), que a partir dos ids que faltam obtém a informação de cada artista (de forma semelhante ao já referido para o ficheiro \texttt{artist.json} mas, sem ter em conta \textit{URLs}).
 
-Por fim, concatenasse os vários ficheiros gerados e o ficheiro com a estrutura, resultando num ficheiro Turtle final, passível de ser carregado no \textit{GraphDB}.
+Por fim, concatenasse os vários ficheiros gerados e o ficheiro com a estrutura da ontologia, resultando num ficheiro Turtle final, passível de ser carregado no \textit{GraphDB}.
 
-Por forma a automatizar todo este processo de conversão (sem contar com a instalação da máquina virtual nem com a extração do dataset), foi criada a script \textit{convert.sh}. É importante referir também que não houve uso de dados provenientes de series.json (conjuntos de releases-groups), de label.json (editoras de música, discografias, etc), de place.json (locais de produção de música), de event.json (eventos de música, festivais, etc) e de instrument.json (instrumentos).
+Por forma a automatizar todo este processo de conversão (sem contar com a instalação da máquina virtual nem com a descompressão do dataset), foi criada a script \textit{convert.sh}. É importante referir também que não houve uso de dados provenientes de series.json (conjuntos de releases-groups), de label.json (editoras de música, discografias, etc), de place.json (locais de produção de música), de event.json (eventos de música, festivais, etc) e de instrument.json (instrumentos).
 
-\section{Servidor API}
+\section{Servidor API} \label{api}
 
-O servidor com a API foi desenvolvido recorrendo ao \textit{Node.js}, usando a \textit{framework} de desenvolvimento \textit{Express.js}. O servidor está em constante comunicação com duas bases de dados, \textit{MongoDB} e \textit{GraphDB}. No \textit{GraphDB}, base de dados de semântica baseada em grafos, foi carregado a ontologia já povoada referida anteriormente (ver \ref{ontologia}). Já no \textit{MongoDB}, base de dados baseada em documentos, é onde se encontra a informação dos utilizadores, o seu nome, email, password, estatísticas (visualizações e ratings) e músicas favoritas. Para além da informação dos utilizadores, quando um utilizador apaga a sua conta, as visualizações e ratings são salvaguardados, sendo agregados pelo identificador da música. A API serve como ponto de ligação para os utilizadores/aplicações à informação. Esta API está protegida em grande parte das rotas por autenticação, algo que será abordado mais à frente (ver \ref{auth}).
+O servidor com a API foi desenvolvido recorrendo ao \textit{Node.js}, usando a \textit{framework} de desenvolvimento \textit{Express.js}. O servidor está em constante comunicação com duas bases de dados, \textit{MongoDB} e \textit{GraphDB}. No \textit{GraphDB}, base de dados de semântica baseada em grafos, foi carregado a ontologia já povoada referida anteriormente (ver \ref{ontologia}). Já no \textit{MongoDB}, base de dados baseada em documentos, é onde se encontra a informação dos utilizadores, o seu nome, email, password, estatísticas (visualizações e classificações) e músicas favoritas. Para além da informação dos utilizadores, quando um utilizador apaga a sua conta, as visualizações e classificações são salvaguardados, sendo agregados pelo identificador da música. A API serve como ponto de ligação para os utilizadores/aplicações à informação. Esta API está protegida em grande parte das rotas por autenticação, algo que será abordado mais à frente (ver \ref{auth}).
 
 \begin{figure}[H]
     \centering
@@ -323,7 +329,7 @@ O servidor com a API foi desenvolvido recorrendo ao \textit{Node.js}, usando a \
     \label{backend}
 \end{figure}
 
-Esta estrutura, demonstrada na figura acima (fig. \ref{backend}), é modular, ou seja, cada um dos três componentes identificados pode estar num servidor/máquina/\textit{container} diferente, o que permite escalar a API.
+Esta estrutura, demonstrada na figura acima (fig. \ref{backend}), é modular, ou seja, cada um dos três componentes identificados pode estar num servidor/máquina/\textit{container} diferente, o que permite escalar facilmente a API.
 
 Nas próximas secções será aprofundado os vários constituintes e camadas da API.
 
@@ -366,12 +372,12 @@ Os \texttt{controllers} possuem várias funções que permitem manusear os docum
         \item \texttt{updateUser}: Dada a informação a atualizar (\textit{name} e/ou \textit{email}) e o id do utilizador, atualiza a informação deste; esta função restringe o acesso, ou seja, apenas o próprio utilizador pode atualizar a sua informação;
         \item \texttt{updatePassword}: dado o id de um utilizador, a password atual e a nova password, verifica se a password atual está correta (se é igual à presente na base de dados), e em caso afirmativo, encripta a nova password e passa a ser a password atual do utilizador;
         \item \texttt{deleteUser}: dado um id de um utilizador, apaga-o;
-        \item \texttt{getRecordingsUser}: dado um id de um utilizador, obtém uma lista com todas as estatisticas do utilizador (visualizações e classificações);
+        \item \texttt{getRecordingsUser}: dado um id de um utilizador, obtém uma lista com todas as estatísticas do utilizador (visualizações e classificações);
         \item \texttt{getMostRecordingsViewsUser}: dado um id de um utilizador, obtém uma lista das 10 músicas mais ouvidas/vistas pelo utilizador; cada elemento desta lista tem o id da música e o número de visualizações desta;
         \item \texttt{getMostRecordingsRatingUser}: dado um id de um utilizador, obtém uma lista das 10 músicas com maior classificação dada pelo utilizador; cada elemento desta lista tem o id da música e a classificação atribuída;
         \item \texttt{getRecordingUserRating}: dado um id de um utilizador e um id de uma música, devolve a classificação dada pelo utilizado à música; caso o utilizador não a tenha classificado, devolve 0;
         \item \texttt{updateViews}: dado um id de um utilizador e o id de uma música, soma mais uma visualização a essa música, caso as estatísticas para essa música já existam; caso não existam cria uma, com número de visualizações igual a 1 e classificação igual a 0;
-        \item \texttt{updateRating}: dado um id de um utilizador, o id de uma música e a classificação a atribuir, caso as estatítiscas para esta música ja existam, atribui a nova classificação; caso não existam cria uma nova estatística para a música, com o número de visualizações igual a 0 e a classificação igual à que foi inserida.
+        \item \texttt{updateRating}: dado um id de um utilizador, o id de uma música e a classificação a atribuir, caso as estatísticas para esta música já existam, atribui a nova classificação; caso não existam cria uma nova estatística para a música, com o número de visualizações igual a 0 e a classificação igual à que foi inserida.
         \item \texttt{getFavs}: dado um id de um utilizador, obtém a lista de favoritos do utilizador
         \item \texttt{addFav}: dado um id de um utilizador e o id da música, adiciona a música à lista de favoritos do utilizador
         \item \texttt{removeFav}: dado um id de um utilizador e o id da música, remove a música da lista de favoritos do utilizador
@@ -396,7 +402,7 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
         \item \texttt{listAlbums}: dado um \textit{offset}, lista os 50 albums (id e título do album) a partir do \textit{offset} da lista (ordenada (pelos títulos), foi removido ordenação por questões de performance) de todos os albums;
         \item \texttt{listAlbumsByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista (ordenada, foi removido ordenação por questões de performance) ser de todos os albums, é apenas dos albums que começam pelo valor presente no filtro;
         \item \texttt{getAlbum}: dado o id de um album, obtém o título, e caso exista, data da primeira \textit{release}, sobre (\textit{about}) e desambiguação;
-        \item \texttt{getURLs}: dado o id de um album, obtém os \textit{URLs} sobre o album, devolvendo uma lista onde cada elemento possui o nome do website e o \textit{URL};
+        \item \texttt{getURLs}: dado o id de um album, obtém os \textit{URLs} sobre o album, devolvendo uma lista onde cada elemento possui o nome do web site e o \textit{URL};
         \item \texttt{getTracks}: dado o id de um album, obtém as músicas pertencentes ao album, devolvendo uma lista, em que cada elemento tem o id, título, duração e, caso exista, desambiguação de uma música;
         \item \texttt{getTags}: dado o id de um album, obtém as tags do album, através das tags pertencentes às músicas pertencentes ao album;
         \item \texttt{getArtistsCredit}: dado o id de um album, obtém os artistas do album através dos artistas associados às músicas pertencentes ao album.
@@ -410,11 +416,11 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
         \item \texttt{getAliases}: dado o id de uma area obtém os nomes alternativos para a area;
         \item \texttt{getPartOf}: dado o id de uma area obtém o id, nome e tipo das areas a que pertence;
         \item \texttt{getParts}: dado o id de uma area obtém o id, nome e tipo das areas que contém;
-        \item \texttt{getURLs}: dado o id de uma area, obtém os \textit{URLs} sobre a area, devolvendo uma lista onde cada elemento possui o nome do website e o \textit{URL};
+        \item \texttt{getURLs}: dado o id de uma area, obtém os \textit{URLs} sobre a area, devolvendo uma lista onde cada elemento possui o nome do web site e o \textit{URL};
         \item \texttt{getArtists}: dado o id de uma area, obtém os artistas que são dessa area, devolvendo para cada artista o seu id e nome.
-        \item \texttt{countriesWithMostArtists}: obtém uma lista de todos os paises, ordenados do país com mais artistas para o país com menos
-        \item \texttt{countriesWithMostRecordings}: obtém uma lista de todos os paises, ordenados do país com mais músicas para o país com menos
-        \item \texttt{countriesWithMostAlbums}: obtém uma lista de todos os paises, ordenados do país com mais albums para o país com menos
+        \item \texttt{countriesWithMostArtists}: obtém uma lista de todos os países, ordenados do país com mais artistas para o país com menos
+        \item \texttt{countriesWithMostRecordings}: obtém uma lista de todos os países, ordenados do país com mais músicas para o país com menos
+        \item \texttt{countriesWithMostAlbums}: obtém uma lista de todos os países, ordenados do país com mais albums para o país com menos
     \end{itemize}
 
 \paragraph{\textbf{Artist:}}
@@ -423,7 +429,7 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
         \item \texttt{listArtistsByFilter}: dado um \textit{offset} e um filtro, devolve o mesmo que o anterior contudo em vez da lista (ordenada, foi removido ordenação por questões de performance) ser de todos os artistas, é apenas dos artistas que começam pelo valor presente no filtro;
         \item \texttt{getArtist}: dado o id de um artista, obtém o nome, e caso exista, o tipo, o nome para ordenar, a data de nascimento/início, a data de falecimento/fim, o sexo, o id da area, o nome da area, sobre (\textit{about}) e desambiguação;
         \item \texttt{getAliases}: dado o id de um artista obtém os nomes alternativos para o artista;
-        \item \texttt{getURLs}: dado o id de um artista, obtém os \textit{URLs} sobre o artista, devolvendo uma lista onde cada elemento possui o nome do website e o \textit{URL};
+        \item \texttt{getURLs}: dado o id de um artista, obtém os \textit{URLs} sobre o artista, devolvendo uma lista onde cada elemento possui o nome do web site e o \textit{URL};
         \item \texttt{getRecordings}: dado o id de um artista, devolve o id e o título das músicas no qual o artista fez parte;
         \item \texttt{getTags}: dado o id de um artista, obtém as tags do artista, através das tags pertencentes às músicas no qual o artista fez parte;
         \item \texttt{getAlbums}: dado o id de um artista, obtém os albums do artista, ou seja, onde o artista possui músicas nas quais fez parte.
@@ -436,7 +442,7 @@ Por outro lado, também é aqui nos \texttt{controllers} que são realizadas as 
         \item \texttt{getRecording}: dado o id de uma música, obtém o título, e caso exista, a duração, sobre (\textit{about}) e desambiguação;
         \item \texttt{getLanguages}: dado o id de uma música obtém as línguas usadas na música;
         \item \texttt{getTags}: dado o id de uma música, obtém as tags da música;
-        \item \texttt{getURLs}: dado o id de uma música, obtém os \textit{URLs} sobre a música, devolvendo uma lista onde cada elemento possui o nome do website e o \textit{URL};
+        \item \texttt{getURLs}: dado o id de uma música, obtém os \textit{URLs} sobre a música, devolvendo uma lista onde cada elemento possui o nome do web site e o \textit{URL};
         \item \texttt{getArtistsCredit}: dado o id de uma música, devolve o id e o nome dos artistas que fizeram parte da música;
         \item \texttt{getAlbums}: dado o id de uma música, devolve os albums no qual a música faz parte;
         \item \texttt{searchForRecordings}: dados dois filtros, um para o nome de um artista e outro para um título de uma música, obtém o id, nome do artista e título de músicas em que o nome do artista comece pelo seu filtro e o título da música comece também pelo seu filtro.
@@ -584,11 +590,11 @@ De forma a aceder às rotas protegidas, os clientes tem de enviar o \texttt{toke
 
 O \textit{token} tem um tempo de validade, pelo que ao fim de 30 minutos expira, sendo necessária nova autenticação pelo utilizador.
 
-A autenticação é realizada com a ajuda do \texttt{passport-local}. De forma a gerar o \textit{token} recorre-se ao \texttt{jsonwebtoken} usando uma chave privada para gerar o \textit{token} através do algoritmo RS256 (\textit{RSA Signature with SHA-256}). Já na verificação do \textit{token} é utilizado o \texttt{passport-jwt} com a tática de extração \texttt{fromAuthHeaderAsBearerToken}, daí a necessidade de colocar o \textit{token} nas headers dos pedidos como indicado. Esta verificação recorre à chave pública para confirmar a validade do \textit{token}. Por fim, é importante referir que no \textit{deployment} deste servidor é de extrema importancia, trocar a chave privada e a chave pública, visto este trabalho estar disponível publicamente.
+A autenticação é realizada com a ajuda do \texttt{passport-local}. De forma a gerar o \textit{token} recorre-se ao \texttt{jsonwebtoken} usando uma chave privada para gerar o \textit{token} através do algoritmo RS256 (\textit{RSA Signature with SHA-256}). Já na verificação do \textit{token} é utilizado o \texttt{passport-jwt} com a tática de extração \texttt{fromAuthHeaderAsBearerToken}, daí a necessidade de colocar o \textit{token} nas \texttt{headers} dos pedidos como indicado. Esta verificação recorre à chave pública para confirmar a validade do \textit{token}. Por fim, é importante referir que no \textit{deployment} deste servidor é de extrema importância, trocar a chave privada e a chave pública, visto este trabalho estar disponível publicamente.
 
-\section{Interface}
+\section{Interface} \label{interface}
 
-A interface foi desenvolvida através da \textit{framework} \texttt{Vue.js} e a \textit{framework} de material \texttt{Vuetify.js} baseada no \textit{Material Design} da \textit{Google}. Esta interface estará no lado do utilizador, enquanto que a API está presente num servidor. Claro, contudo, esta interface tem de ser armazenada num servidor, de forma aos clientes/utilizadores fazerem o download desta interface, para posteriormente acederem diretamente à API através da interface.
+A interface foi desenvolvida através da \textit{framework} \texttt{Vue.js} e a \textit{framework} de material \href{https://vuetifyjs.com/}{\texttt{Vuetify.js}} baseada no \textit{Material Design} da \textit{Google}. Esta interface estará no lado do utilizador, enquanto que a API está presente num servidor. Claro, contudo, esta interface tem de ser armazenada num servidor, de forma aos clientes/utilizadores fazerem o download desta interface, para posteriormente acederem diretamente à API através da interface.
 
 Quanto a imagens usadas na interface, estas estão armazenadas em \texttt{public/static/}.
 
@@ -599,7 +605,7 @@ Quanto a imagens usadas na interface, estas estão armazenadas em \texttt{public
     \label{backend_frontend}
 \end{figure}
 
-Já em relação ao aspeto visual da interface, ela possui um \textit{footer}, que aparece em todas as páginas, e como tal, foi definida na \texttt{App.vue}. Este \textit{footer} possui allguns \textit{URLs} importantes, desde API usadas, ao \textit{URL} onde se pode verificar o código produzido.
+Já em relação ao aspeto visual da interface, ela possui um \textit{footer}, que aparece em todas as páginas, e como tal, foi definida na \texttt{App.vue}. Este \textit{footer} possui alguns \textit{URLs} importantes, desde APIs externas usadas, ao \textit{URL} onde se pode verificar o código produzido.
 
 Já na \texttt{main.js} é definida uma variável global (\texttt{\$urlAPI}) onde está presente o \textit{URL} da API, de forma a tornar o código mais limpo. O valor desta variável toma o valor da variável ambiente \texttt{VUE\_APP\_SERVER\_URL} definida em \texttt{.env} por forma a uma maior facilidade de \textit{deployment} da interface. É também aqui importado uma \textit{package} \textit{wrapper} da API do \textit{iframe} do \textit{Youtube}.
 
@@ -607,7 +613,7 @@ De seguida, serão apresentadas as várias camadas da interface.
 
 \subsection{Rotas}
 
-Visto que foi usada um versão do \textit{Vue.js} com um \textit{router} existem rotas a definir, indicando para que vista as mesmas redirecionam. Apresenta-se, de seguida, as rotas definidas (presentes no ficheiro \textit{router.js}):
+Visto que foi usada um versão do \textit{Vue.js} com um \textit{router} é necessário definir rotas, indicando para que vista as mesmas (rotas) redirecionam. Apresenta-se, de seguida, as rotas definidas (presentes no ficheiro \textit{router.js}):
 
 \begin{itemize}
     \item Rota \texttt{/recordingsSearch} $\to$ vista \texttt{RecordingsSearch.vue}
@@ -692,7 +698,7 @@ Lista todos os albums, mas por partes de 50 albums, devido à grande quantidade 
 
 \paragraph{\texttt{Areas.vue}:}\mbox{}\\
 
-Lista todos os areas, mas por partes de 50 areas, devido à grande quantidade de areas. Ao fim das 50 areas, apresenta-se um botão, de forma a obter as próximas 50 areas. Todas as areas renderizadas, são clicáveis de forma a obter mais informação (redirecionamento para a página da area).
+Lista todos as areas, mas por partes de 50 areas, devido à grande quantidade de areas. Ao fim das 50 areas, apresenta-se um botão, de forma a obter as próximas 50 areas. Todas as areas renderizadas, são clicáveis de forma a obter mais informação (redirecionamento para a página da area).
 
 \paragraph{\texttt{Artists.vue}:}\mbox{}\\
 
@@ -708,7 +714,7 @@ Página para onde o utilizador é redirecionado quando pesquisa na caixa de text
 
 \paragraph{\texttt{Album.vue}:}\mbox{}\\
 
-Página que apresenta toda a informação de um determinado individuo da classe \textit{Album}. Apresenta também a classificação e o rating do album. (ver \ref{tema})
+Página que apresenta toda a informação de um determinado individuo da classe \textit{Album}. Apresenta também a classificação e a classificação do album. (ver \ref{tema})
 
 \paragraph{\texttt{Area.vue}:}\mbox{}\\
 
@@ -716,11 +722,11 @@ Página que apresenta toda a informação de um determinado individuo da classe 
 
 \paragraph{\texttt{Artist.vue}:}\mbox{}\\
 
-Página que apresenta toda a informação de um determinado individuo da classe \textit{Artist}. Apresenta também a classificação e o rating do artista, bem como as 10 músicas mais ouvidas e mais bem classificadas do artista. (ver \ref{tema})
+Página que apresenta toda a informação de um determinado individuo da classe \textit{Artist}. Apresenta também a classificação e a classificação do artista, bem como as 10 músicas mais ouvidas e mais bem classificadas do artista. (ver \ref{tema})
 
 \paragraph{\texttt{Recording.vue}:}\mbox{}\\
 
-Página que apresenta toda a informação de um determinado individuo da classe \textit{Recording}. Apresenta também a classificação e o rating da música. Para além disso mostra o vídeo da música (quando possível, nem sempre apresenta o vídeo correto) e as \textit{lyrics} da música. As \textit{lyrics} da música são obtidas a partir de duas APIs diferentes, \textit{musixmatch} e \textit{Chartlyrics}. A primeira API, apenas apresenta 30\% da música, visto estar a ser utilizado uma versão gratuita. Futuramente é necessário alterar o \textit{token} usado para aceder a esta API (\textit{musixmatch}) seja por questões de segurança ou para usar uma versão paga que apresenta toda a letra da música. Por fim, apresenta também um botão por forma ao utilizador adicionar/remover a música aos/dos favoritos.
+Página que apresenta toda a informação de um determinado individuo da classe \textit{Recording}. Apresenta também o número de visualizações e a classificação da música. Para além disso mostra o vídeo da música (quando possível, nem sempre apresenta o vídeo correto) e as \textit{lyrics} da música. As \textit{lyrics} da música são obtidas a partir de duas \texttt{APIs} diferentes, \textit{musixmatch} e \textit{Chartlyrics}. A primeira API, apenas apresenta 30\% da música, visto estar a ser utilizado uma versão gratuita. Futuramente é necessário alterar o \textit{token} usado para aceder a esta API (\textit{musixmatch}) seja por questões de segurança ou para usar uma versão paga que apresenta toda a letra da música. Por fim, apresenta também um botão por forma ao utilizador adicionar/remover a música aos/dos favoritos.
 
 \paragraph{\texttt{UserSettings.vue}:}\mbox{}\\
 
@@ -734,17 +740,17 @@ Página que apresenta a listagem de todas as músicas favoritas do utilizador. �
 
 Componente usado pela página onde se apresenta um individuo da classe \textit{Recording}. Permite pesquisar vídeos do \textit{YouTube} por uma \textit{string} e mostrar o vídeo que possui o título que mais se assemelha a essa \textit{string}.
 
-\section{Instalação}
+\section{Instalação} \label{install}
 
-Antes de explicar a instalação, é importante referir que ao correr o servidor API, o mesmo, aceita dois parametros, \texttt{hostname + porta} do MongoDB e do GraphDB. Permite que na altura de instalação se possa agilizar mais facilmente o escalonamento da aplicação. Também nesse sentido, na interface existe um ficheiro \texttt{.env}, que possui a variável de ambiente \texttt{VUE\_APP\_SERVER\_URL}, por forma a indicar à interface qual é o \texttt{hostname + porta} do servidor API.
+Antes de explicar a instalação, é importante referir que ao correr o servidor API, o mesmo, aceita dois parâmetros, \texttt{hostname + porta} do \texttt{MongoDB} e do \texttt{GraphDB}. Permite que na altura de instalação se possa agilizar mais facilmente o escalonamento da aplicação. Também nesse sentido, na interface existe um ficheiro \texttt{.env}, que possui a variável de ambiente \texttt{VUE\_APP\_SERVER\_URL}, por forma a indicar à interface qual é o \texttt{hostname + porta} do servidor API.
 
 Todo o código produzido pode ser descarregado a partir do repositório disponível no \texttt{GitHub} em \url{https://github.com/jcm300/Musike}. 
 
-Em relação à instalação propriamente dita, pode ser realizada de várias formas, seja criando a ontologia de raíz (envolvendo conversão do dataset JSON) com posterior instalação da aplicação; seja usar a ontologia já criada com posterior instalação da aplicação; ou, por fim, através da utilização de containers (\textit{Docker}).
+Em relação à instalação propriamente dita, pode ser realizada de várias formas, seja criando a ontologia de raiz (envolvendo conversão do \textit{dataset JSON}) com posterior instalação da aplicação; seja usar a ontologia já criada com posterior instalação da aplicação; ou, por fim, através da utilização de \textit{containers} (\textit{Docker}).
 
 \subsection{Instalação com criação da ontologia com posterior instalação da aplicação}
 
-Podemos dividir esta fase em duas partes, criação da ontologia e instalação da aplicação.
+Podemos dividir esta instalação em duas partes, criação da ontologia e instalação da aplicação.
 
 \paragraph{Criação da ontologia:}\mbox{}\\
 
@@ -780,7 +786,7 @@ cat work_aa work_ab work_ac work_ad > work.tar.xz
 tar xf area.tar.xz
 tar xf artist.tar.xz
 tar xf recording.tar.xz
-tar xf release.tar.xz #CUIDADO: este ocupa 230gb
+tar xf release.tar.xz #CUIDADO: este ocupa 230GB
 tar xf release-group.tar.xz
 tar xf work.tar.xz
 
@@ -831,9 +837,11 @@ cd ../../src # mover para a pasta Musike/src
 \end{minted}
 \end{framed}
 
+A interface será acessível a partir de \url{http://localhost:8080/}, enquanto que a \texttt{API} será acessível a partir de \url{http://localhost:3000/}, o \texttt{MongoDB} a partir de \url{http://localhost:27017/} e o \textit{GraphDB} a partir de \url{http://localhost:7200/}.
+
 \subsection{Instalação usando ontologia já criada com posterior instalação da aplicação}
 
-Esta instalação também pode ser dividida em duas partes, importação da ontologia e instalação da aplicação.
+Esta instalação também pode ser dividida em duas partes, importação da ontologia e instalação da aplicação. Esta instalação pode incluir uma terceira parte opcional, a criação de \textit{containers}.
 
 \paragraph{Importação da ontologia:}\mbox{}\\
 
@@ -852,7 +860,7 @@ cd Musike
 
 De seguida, instalasse \texttt{Java 8} (dependência do \texttt{GraphDB}).
 
-O próximo passo pode ser realizado de duas formas, importação da ontologia ou usar o GraphDB incluido no repositório que já inclui a importação da ontologia. No primeiro método segue-se os passos iniciais da instalação anterior ou seja:
+O próximo passo pode ser realizado de duas formas, importação da ontologia ou usar o \texttt{GraphDB} incluído no repositório que já inclui a importação da ontologia. No primeiro método segue-se os passos iniciais da instalação anterior ou seja:
 
 \begin{framed}
 \begin{minted}{bash}
@@ -892,7 +900,7 @@ cd ../../src # mover para a pasta Musike/src
 \end{minted}
 \end{framed}
 
-O segundo método é usar o \texttt{GraphDB} incluido no repositório no qual, já inclui a ontologia importada bastando seguir os seguintes passos:
+O segundo método é usar o \texttt{GraphDB} incluído no repositório no qual, já inclui a ontologia importada bastando seguir os seguintes passos:
 
 \begin{framed}
 \begin{minted}{bash}
@@ -931,9 +939,11 @@ Por forma a instalar a aplicação é necessário instalar, \texttt{MongoDB} e \
 \end{minted}
 \end{framed}
 
+A interface será acessível a partir de \url{http://localhost:8080/}, enquanto que a \texttt{API} será acessível a partir de \url{http://localhost:3000/}, o \texttt{MongoDB} a partir de \url{http://localhost:27017/} e o \textit{GraphDB} a partir de \url{http://localhost:7200/}.
+
 \paragraph{Criação dos \textit{containers}:}\mbox{}\\
 
-Usando o segundo método da importação da ontologia, ou seja usar o \texttt{GraphDB} já incluído no repositório, é possível criar os \textit{containers} usados na instalação através de containers e, fazer \textit{push} dos mesmos (\textit{containers}) posteriormente, executando os seguintes comandos:
+Uma terceira fase opcional é a criação de \textit{containers}. Usando o segundo método da importação da ontologia, ou seja usar o \texttt{GraphDB} já incluído no repositório, é possível criar os \textit{containers} usados na instalação através de \textit{containers} e, fazer \textit{push} dos mesmos (\textit{containers}) posteriormente, executando os seguintes comandos:
 
 \begin{framed}
 \begin{minted}{bash}
@@ -974,7 +984,7 @@ docker push jcm300/musike_interface:tag
 
 \subsection{Instalação através de containers (\texttt{Docker})}
 
-A instalação através de containers é a menos trabalhosa e mais simples contudo, normalmente possui pior performance em relação a uma instalação sobre um sistema operativo. Logo é deixado à escolha do utilizador/administrador o método que pretende usar para instalar.
+A instalação através de \textit{containers} é a menos trabalhosa e mais simples contudo, normalmente possui pior performance em relação a uma instalação sobre um sistema operativo. Logo é deixado à escolha do utilizador/administrador o método que pretende usar para instalar.
 
 Portanto, para instalar tudo através de \textit{containers}, o primeiro passo é instalar o \texttt{docker} e o \texttt{docker-compose}. De seguida, os passos a realizar são os seguintes:
 
@@ -993,9 +1003,13 @@ docker-compose -f docker-compose_without_build.yml up
 \end{framed}
 \normalsize
 
-\section{Conclusões e Trabalho Futuro}
+Este procedimento irá ocupar, no fim, cerca de 20 GB de espaço de armazenamento, estando a interface acessível a partir de \url{http://localhost:8080/}, enquanto que a \texttt{API} é acessível a partir de \url{http://localhost:3000/}, o \texttt{MongoDB} a partir de \url{http://localhost:27017/} e o \textit{GraphDB} a partir de \url{http://localhost:7200/}.
 
-%tornar queries mais rápidas, as que são lentas, adicionar paginação nas listagems, criação e gestão de playlists, sugestão de músicas ao utilizador.
+\section{Conclusões e Trabalho Futuro} \label{future}
+
+Em forma de conclusão, após todo o trabalho realizado, a partir do dataset em \textit{JSON} do \texttt{MusicBrainz}, com um tamanho de cerca de 240GB, converteu-se esse dataset numa ontologia com cerca de 9GB de tamanho. Para além disso, apresenta-se também uma aplicação funcional que utiliza a informação da ontologia, permitindo pesquisar a mesma (informação), para além de permitir a visualização adicional de estatísticas e dos vídeos e letras das músicas.
+
+Contudo, o trabalho carece de algumas melhorias, desde evitar a repetição de uma ou duas propriedades para certos indivíduos na ontologia (algo complicado devido à estrutura do dataset \textit{JSON} do \texttt{MusicBrainz}, este \textit{dump} carece de melhorias por parte do \texttt{MusicBrainz}). Para além disso, em termos de \textit{API}, as \textit{queries} de pesquisa por grandes quantidades bem como, a listagem de grandes quantidades (quando com ordenação), carecem de algumas melhorias de performance. Já na interface ficou por acrescentar, a criação e gestão de \textit{playlists} por parte de utilizador, bem como, de forma adicional a sugestão de músicas ao utilizador a partir das estatísticas desse mesmo utilizador. Por fim, ainda na interface, em termos de apresentação de conteúdo, seria útil que as listagens de indivíduos, fossem também possíveis de serem visualizadas por paginação.
 
 \newpage 
 \printbibliography

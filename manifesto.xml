@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE manifesto SYSTEM "file:/home/jcm300/1ºSemestre/PRI/manifesto.dtd">
+<!DOCTYPE manifesto SYSTEM "file:/home/jcm300/2ºSemestre/PRC/manifesto.dtd">
 <manifesto>
     <meta>
         <id>PRC_TP_2019</id>
         <título>Musike</título>
         <subtítulo>Music Linked</subtítulo>
         <dinício>15/03/2019</dinício>
-        <dfim>27/05/2019</dfim>
+        <dfim>13/06/2019</dfim>
         <supervisor>
             <nome>José Carlos Ramalho</nome>
             <email>jcr@di.uminho.pt</email>
@@ -23,19 +23,20 @@
         </elemento>
     </equipe>
     <resumo>
-        <para></para>
+        <para>O Musike, abreviatura de Music Linked, consiste num web site com a informação de artistas, bem como, das suas músicas e dos seus albuns. Para além disso, é pretendido que apresente estatísticas de músicas mais visualizadas e com melhor classificação dada pelos utilizadores. Na página de cada música pretende-se que apresente o vídeo e a letra da mesma, sendo que o vídeo permite contabilizar o número de visualizações.</para>
+        <para>Para o tema escolhido é necessário um dataset que possua a informação de albuns, artistas, músicas e áreas (necessário para perceber de onde é o artista). Como tal foi escolhido o dataset JSON do MusicBrainz. A partir deste dataset foi construída a ontologia para o web site.</para>
+        <para>O web site é dividido em duas partes, API e interface. A API comunica com o <i>MongoDB</i> e o <i>GraphDB</i> por forma a obter/guardar informação e foi desenvolvido em <i>Node.js</i>. Já a interface, comunica com a API, sendo desenvolvida com <i>Vue</i> e <i>Vuetify</i>.</para>
     </resumo>
     <resultados>
         <resultado path="manifesto.xml">Manifesto em XML</resultado>
         <resultado path="report.pdf">Relatório do Trabalho</resultado>
-        <resultado path="src/package.json">Metadados e dependências do sistema desenvolvido</resultado>
-        <resultado path="src/models/">Pasta com os Modelos</resultado>
-        <resultado path="src/controllers/">Pasta com os Controllers</resultado>
-        <resultado path="src/auth/">Pasta com grande parte das funções de autenticação</resultado>
-        <resultado path="src/routes/">Pasta com os Routers</resultado>
-        <resultado path="src/views/">Pasta com as Vistas</resultado>
-        <resultado path="src/public/">Pasta com os javascripts do lado do cliente, w3.css, imagens</resultado>
-        <resultado path="src/install.sh">Script com vários modos para instalar/correr o sistema</resultado>
+        <resultado path="datasets/JSON">Dataset JSON do MusicBrainz</resultado>
+        <resultado path="datasets/Turtle">Ontologia desenvolvida</resultado>
+        <resultado path="jsonTOturtle">Conversores de JSON para Turtle</resultado>
+        <resultado path="src/APIserver">Código da API</resultado>
+        <resultado path="src/interface">Código da interface</resultado>
+        <resultado path="src">Todo o código, incluindo docker files e script de instalação</resultado>
+        <resultado path="tex">Código do relatório</resultado>
         <resultado path=".">Tudo</resultado>
     </resultados>
 </manifesto>
