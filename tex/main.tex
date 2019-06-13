@@ -49,13 +49,9 @@
 
 \section{Contextualização}
 
-O trabalho a desenvolver passa por escolher uma área/tema de trabalho. A partir desse tema, criar/construir/limpar/extrair um dataset sobre o tema e que esteja disponível na LOD (\textit{Linked Open Data}). Este dataset, em Turtle (\textit{Terse RDF Triple Language}), será armazenado em \textit{GraphDB}, onde será possível aceder/realizar \textit{queries} ao dataset localmente.
+O trabalho a desenvolver passa por escolher uma área/tema de trabalho. A partir desse tema, criar/construir/limpar/extrair uma ontologia sobre o tema e que pode estar disponível na LOD (\textit{Linked Open Data}). Esta ontologia, em Turtle (\textit{Terse RDF Triple Language}, sintaxe e formato de ficheiros para expressar dados em \texttt{RDF - Resource Description Framework}), será armazenado em \textit{GraphDB}, base de dados de semântica baseada em grafos, onde será possível aceder/realizar \textit{queries} à ontologia localmente.
 
-%TODO: explicar o que é Turtle e RDF e o que é GraphDB
-
-De seguida, será criado um website/app web de forma a explorar o dataset anteriormente criado. Este website deve possuir autenticação, usando para isso o \textit{MongoDB}.
-
-%TODO: explicar o que é mongoDB
+De seguida, será criado um website/app web de forma a explorar a ontologia anteriormente criada. Este website deve possuir autenticação, usando para isso o \textit{MongoDB}, base de dados baseada em documentos.
 
 \section{Tema escolhido - \textbf{Musike}} \label{tema}
 
@@ -658,20 +654,19 @@ Este ficheiro foi criado de forma a possuir funções que simplifiquem o uso da 
 
 \vspace{10px}
 
-De seguida apresentam-se os componentes criados.
-
-Os componentes \texttt{Album.vue}, \texttt{Area.vue}, \texttt{Artist.vue} e \texttt{Recording.vue}, que apresentam um campo chamado \textit{about}, realizam o processamento deste campo, visto o mesmo possuir uma sintaxe própria, passível de ser representada em \texttt{HTML}.~\cite{mbAnnotation}. Esta sintaxe, foi convertida da seguinte forma:
+Antes de apresentar os componentes é importante referir que os componentes \texttt{Album.vue}, \texttt{Area.vue}, \texttt{Artist.vue} e \texttt{Recording.vue}, que apresentam um campo chamado \textit{about}, realizam o processamento deste campo, visto o mesmo possuir uma sintaxe própria, passível de ser representada em \texttt{HTML}.~\cite{mbAnnotation}. Esta sintaxe, foi convertida da seguinte forma:
 \begin{itemize}
-    \item \verb|''pal''| (itálico) $\to$ \verb|<i>pal</i>|
-    \item \verb|'''pal'''| (bold) $\to$ \verb|<b>pal</b>|
-    \item \verb|----| (linha horizontal) $\to$ \verb|<hr>|
-    \item \verb|=title=| (título 1) $\to$ \verb|<h4>title</h4>|
-    \item \verb|==title==| (título 2) $\to$ \verb|<h5>title</h5>|
-    \item \verb|===title===| (título 3) $\to$ \verb|<h6>title</h6>|
-    \item \verb|[url]| (url) $\to$ \verb|<h6>title</h6>|
-    \item \texttt{[url|desc]} (url) $\to$ \verb|<h6>title</h6>|
+    \item \texttt{''pal''} (itálico) $\to$ \verb|<i>pal</i>|
+    \item \texttt{'''pal'''} (bold) $\to$ \verb|<b>pal</b>|
+    \item \texttt{----} (linha horizontal) $\to$ \verb|<hr>|
+    \item \texttt{=title=} (título 1) $\to$ \verb|<h4>title</h4>|
+    \item \texttt{==title==} (título 2) $\to$ \verb|<h5>title</h5>|
+    \item \texttt{===title===} (título 3) $\to$ \verb|<h6>title</h6>|
+    \item \texttt{[url]} (url) $\to$ \verb|<a href=url>url</a>|
+    \item \texttt{[url|desc]} (url) $\to$ \verb|<a href=url>desc</a>|
 \end{itemize}
-Esta sintaxe usa \verb|''pal''| e \verb|'''pal'''| para colocar respetivamente a palavra/texto pal em itálico e em bold. Para além disso usa \verb|----| para representar uma linha horizontal, os titulos 
+
+De seguida apresentam-se os componentes criados.
 
 \paragraph{\texttt{Login.vue}:}\mbox{}\\
 

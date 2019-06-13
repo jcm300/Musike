@@ -211,6 +211,12 @@
                                     </v-list-tile-sub-title>
                                 </v-list-tile-content>
 
+                                <v-list-tile-content>
+                                    <v-list-tile-title>
+                                        Duration: {{ recording.duration }} milliseconds ({{ ((recording.duration /1000) / 60).toFixed(2) }} minutes)
+                                    </v-list-tile-title>
+                                </v-list-tile-content>
+
                                 <v-list-tile-action>
                                     <v-icon right color="info">fas fa-info-circle</v-icon>
                                 </v-list-tile-action>
