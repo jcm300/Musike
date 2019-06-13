@@ -285,7 +285,7 @@
                     fill-height
                     justify-center
                     align-center
-                    v-if="lyrics.length == 2 && lyrics[0] != '' && lyrics[1] != ''"
+                    v-if="lyrics.length > 0 && (lyrics[0] != '' || lyrics[1] != '')"
                 >
                     <v-flex xs6>
                         <v-card color="secondary">
@@ -421,7 +421,7 @@ export default {
 
       // lyrics (only 30%, restrictions of API)
       response = await axios.get('https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/matcher.lyrics.get?apikey=8078c141d5d3843a02aec12dcbe4cc0e&q_track=' + encodeURIComponent(this.recording.artistsCredit[0].name) + '&q_artist=' + encodeURIComponent(this.recording.title))
-      if (response.data.message.body.length > 0) {
+      if (Object.keys(response.data.message.body).length > 0) {
         this.lyrics.push(response.data.message.body.lyrics.lyrics_body.replace(/\n/g, '<br>'))
       } else {
         this.lyrics.push('')
