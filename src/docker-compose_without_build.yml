@@ -19,7 +19,7 @@ services:
     ports:
       - "3000:3000"
   interface:
-    image: jcm300/musike_interface:1.0.0
+    image: jcm300/musike_interface:1.0.1
     links:
       - server
     ports:

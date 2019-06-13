@@ -931,6 +931,47 @@ Por forma a instalar a aplicação é necessário instalar, \texttt{MongoDB} e \
 \end{minted}
 \end{framed}
 
+\paragraph{Criação dos \textit{containers}:}\mbox{}\\
+
+Usando o segundo método da importação da ontologia, ou seja usar o \texttt{GraphDB} já incluído no repositório, é possível criar os \textit{containers} usados na instalação através de containers e, fazer \textit{push} dos mesmos (\textit{containers}) posteriormente, executando os seguintes comandos:
+
+\begin{framed}
+\begin{minted}{bash}
+# clonar repositório por ssh
+git clone git@github.com:jcm300/Musike.git
+# ou por https
+git clone https://github.com/jcm300/Musike.git
+
+cd Musike
+
+# descomprimir GraphDB
+cd src/graphdb-free-8.9.0
+cat graph.tar.gz_aa graph.tar.gz_ab graph.tar.gz_ac graph.tar.gz_ad graph.tar.gz_ae \
+    graph.tar.gz_af graph.tar.gz_ag graph.tar.gz_ah graph.tar.gz_ai graph.tar.gz_aj \
+    graph.tar.gz_ak graph.tar.gz_al graph.tar.gz_am graph.tar.gz_an graph.tar.gz_ao \
+    graph.tar.gz_ap graph.tar.gz_aq graph.tar.gz_ar graph.tar.gz_as graph.tar.gz_at \
+    graph.tar.gz_au graph.tar.gz_av graph.tar.gz_aw graph.tar.gz_ax graph.tar.gz_ay \
+    graph.tar.gz_az graph.tar.gz_ba graph.tar.gz_bb graph.tar.gz_bc graph.tar.gz_bd \
+    graph.tar.gz_be graph.tar.gz_bf graph.tar.gz_bg graph.tar.gz_bh graph.tar.gz_bi \
+    graph.tar.gz_bj graph.tar.gz_bk graph.tar.gz_bl graph.tar.gz_bm graph.tar.gz_bn \
+    graph.tar.gz_bo graph.tar.gz_bp graph.tar.gz_bq graph.tar.gz_br graph.tar.gz_bs \
+    graph.tar.gz_bt graph.tar.gz_bu graph.tar.gz_bv graph.tar.gz_bw graph.tar.gz_bx \
+    graph.tar.gz_by graph.tar.gz_bz graph.tar.gz_ca graph.tar.gz_cb graph.tar.gz_cc \
+    graph.tar.gz_cd graph.tar.gz_ce graph.tar.gz_cf > graph.tar.gz
+tar -xf graph.tar.gz
+
+cd .. # mover para a pasta Musike/src
+
+# criar containers, pode ser necessário sudo
+docker-compose -f docker-compose.yml build
+
+# push dos containers, pode ser necessário sudo
+docker push jcm300/mb_graphdb:tag
+docker push jcm300/musike_api:tag
+docker push jcm300/musike_interface:tag
+\end{minted}
+\end{framed}
+
 \subsection{Instalação através de containers (\texttt{Docker})}
 
 A instalação através de containers é a menos trabalhosa e mais simples contudo, normalmente possui pior performance em relação a uma instalação sobre um sistema operativo. Logo é deixado à escolha do utilizador/administrador o método que pretende usar para instalar.
@@ -946,8 +987,8 @@ wget https://raw.githubusercontent.com/jcm300/Musike/master/src/docker-compose_w
 curl https://raw.githubusercontent.com/jcm300/Musike/master/src/docker-compose_without_build.yml \ 
     > docker-compose_without_build.yml
 
-# criar e iniciar os containers
-sudo docker-compose -f docker-compose_without_build.yml up
+# criar e iniciar os containers, pode ser necessário sudo
+docker-compose -f docker-compose_without_build.yml up
 \end{minted}
 \end{framed}
 \normalsize
