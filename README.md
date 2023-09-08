@@ -4,6 +4,8 @@ Musike - **Musi**c Lin**ke**d
 
 Website with info about musics, artists, releases, etc from a *MusicBrainz* __linked open__ dataset.
 
+For more information you can have a look [here (PT version only)](tex). 
+
 ## Installation through containers
 
 Dependencies:
